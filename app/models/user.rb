@@ -7,6 +7,6 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { minimum: 5 }
   validates :email, presence: true,
                     uniqueness: true,
-                    format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/, message: "it\'s not email" }
+                    format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/}
   validates :username, presence: true, uniqueness: true
 end

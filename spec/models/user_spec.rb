@@ -12,6 +12,16 @@ RSpec.describe User, type: :model do
 
     context 'when invalid data is given' do
 
+      it 'without name' do
+        user_igor.name = nil
+        expect(user_igor).not_to be_valid
+      end
+
+      it 'without username' do
+        user_igor.username = nil
+        expect(user_igor).not_to be_valid
+      end
+
       it 'with same username' do
         user_igor.username = user_ivan.username
         expect(user_igor).not_to be_valid
@@ -22,9 +32,15 @@ RSpec.describe User, type: :model do
         expect(user_igor).not_to be_valid
       end
 
+      it 'without email' do
+        user_igor.email = nil
+        expect(user_igor).not_to be_valid
+      end
+
       it 'with incorrect email' do
         user_igor.email = 'incorrect_email'
         expect(user_igor).not_to be_valid
+        expect(user_igor.errors.full_messages).to include("Email is invalid")
       end
     end
   end
