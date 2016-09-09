@@ -8,6 +8,7 @@ RSpec.describe User, type: :model do
 
     context 'when valid data is given' do
       it { expect(user_ivan).to be_valid }
+      it { expect(user_igor.avatar).to be_present}
     end
 
     context 'when invalid data is given' do

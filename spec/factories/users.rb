@@ -4,6 +4,6 @@ FactoryGirl.define do
     sequence(:username) { |n| "foo#{n}" }
     email { "#{username}@example.com" }
     password 'secret'
-    avatar ''
+    avatar { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'user_avatar.jpg')) }
   end
 end
