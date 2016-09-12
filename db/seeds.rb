@@ -3,17 +3,19 @@ Team.destroy_all
 TeamsUser.destroy_all
 Match.destroy_all
 
-user_names = ['jack', 'jan', 'den', 'rob']
-users      = []
-teams      = []
+names       = %w(jack jan den rob)
+user_names  = %w(warrior guitarman flash rubyist)
+team_names  = %w(winners assassins bears eagles)
+users       = []
+teams       = []
 
 4.times do |i|
-  users << User.create(name: "user-#{user_names[i-1]}", email: "example-#{user_names[i-1]}@mail.com",
-                       password: '123456', password_confirmation: '123456', username: "player-#{i}")
+  users << User.create(name: "#{names[i-1]}", email: "example-#{user_names[i-1]}@mail.com",
+                       password: '123456', password_confirmation: '123456', username: "#{user_names[i-1]}")
 end
 
 4.times do |i|
-  teams << Team.create(name: "team-#{i}")
+  teams << Team.create(name: "#{team_names[i-1]}")
 end
 
 teams[0].users << users[0]
