@@ -13,12 +13,12 @@ RSpec.describe Match, type: :model do
 
     context 'when invalid data' do
       it 'with same game name' do
-        second_match.game_name = match.game_name
+        second_match.name = match.name
         expect(second_match).not_to be_valid
       end
 
       it 'without game name' do
-        match.game_name = nil
+        match.name = nil
         expect(match).not_to be_valid
       end
 

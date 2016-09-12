@@ -4,8 +4,9 @@ class Match < ApplicationRecord
 
   belongs_to :home_team, class_name: 'Team'
   belongs_to :invited_team, class_name: 'Team'
+  belongs_to :game
 
-  validates :game_name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true
   validates :home_team_score, presence: true, numericality: true
   validates :invited_team_score, presence: true, numericality: true
   validates :status, inclusion: { in: STATUS }, allow_nil: true

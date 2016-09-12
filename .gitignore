@@ -18,4 +18,5 @@
 .DS_Store
 
 /spec/support/user_avatar.jpg
+/spec/support/icon.png
 /public/uploads

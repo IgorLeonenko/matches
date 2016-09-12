@@ -1,12 +1,13 @@
 class CreateMatches < ActiveRecord::Migration[5.0]
   def change
     create_table :matches do |t|
-      t.string  :game_name
+      t.string  :name
       t.string  :status
-      t.integer :home_team_id, foreign_key: true
-      t.integer :invited_team_id, foreign_key: true
+      t.belongs_to :home_team, index: true
+      t.belongs_to :invited_team, index: true
       t.integer :home_team_score, default: 0
       t.integer :invited_team_score, default: 0
+      t.belongs_to :game, index: true
 
       t.timestamps
     end
