@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :match do
-    sequence(:game_name) { |n| "football-#{n}" }
+    game_name { Faker::Team.name }
   end
 end

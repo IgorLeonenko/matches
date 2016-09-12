@@ -32,6 +32,8 @@ gem 'rubocop', require: false
 gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
 gem 'mini_magick'
 
+gem 'faker', '~> 1.6', '>= 1.6.5'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

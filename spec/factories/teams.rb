@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :team do
-    sequence(:name) { |n| "team#{n}" }
+    name { Faker::Lorem.words }
     factory :team_with_users do
       transient do
         users_count 2
