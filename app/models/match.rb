@@ -1,6 +1,6 @@
 class Match < ApplicationRecord
 
-  STATUS = ['prepare', 'in game', 'played']
+  STATUS = %w(prepare in\ game played)
 
   belongs_to :home_team, class_name: 'Team'
   belongs_to :invited_team, class_name: 'Team'
