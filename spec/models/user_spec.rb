@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   describe '.validate' do
-    let(:user_igor) { create(:user) }
-    let(:user_ivan) { create(:user) }
+    let(:user_igor) { build(:user) }
+    let(:user_ivan) { build(:user) }
 
     context 'when valid data is given' do
       it { expect(user_ivan).to be_valid }
@@ -24,8 +24,10 @@ RSpec.describe User, type: :model do
       end
 
       it 'with same username' do
-        user_igor.username = user_ivan.username
-        expect(user_igor).not_to be_valid
+        user_rob = create(:user)
+        user_ivan.username = user_rob.username
+        expect(user_ivan).not_to be_valid
+        expect(user_ivan.errors.full_messages).to include('Username has already been taken')
       end
 
       it 'with name charecter less then 5' do
