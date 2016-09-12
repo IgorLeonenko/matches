@@ -6,7 +6,7 @@ class Match < ApplicationRecord
   belongs_to :invited_team, class_name: 'Team'
   belongs_to :game
 
-  validates :name, presence: true, uniqueness: true, length: { minimum: 5 }
+  validates :name, presence: true, uniqueness: true, length: { minimum: 3 }
   validates :home_team_score, presence: true, numericality: true
   validates :invited_team_score, presence: true, numericality: true
   validates :status, inclusion: { in: STATUS }, allow_nil: true

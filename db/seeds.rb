@@ -27,7 +27,7 @@ teams[2].users << users[1]
 teams[3].users << users[2]
 teams[3].users << users[0]
 
-Match.create(game_name: 'fighting', home_team: teams[0], invited_team: teams[1])
-Match.create(game_name: 'football', home_team: teams[2], invited_team: teams[1])
-Match.create(game_name: 'billiard', home_team: teams[3], invited_team: teams[0])
-Match.create(game_name: 'guitar_battle', home_team: teams[2], invited_team: teams[3])
+Match.create(name: 'fighting', home_team: teams[0], invited_team: teams[1])
+Match.create(name: 'football', home_team: teams[2], invited_team: teams[1])
+Match.create(name: 'billiard', home_team: teams[3], invited_team: teams[0])
+Match.create(name: 'guitar_battle', home_team: teams[2], invited_team: teams[3])
