@@ -10,6 +10,7 @@ class Match < ApplicationRecord
   validates :invited_team_score, presence: true, numericality: true
   validates :status, inclusion: { in: STATUS }, allow_nil: true
   validate  :player_can_be_only_in_one_team_on_match
+  validate  :cant_be_empty_team
 
   private
 
@@ -18,6 +19,12 @@ class Match < ApplicationRecord
         if home_team.users == invited_team.users
           errors.add(:base, "Same player in different teams")
         end
+      end
+    end
+
+    def cant_be_empty_team
+      if home_team.users.empty? || invited_team.users.empty?
+        errors.add(:base, 'Can\'t be empty team in match')
       end
     end
 end

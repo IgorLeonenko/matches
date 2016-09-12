@@ -3,12 +3,13 @@ require 'rails_helper'
 RSpec.describe Match, type: :model do
 
   describe '.validate' do
-    let(:team_home)            { create(:team) }
-    let(:team_invited)         { create(:team) }
-    let(:full_team)            { create(:team_with_users) }
-    let(:match)                { create(:match, home_team: team_home, invited_team: team_invited) }
-    let(:second_match)         { create(:match, home_team: team_home, invited_team: team_invited) }
-    let(:match_with_full_team) { build(:match, home_team: full_team, invited_team: full_team) }
+    let(:team_home)             { create(:team_with_users) }
+    let(:team_invited)          { create(:team_with_users) }
+    let(:empty_team)            { create(:team) }
+    let(:match)                 { create(:match, home_team: team_home, invited_team: team_invited) }
+    let(:second_match)          { create(:match, home_team: team_home, invited_team: team_invited) }
+    let(:match_with_same_team)  { build(:match, home_team: team_home, invited_team: team_home) }
+    let(:match_with_empty_team) { build(:match, home_team: empty_team, invited_team: team_invited) }
 
     context 'when invalid data' do
       it 'with same game name' do
@@ -22,8 +23,8 @@ RSpec.describe Match, type: :model do
       end
 
       it 'rise error if same player in different team' do
-        expect(match_with_full_team).to_not be_valid
-        expect(match_with_full_team.errors.full_messages).to include('Same player in different teams')
+        expect(match_with_same_team).to_not be_valid
+        expect(match_with_same_team.errors.full_messages).to include('Same player in different teams')
       end
 
       it 'without team score' do
@@ -35,6 +36,11 @@ RSpec.describe Match, type: :model do
       it 'contain wrong status' do
         match.status = 'Playing'
         expect(match).not_to be_valid
+      end
+
+      it 'cant be empty team in match' do
+        expect(match_with_empty_team).not_to be_valid
+        expect(match_with_empty_team.errors.full_messages).to include('Can\'t be empty team in match')
       end
     end
 
