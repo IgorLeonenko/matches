@@ -15,7 +15,7 @@ RSpec.describe Game, type: :model do
         expect(game).not_to be_valid
       end
 
-      it 'with less tahn 5 chars in name' do
+      it 'with name less than 5 chars' do
         game.name = 'trol'
         expect(game).not_to be_valid
       end

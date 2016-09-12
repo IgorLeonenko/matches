@@ -22,6 +22,11 @@ RSpec.describe Match, type: :model do
         expect(match).not_to be_valid
       end
 
+      it 'with name less than 5 chars' do
+        match.name = 'free'
+        expect(match).not_to be_valid
+      end
+
       it 'rise error if same player in different team' do
         expect(match_with_same_team).to_not be_valid
         expect(match_with_same_team.errors.full_messages).to include('Same player in different teams')

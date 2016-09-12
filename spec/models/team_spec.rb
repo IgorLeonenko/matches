@@ -13,6 +13,11 @@ RSpec.describe Team, type: :model do
         expect(first_team).not_to be_valid
       end
 
+      it 'with name less than 5 chars' do
+        first_team.name = 'free'
+        expect(first_team).not_to be_valid
+      end
+
       it 'try to add same player to team' do
         first_team.users << user
         expect{first_team.users << user}.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: User already in team')
