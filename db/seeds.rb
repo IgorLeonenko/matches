@@ -2,10 +2,12 @@ User.destroy_all
 Team.destroy_all
 TeamsUser.destroy_all
 Match.destroy_all
+Game.destroy_all
 
 names       = %w(jack jan den rob)
 user_names  = %w(warrior guitarman flash rubyist)
 team_names  = %w(winners assassins bears eagles)
+game_names  = %w(fighting nascar wargame pool)
 users       = []
 teams       = []
 
@@ -31,3 +33,7 @@ Match.create(name: 'fighting', home_team: teams[0], invited_team: teams[1])
 Match.create(name: 'football', home_team: teams[2], invited_team: teams[1])
 Match.create(name: 'billiard', home_team: teams[3], invited_team: teams[0])
 Match.create(name: 'guitar_battle', home_team: teams[2], invited_team: teams[3])
+
+4.times do |i|
+  Game.create(name: "#{game_names[i-1]}")
+end
