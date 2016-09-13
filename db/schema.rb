@@ -24,15 +24,15 @@ ActiveRecord::Schema.define(version: 20160912115409) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.string   "name",                           null: false
-    t.string   "status"
-    t.integer  "home_team_id",                   null: false
-    t.integer  "invited_team_id",                null: false
-    t.integer  "home_team_score",    default: 0
-    t.integer  "invited_team_score", default: 0
-    t.integer  "game_id",                        null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "name",                                   null: false
+    t.string   "status",             default: "prepare", null: false
+    t.integer  "home_team_id",                           null: false
+    t.integer  "invited_team_id",                        null: false
+    t.integer  "home_team_score",    default: 0,         null: false
+    t.integer  "invited_team_score", default: 0,         null: false
+    t.integer  "game_id",                                null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["game_id"], name: "index_matches_on_game_id", using: :btree
     t.index ["home_team_id"], name: "index_matches_on_home_team_id", using: :btree
     t.index ["invited_team_id"], name: "index_matches_on_invited_team_id", using: :btree
