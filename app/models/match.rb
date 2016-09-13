@@ -18,10 +18,10 @@ class Match < ApplicationRecord
   private
 
     def player_can_be_only_in_one_team_on_match
-      if home_team.present? && invited_team.present? && home_team.users.any? && invited_team.users.any?
-        unless home_team.users & invited_team.users == []
-          errors.add(:base, "Same player in different teams")
-        end
+      return if home_team.blank? || invited_team.blank?
+
+      unless home_team.user_ids & invited_team.user_ids == []
+        errors.add(:base, "Same player in different teams")
       end
     end
 end
