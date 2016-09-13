@@ -8,8 +8,8 @@ RSpec.describe Match, type: :model do
     let(:empty_team)            { create(:team) }
     let(:match)                 { create(:match, home_team: team_home, invited_team: team_invited) }
     let(:second_match)          { create(:match, home_team: team_home, invited_team: team_invited) }
+    let(:match_without_teams)   { build(:match)}
     let(:match_with_same_team)  { build(:match, home_team: team_home, invited_team: team_home) }
-    let(:match_with_empty_team) { build(:match, home_team: empty_team, invited_team: team_invited) }
 
     context 'when invalid data' do
       it 'with same game name' do
@@ -17,13 +17,19 @@ RSpec.describe Match, type: :model do
         expect(second_match).not_to be_valid
       end
 
-      it 'without game name' do
-        match.name = nil
+      it 'without teams' do
+        expect(match_without_teams).not_to be_valid
+        expect(match_without_teams.errors[:home_team]).to include('can\'t be blank')
+        expect(match_without_teams.errors[:invited_team]).to include('can\'t be blank')
+      end
+
+      it 'without game' do
+        match.game = nil
         expect(match).not_to be_valid
       end
 
-      it 'with name less than 5 chars' do
-        match.name = 'free'
+      it 'with name less than 3 chars' do
+        match.name = 'gb'
         expect(match).not_to be_valid
       end
 
@@ -41,11 +47,6 @@ RSpec.describe Match, type: :model do
       it 'contain wrong status' do
         match.status = 'Playing'
         expect(match).not_to be_valid
-      end
-
-      it 'cant be empty team in match' do
-        expect(match_with_empty_team).not_to be_valid
-        expect(match_with_empty_team.errors.full_messages).to include('Can\'t be empty team in match')
       end
     end
 
