@@ -6,7 +6,7 @@ FactoryGirl.define do
         users_count 2
       end
 
-      after(:create) do |team, evaluator|
+      after(:build) do |team, evaluator|
         (0...evaluator.users_count).each do |u|
           team.users << FactoryGirl.create(:user)
         end

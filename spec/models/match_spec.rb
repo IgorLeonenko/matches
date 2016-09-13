@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Match, type: :model do
 
   describe '.validate' do
-    let(:team_home)             { build(:team_with_users) }
-    let(:team_invited)          { build(:team_with_users) }
+    let(:team_home)             { create(:team_with_users) }
+    let(:team_invited)          { create(:team_with_users) }
     let(:empty_team)            { build(:team) }
     let(:match)                 { create(:match, home_team: team_home, invited_team: team_invited) }
     let(:second_match)          { create(:match, home_team: team_home, invited_team: team_invited) }

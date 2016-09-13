@@ -10,6 +10,7 @@ RSpec.describe Team, type: :model do
 
     context 'when invalid data' do
       it 'with same team name' do
+        second_team.save
         first_team.name = second_team.name
         expect(first_team).not_to be_valid
       end
