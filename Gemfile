@@ -34,6 +34,11 @@ gem 'mini_magick'
 
 gem 'faker', '~> 1.6', '>= 1.6.5'
 
+#for views
+gem "slim-rails"
+gem 'bootstrap', '~> 4.0.0.alpha3'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

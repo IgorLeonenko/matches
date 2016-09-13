@@ -1,0 +1,23 @@
+table.table.table-striped
+  thead
+    tr
+      td id
+      td name
+      td game
+      td status
+      td actions
+  tbody
+    - @matches.each do |m|
+      tr
+        td
+          = m.id
+        td
+          = m.name
+        td
+          = m.game
+        td
+          = m.status
+        td
+          = link_to 'show ', '#'
+          = link_to 'edit ', '#'
+          = link_to 'delete', '#'
