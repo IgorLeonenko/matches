@@ -11,5 +11,5 @@ class User < ApplicationRecord
                     format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/}
   validates :username, presence: true, uniqueness: true
 
-   mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 end
