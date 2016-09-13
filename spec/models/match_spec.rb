@@ -48,6 +48,11 @@ RSpec.describe Match, type: :model do
         match.status = 'Playing'
         expect(match).not_to be_valid
       end
+
+      it 'without status' do
+        match.status = nil
+        expect(match).not_to be_valid
+      end
     end
 
     context 'when valid data' do

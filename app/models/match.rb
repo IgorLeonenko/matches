@@ -12,7 +12,7 @@ class Match < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { minimum: 3 }
   validates :home_team_score, presence: true, numericality: true
   validates :invited_team_score, presence: true, numericality: true
-  validates :status, inclusion: { in: STATUS }, allow_nil: true
+  validates :status, inclusion: { in: STATUS }
   validate  :player_can_be_only_in_one_team_on_match
 
   private
