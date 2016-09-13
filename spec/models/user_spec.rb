@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  describe '.validate' do
+  describe 'validations' do
     let(:user_igor) { build(:user) }
     let(:user_ivan) { build(:user) }
 
@@ -11,42 +11,62 @@ RSpec.describe User, type: :model do
       it { expect(user_igor.avatar).to be_present}
     end
 
-    context 'when invalid data is given' do
+    context 'when name is not present' do
+      before { user_igor.name = nil }
 
-      it 'without name' do
-        user_igor.name = nil
+      it 'is invalid' do
         expect(user_igor).not_to be_valid
       end
+    end
 
-      it 'without username' do
-        user_igor.username = nil
+    context 'when name less than 3 chars' do
+      before { user_igor.name = 'DJ' }
+
+      it 'is invalid' do
         expect(user_igor).not_to be_valid
       end
+    end
 
-      it 'with same username' do
+    context 'when username is not present' do
+      before { user_igor.username = nil }
+
+      it 'is invalid' do
+        expect(user_igor).not_to be_valid
+      end
+    end
+
+    context 'when username is the same for other user' do
+      before do
         user_rob = create(:user)
         user_ivan.username = user_rob.username
+      end
+
+      it 'is invalid' do
         expect(user_ivan).not_to be_valid
         expect(user_ivan.errors.full_messages).to include('Username has already been taken')
       end
+    end
 
-      it 'with name less than 3 chars' do
-        user_igor.name = 'DJ'
+    context 'when username less than 3 chars' do
+      before { user_igor.username = 'JD' }
+
+      it 'is invalid' do
         expect(user_igor).not_to be_valid
       end
+    end
 
-      it 'with username less than 3 chars' do
-        user_igor.username = 'JD'
+    context 'when email is not present' do
+      before { user_igor.email = nil }
+
+      it 'is invalid' do
         expect(user_igor).not_to be_valid
       end
+    end
 
-      it 'without email' do
-        user_igor.email = nil
-        expect(user_igor).not_to be_valid
-      end
+    context 'when email is incorrect' do
+      before { user_igor.email = 'incorrect_email' }
 
-      it 'with incorrect email' do
-        user_igor.email = 'incorrect_email'
+      it 'is invalid' do
         expect(user_igor).not_to be_valid
         expect(user_igor.errors.full_messages).to include("Email is invalid")
       end

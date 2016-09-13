@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  describe '.validate' do
+  describe 'validations' do
     let(:game) { build(:game) }
 
     context 'when valid data' do
