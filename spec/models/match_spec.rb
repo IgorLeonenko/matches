@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe Match, type: :model do
 
   describe '.validate' do
-    let(:team_home)             { create(:team_with_users) }
-    let(:team_invited)          { create(:team_with_users) }
-    let(:empty_team)            { create(:team) }
+    let(:team_home)             { build(:team_with_users) }
+    let(:team_invited)          { build(:team_with_users) }
+    let(:empty_team)            { build(:team) }
     let(:match)                 { create(:match, home_team: team_home, invited_team: team_invited) }
     let(:second_match)          { create(:match, home_team: team_home, invited_team: team_invited) }
-    let(:match_without_teams)   { build(:match)}
-    let(:match_with_same_team)  { build(:match, home_team: team_home, invited_team: team_home) }
+    let(:bad_match)   { build(:match) }
+    let(:user) { create(:user) }
 
     context 'when invalid data' do
       it 'with same game name' do
@@ -18,9 +18,9 @@ RSpec.describe Match, type: :model do
       end
 
       it 'without teams' do
-        expect(match_without_teams).not_to be_valid
-        expect(match_without_teams.errors[:home_team]).to include('can\'t be blank')
-        expect(match_without_teams.errors[:invited_team]).to include('can\'t be blank')
+        expect(bad_match).not_to be_valid
+        expect(bad_match.errors[:home_team]).to include('can\'t be blank')
+        expect(bad_match.errors[:invited_team]).to include('can\'t be blank')
       end
 
       it 'without game' do
@@ -34,8 +34,11 @@ RSpec.describe Match, type: :model do
       end
 
       it 'rise error if same player in different team' do
-        expect(match_with_same_team).to_not be_valid
-        expect(match_with_same_team.errors.full_messages).to include('Same player in different teams')
+        team_home.users << user
+        bad_match.home_team = team_home
+        bad_match.invited_team = team_home
+        expect(bad_match).to_not be_valid
+        expect(bad_match.errors.full_messages).to include('Same player in different teams')
       end
 
       it 'without team score' do

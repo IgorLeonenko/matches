@@ -30,13 +30,13 @@ RSpec.describe User, type: :model do
         expect(user_ivan.errors.full_messages).to include('Username has already been taken')
       end
 
-      it 'with name less than 5 chars' do
-        user_igor.name = 'igor'
+      it 'with name less than 3 chars' do
+        user_igor.name = 'DJ'
         expect(user_igor).not_to be_valid
       end
 
-      it 'with username less than 5 chars' do
-        user_igor.username = 'igor'
+      it 'with username less than 3 chars' do
+        user_igor.username = 'JD'
         expect(user_igor).not_to be_valid
       end
 
