@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe Team, type: :model do
 
   describe '.validate' do
-    let(:first_team)  { create(:team) }
-    let(:second_team) { create(:team) }
+    let(:first_team)  { build(:team_with_users) }
+    let(:second_team) { build(:team_with_users) }
+    let(:empty_team)  { build(:team) }
     let(:user)        { create(:user) }
 
     context 'when invalid data' do
@@ -19,13 +20,17 @@ RSpec.describe Team, type: :model do
       end
 
       it 'try to add same player to team' do
-        first_team.users << user
-        expect{first_team.users << user}.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: User already in team')
+        empty_team.users << user
+        empty_team.save
+        expect{empty_team.users << user}.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: User already in team')
       end
     end
 
     context 'when valid data' do
-      it { expect(first_team).to be_valid }
+      it {
+          empty_team.users << user
+          expect(empty_team).to be_valid
+         }
     end
   end
 end
