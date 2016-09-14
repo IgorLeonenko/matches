@@ -28,7 +28,7 @@ RSpec.describe Match, type: :model do
       end
     end
 
-    context 'when without teams' do
+    context 'when no teams assigned' do
 
       it 'is invalid' do
         expect(bad_match).not_to be_valid
@@ -37,15 +37,15 @@ RSpec.describe Match, type: :model do
       end
     end
 
-    context 'when without game' do
+    context 'when no game assigned' do
       before { match.game = nil }
 
-      it 'is invlaid' do
+      it 'is invalid' do
         expect(match).not_to be_valid
       end
     end
 
-    context 'when name less tahn 3 chars' do
+    context 'when name shorter than 3 chars' do
       before { match.name = 'gb' }
 
       it 'is invalid' do
@@ -64,13 +64,13 @@ RSpec.describe Match, type: :model do
         expect(bad_match).to_not be_valid
       end
 
-      it 'raise error' do
+      it 'raises error' do
         bad_match.valid?
         expect(bad_match.errors.full_messages).to include('Same player in different teams')
       end
     end
 
-    context 'when without team score' do
+    context 'when no team score assigned' do
       before do
         match.home_team_score = nil
         match.invited_team_score = nil
@@ -81,7 +81,7 @@ RSpec.describe Match, type: :model do
       end
     end
 
-    context 'when contain wrong status' do
+    context 'when contains wrong status' do
       before { match.status = 'Playing' }
 
       it 'is invalid' do
@@ -92,7 +92,7 @@ RSpec.describe Match, type: :model do
     context 'when status is not present' do
       before { match.status = nil }
 
-      it 'without status' do
+      it 'is invalid' do
         expect(match).not_to be_valid
       end
     end

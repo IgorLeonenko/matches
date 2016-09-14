@@ -8,7 +8,7 @@ FactoryGirl.define do
 
       after(:build) do |team, evaluator|
         (0...evaluator.users_count).each do |u|
-          team.users << FactoryGirl.create(:user)
+          team.users << create(:user)
         end
       end
     end

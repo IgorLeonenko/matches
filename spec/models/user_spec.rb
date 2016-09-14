@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'when name less than 3 chars' do
+    context 'when name shorter than 3 chars' do
       before { user_igor.name = 'DJ' }
 
       it 'is invalid' do
@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'when username less than 3 chars' do
+    context 'when username is shorter than 3 chars' do
       before { user_igor.username = 'JD' }
 
       it 'is invalid' do

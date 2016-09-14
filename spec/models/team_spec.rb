@@ -25,7 +25,7 @@ RSpec.describe Team, type: :model do
       end
     end
 
-    context 'when name less than 5 chars' do
+    context 'when name shorter than 5 chars' do
       before { first_team.name = 'free' }
 
       it 'is invalid' do
@@ -33,7 +33,7 @@ RSpec.describe Team, type: :model do
       end
     end
 
-    context 'when try to add same player in team' do
+    context 'when player is duplicated' do
       before do
         empty_team.users << user
         empty_team.save

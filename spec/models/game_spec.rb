@@ -9,14 +9,18 @@ RSpec.describe Game, type: :model do
       it { expect(game.image).to be_present }
     end
 
-    context 'when invalid data' do
-      it 'without name' do
-        game.name = nil
+    context 'when name is not present' do
+      before { game.name = nil }
+
+      it 'is invalid' do
         expect(game).not_to be_valid
       end
+    end
 
-      it 'with name less than 5 chars' do
-        game.name = 'tro'
+    context 'when name shorter than 5 chars' do
+      before { game.name = 'tro' }
+
+      it 'is invalid' do
         expect(game).not_to be_valid
       end
     end
