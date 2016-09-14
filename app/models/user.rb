@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_many :teams_users
-  has_many :teams, through: :teams_users
+  has_many :team_users
+  has_many :teams, through: :team_users
 
   validates :name, :email, :username, presence: true
   validates :name, :username, length: { minimum: 3 }

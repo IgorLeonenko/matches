@@ -1,6 +1,6 @@
 User.destroy_all
 Team.destroy_all
-TeamsUser.destroy_all
+TeamUser.destroy_all
 Match.destroy_all
 Game.destroy_all
 
