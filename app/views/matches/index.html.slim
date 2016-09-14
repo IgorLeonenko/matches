@@ -1,23 +1,37 @@
-table.table.table-striped
+table.table.table-bordered
   thead
     tr
-      td id
-      td name
-      td game
-      td status
-      td actions
+      th id
+      th name
+      th game
+      th status
+      th home team
+      th score
+      th invited team
+      th score
+      th actions
   tbody
-    - @matches.each do |m|
+    - @matches.each do |match|
       tr
         td
-          = m.id
+          = match.id
         td
-          = m.name
+          = match.name
         td
-          = m.game
+          = match.game.name
+          = match.game.image
         td
-          = m.status
+          = match.status
         td
-          = link_to 'show ', '#'
-          = link_to 'edit ', '#'
-          = link_to 'delete', '#'
+          = match.home_team.name
+        td
+          = match.home_team_score
+        td
+          = match.invited_team.name
+        td
+          = match.invited_team_score
+        td
+          = link_to 'show ', match_path(match)
+          = link_to 'edit ', edit_match_path(match)
+          = link_to 'delete', match_path(match), method: :delete, data: {confirm: "Are you sure?"}
+= link_to 'Add match', new_match_path, class: 'btn btn-primary'

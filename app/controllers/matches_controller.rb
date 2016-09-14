@@ -18,7 +18,7 @@ class MatchesController < ApplicationController
       flash[:notice] = 'Match created sucessfully'
       redirect_to matches_path
     else
-      flash.now[:alert] = 'Something wrong'
+      flash.now[:alert] = "Something wrong #{': ' + @match.errors.messages[:base].join()}"
       render :new
     end
   end
@@ -31,7 +31,7 @@ class MatchesController < ApplicationController
       flash[:notice] = 'Match edited sucessfully'
       redirect_to matches_path
     else
-      flash.now[:alert] = 'Something went wrong'
+      flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
       render :edit
     end
   end
@@ -53,6 +53,7 @@ class MatchesController < ApplicationController
     end
 
     def match_params
-      params.require(:match).permit(:name, :status)
+      params.require(:match).permit(:name, :status, :game_id, :home_team_id, :invited_team_id,
+                                    :home_team_score, :invited_team_score)
     end
 end
