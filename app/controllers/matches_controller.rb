@@ -16,7 +16,7 @@ class MatchesController < ApplicationController
     @match = Match.new(match_params)
     if @match.save
       flash[:notice] = 'Match created sucessfully'
-      redirect_to match_path(@match)
+      redirect_to @match
     else
       flash.now[:alert] = "Something wrong #{': ' + @match.errors.messages[:base].join()}"
       render :new
@@ -29,7 +29,7 @@ class MatchesController < ApplicationController
   def update
     if @match.update_attributes(match_params)
       flash[:notice] = 'Match edited sucessfully'
-      redirect_to matches_path
+      redirect_to @match
     else
       flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
       render :edit
