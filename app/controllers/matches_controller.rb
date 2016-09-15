@@ -48,12 +48,12 @@ class MatchesController < ApplicationController
 
   private
 
-    def match
-      @match = Match.find(params[:id])
-    end
+  def match
+    @match = Match.find(params[:id])
+  end
 
-    def match_params
-      params.require(:match).permit(:name, :status, :game_id, :home_team_id, :invited_team_id,
-                                    :home_team_score, :invited_team_score)
-    end
+  def match_params
+    params.require(:match).permit(:name, :status, :game_id, :home_team_id, :invited_team_id,
+                                  :home_team_score, :invited_team_score)
+  end
 end
