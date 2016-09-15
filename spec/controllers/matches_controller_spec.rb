@@ -40,7 +40,7 @@ RSpec.describe MatchesController, type: :controller do
                                                invited_team_id: team_2.id ) } }
 
       it 'create a new match' do
-        expect{ subject }.to change(Match, :count).by(1)
+        expect { subject }.to change(Match, :count).by(1)
       end
 
       it 'redirects to @match' do
@@ -60,7 +60,7 @@ RSpec.describe MatchesController, type: :controller do
                                                home_team_id: 'bad_id',
                                                invited_team_id: 'bad_id' ) } }
       it 'not create a new match' do
-        expect{ subject }.to_not change(Match, :count)
+        expect { subject }.to_not change(Match, :count)
       end
 
       it 're-render action new' do
@@ -141,7 +141,7 @@ RSpec.describe MatchesController, type: :controller do
         subject { delete :destroy, params: { id: test_match.id } }
 
         it 'deletes the @match' do
-          expect{ subject }.to change(Match, :count).by(-1)
+          expect { subject }.to change(Match, :count).by(-1)
         end
 
         it 'redirects to matches#index' do
