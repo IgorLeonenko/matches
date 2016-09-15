@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   before_action :match, only:[:show, :edit, :update, :destroy]
 
   def index
-    @matches = Match.all
+    @matches = Match.includes(:game, :home_team, :invited_team).all
   end
 
   def show
@@ -49,7 +49,7 @@ class MatchesController < ApplicationController
   private
 
   def match
-    @match = Match.find(params[:id])
+    @match = Match.includes(:game, :home_team, :invited_team).find(params[:id])
   end
 
   def match_params
