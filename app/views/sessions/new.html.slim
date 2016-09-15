@@ -1,0 +1,8 @@
+h2 Log In
+.col-md-4
+  = simple_form_for(:session, url: sessions_path) do |f|
+    = f.input :email, input_html: { name: "email" }
+    = f.input :password, input_html: { name: "password" }
+    = f.submit 'Log In', class: 'btn btn-primary'
+  = link_to 'Back', root_path
+.col-md-8
