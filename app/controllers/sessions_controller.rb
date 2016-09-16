@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       flash[:notice] = 'You are logged in!'
       redirect_to matches_path
     else
-      flash.now[:alert] = 'Name or password incorrect'
+      flash.now[:alert] = 'Email or password incorrect'
       render :new
     end
   end
