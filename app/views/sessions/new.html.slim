@@ -4,5 +4,8 @@ h2 Log In
     = f.input :email, input_html: { name: "email" }
     = f.input :password, input_html: { name: "password" }
     = f.submit 'Log In', class: 'btn btn-primary'
-  = link_to 'Back', root_path
+  p
+    | New here?
+    '
+    = link_to 'Create an account', sign_up_path
 .col-md-8
