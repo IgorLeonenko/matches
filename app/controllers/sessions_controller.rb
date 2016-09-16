@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     @user = User.find_by_email(params[:email])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      flash[:notice] = 'You are log in!'
+      flash[:notice] = 'You are logged in!'
       redirect_to matches_path
     else
       flash.now[:alert] = 'Name or password incorrect'
@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session.delete(:user_id)
-    flash[:notice] = 'You are log out!'
+    flash[:notice] = 'You are logged out!'
     redirect_to root_path
   end
 end

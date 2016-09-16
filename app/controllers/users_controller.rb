@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = 'User create sucessfully'
+      flash[:notice] = 'User created sucessfully'
       redirect_to matches_path
     else
       flash[:alert] = 'Something wrong'
