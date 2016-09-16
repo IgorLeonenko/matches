@@ -2,7 +2,12 @@ class UsersController < ApplicationController
   skip_before_action :authorize
 
   def new
-    @user = User.new
+    if current_user
+      flash[:notice] = 'You are already logged in'
+      redirect_to matches_path
+    else
+      @user = User.new
+    end
   end
 
   def create
