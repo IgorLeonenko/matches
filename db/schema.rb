@@ -55,13 +55,14 @@ ActiveRecord::Schema.define(version: 20160912115409) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",            null: false
-    t.string   "email",           null: false
-    t.string   "password_digest", null: false
-    t.string   "username",        null: false
+    t.string   "name",                            null: false
+    t.string   "email",                           null: false
+    t.string   "password_digest",                 null: false
+    t.string   "username",                        null: false
     t.string   "avatar"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "admin",           default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end

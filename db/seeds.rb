@@ -17,6 +17,9 @@ games       = []
                        password: '123456', password_confirmation: '123456', username: "#{user_names[i-1]}")
 end
 
+User.create(name: 'admin', email: 'admin@mail.com', password: 'admin123456',
+            password_confirmation: 'admin123456', username: 'superuser', admin: true)
+
 4.times do |i|
   teams << Team.create(name: "#{team_names[i-1]}")
 end
