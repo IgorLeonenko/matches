@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     unless current_user
-      flash[:notice] = "Log In first"
+      flash[:notice] = "Log In first" if performed?
       redirect_to log_in_path
     end
   end
