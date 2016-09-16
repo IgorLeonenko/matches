@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create(:user) }
 
-  describe 'when user logged in' do
+  context 'when user logged in' do
     before { login(user) }
 
-    context 'GET #sign_up' do
+    describe 'GET #sign_up' do
       before { get :new }
 
       it { expect(response).to redirect_to matches_path }
@@ -15,15 +15,15 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'when user not logged in' do
-    context 'GET #sign_up' do
+  context 'when user not logged in' do
+    describe 'GET #sign_up' do
       before { get :new }
 
       it { expect(response.status).to eq(200) }
       it { expect(response).to render_template('new') }
     end
 
-    context 'POST #create with valid data' do
+    describe 'POST #create with valid data' do
       subject { post :create, params: { user: attributes_for(:user) } }
 
       it { expect{subject}.to change(User, :count).by(1) }
@@ -37,7 +37,7 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'POST #create with invalid data' do
+    describe 'POST #create with invalid data' do
       subject { post :create, params: { user: attributes_for(:user, name: nil) } }
 
       it { expect{subject}.not_to change(User, :count) }
