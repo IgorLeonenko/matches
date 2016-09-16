@@ -2,6 +2,10 @@ class SessionsController < ApplicationController
   skip_before_action :authorize
 
   def new
+    if current_user
+      flash[:notice] = 'You are already logged in'
+      redirect_to matches_path
+    end
   end
 
   def create
