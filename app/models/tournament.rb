@@ -13,7 +13,9 @@ class Tournament < ApplicationRecord
 
   validates :title, :start_date, :style, :state,
             :teams_quantity, :game, presence: true
-  validates :teams_quantity, :players_in_team, numericality: true
+  validates :title, length: { minimum: 5 }
+  validates :teams_quantity, :players_in_team, numericality: {
+                                               only_integer: true, greater_than: 0 }
   validates :description, length: { maximum: 500 }
   validates :style, inclusion: { in: STYLE }
   validates :state, inclusion: { in: STATE }

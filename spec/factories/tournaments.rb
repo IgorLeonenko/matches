@@ -1,11 +1,13 @@
 FactoryGirl.define do
   factory :tournament do
-    title "MyString"
-    description "MyText"
+    title { Faker::Company.name }
+    description "Great Tournament"
     start_date "2016-09-16 17:01:07"
-    picture "MyString"
-    type ""
-    teams_quantity 1
-    players_in_team 1
+    picture { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'icon.png')) }
+    style "league"
+    state "open"
+    game { create(:game) }
+    teams_quantity 2
+    players_in_team 2
   end
 end
