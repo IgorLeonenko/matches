@@ -100,5 +100,21 @@ RSpec.describe Tournament, type: :model do
         expect(tournament.errors.full_messages).to include('Can\'t be more teams than teams quantity')
       end
     end
+
+    context 'when add more users than players quantity' do
+      before do
+        tournament.teams_quantity = 2
+        tournament.players_in_team = 2
+        2.times do
+          tournament.teams << team
+        end
+        tournament.teams[0].users << user
+      end
+
+      it 'is invalid' do
+        tournament.valid?
+        expect(tournament).not_to be_valid
+      end
+    end
   end
 end
