@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :team_users
   has_many :teams, through: :team_users
 
+  has_many :tournament_users
+  has_many :tournaments, through: :tournament_users
+
   validates :name, :email, :username, presence: true
   validates :name, :username, length: { minimum: 3 }
   validates :email, uniqueness: true,
