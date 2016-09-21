@@ -3,7 +3,6 @@ class CreateTournamentUsers < ActiveRecord::Migration[5.0]
     create_table :tournament_users do |t|
       t.belongs_to :tournament, foreign_key: true, null: false
       t.belongs_to :user, foreign_key: true, null: false
-      t.boolean :creator, default: false
 
       t.timestamps
     end

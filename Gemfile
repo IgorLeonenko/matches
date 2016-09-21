@@ -39,6 +39,10 @@ gem "slim-rails"
 gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'sprockets-rails', :require => 'sprockets/railtie'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
+
 gem 'simple_form'
 
 # Use Capistrano for deployment

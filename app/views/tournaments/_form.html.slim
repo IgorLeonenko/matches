@@ -1,0 +1,12 @@
+= simple_form_for(@tournament, html: { class: 'form-horizontal', multipart: true }) do |f|
+  = f.input :title
+  = f.association :game, input_html: { disabled: @tournament.state == 'started' }
+  = f.input :description
+  = f.input :picture, type: :file
+  = f.input :start_date, input_html: { disabled: @tournament.state == 'started' }
+  = f.input :teams_quantity, input_html: { disabled: @tournament.state == 'started' }
+  = f.input :players_in_team, input_html: { disabled: @tournament.state == 'started' }
+  = f.input :style, collection: Tournament::STYLE, input_html: { disabled: @tournament.state == 'started' }
+  = f.button :submit, class: 'btn btn-primary'
+  '
+  = link_to 'back', tournaments_path, class: 'btn btn-success'

@@ -73,11 +73,10 @@ ActiveRecord::Schema.define(version: 20160919114724) do
   end
 
   create_table "tournament_users", force: :cascade do |t|
-    t.integer  "tournament_id",                 null: false
-    t.integer  "user_id",                       null: false
-    t.boolean  "creator",       default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "tournament_id", null: false
+    t.integer  "user_id",       null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.index ["tournament_id", "user_id"], name: "index_tournament_users_on_tournament_id_and_user_id", unique: true, using: :btree
     t.index ["tournament_id"], name: "index_tournament_users_on_tournament_id", using: :btree
     t.index ["user_id"], name: "index_tournament_users_on_user_id", using: :btree
@@ -86,12 +85,13 @@ ActiveRecord::Schema.define(version: 20160919114724) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-09-19 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-09-21 00:00:00', null: false
     t.string   "picture"
     t.string   "style",           default: "league",              null: false
     t.string   "state",           default: "open",                null: false
     t.integer  "teams_quantity",  default: 0,                     null: false
     t.integer  "players_in_team"
+    t.integer  "creator_id"
     t.integer  "game_id",                                         null: false
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false

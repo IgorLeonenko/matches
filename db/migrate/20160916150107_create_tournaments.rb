@@ -9,6 +9,7 @@ class CreateTournaments < ActiveRecord::Migration[5.0]
       t.string :state, null: false, default: 'open'
       t.integer :teams_quantity, null: false, default: 0
       t.integer :players_in_team
+      t.integer :creator_id
       t.belongs_to :game, foreign_key: true, null: false
 
       t.timestamps

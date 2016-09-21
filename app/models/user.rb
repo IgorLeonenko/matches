@@ -14,4 +14,8 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
 
   mount_uploader :avatar, AvatarUploader
+
+  def creator?(tournament)
+    id == Tournament.find(tournament.id).creator_id
+  end
 end

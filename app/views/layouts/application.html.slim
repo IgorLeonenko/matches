@@ -10,9 +10,17 @@ html
     .row
       .col-md-1
       .col-md-10
-        h2.text-info Matches app :)
+        - if current_user
+          nav.navbar-light.col-md-12 style="background-color: #e3f2fd;"
+            a.navbar-brand
+              'Matches app :)
+            ul.nav.navbar-nav
+              li.nav-item
+                = link_to 'matches', matches_path, class: "nav-link #{params[:controller] == 'matches' ? 'active' : ''}"
+              li.nav-item
+                = link_to 'tournaments', tournaments_path, class: 'nav-link'
+              li.pull-md-right
+                = link_to 'Log Out', log_out_path, method: :delete, class: 'nav-link'
         = render 'shared/errors'
         = yield
       .col-md-1
-        - if current_user
-          = link_to 'Log Out', log_out_path, method: :delete
