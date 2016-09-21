@@ -3,7 +3,7 @@ class CreateTournaments < ActiveRecord::Migration[5.0]
     create_table :tournaments do |t|
       t.string :title, null: false
       t.text :description
-      t.datetime :start_date, null: false, default: Time.now.to_date
+      t.datetime :start_date, null: false, default: Time.zone.today
       t.string :picture
       t.string :style, null: false, default: 'league'
       t.string :state, null: false, default: 'open'
