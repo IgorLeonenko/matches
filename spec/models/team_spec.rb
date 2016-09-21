@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Team, type: :model do
 
   describe 'validations' do
-    let(:first_team)  { build(:team_with_users) }
-    let(:second_team) { build(:team_with_users) }
+    let(:first_team)  { build(:team, :with_users) }
+    let(:second_team) { build(:team, :with_users) }
     let(:empty_team)  { build(:team) }
     let(:user)        { create(:user) }
 

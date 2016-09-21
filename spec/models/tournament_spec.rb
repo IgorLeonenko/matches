@@ -4,7 +4,7 @@ RSpec.describe Tournament, type: :model do
   describe 'validation' do
     let(:tournament) { build(:tournament) }
     let(:user)       { create(:user) }
-    let(:team)       { create(:team_with_users) }
+    let(:team)       { create(:team, :with_users) }
 
     context 'when valid data' do
       it { expect(tournament).to be_valid }

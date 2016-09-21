@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe MatchesController, type: :controller do
 
   let(:user)   { create(:user) }
-  let(:team_1) { create(:team_with_users) }
-  let(:team_2) { create(:team_with_users) }
+  let(:team_1) { create(:team, :with_users) }
+  let(:team_2) { create(:team, :with_users) }
   let(:test_match) { create(:match, home_team: team_1, invited_team: team_2 ) }
 
   context 'when user logged in' do

@@ -7,11 +7,7 @@ FactoryGirl.define do
     avatar   { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'user_avatar.jpg')) }
   end
 
-  factory :user_admin do
-    name     'admin'
-    username 'superuser'
-    email    'admin@mail.com'
-    password 'admin123456'
-    admin    true
+  trait :admin do
+    admin true
   end
 end
