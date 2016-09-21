@@ -18,7 +18,7 @@ class TournamentsController < ApplicationController
     @tournament.creator_id = current_user.id
     if @tournament.save
       flash[:notice] = 'Tournament created sucessfully'
-      redirect_to tournaments_path
+      redirect_to @tournament
     else
       flash[:alert] = 'Something wrong'
       render :new
@@ -45,9 +45,11 @@ class TournamentsController < ApplicationController
   def destroy
     if @tournament.state == 'ended' || @tournament.state == 'started'
       flash[:alert] = 'Tournament started or ended'
+    elsif !current_user.creator?(@tournament)
+      flash[:alert] = 'You are not creator'
     else
       @tournament.destroy
-      flash[:notice] = 'Match deleted sucessfully'
+      flash[:notice] = 'Tournament deleted sucessfully'
     end
     redirect_to tournaments_path
   end

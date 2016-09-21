@@ -7,6 +7,7 @@ FactoryGirl.define do
     style "league"
     state "open"
     game { create(:game) }
+    game_id { game.id }
     teams_quantity 2
     players_in_team 2
   end
