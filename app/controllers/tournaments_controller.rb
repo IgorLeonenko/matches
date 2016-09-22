@@ -6,7 +6,7 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    if current_user.admin?
+    if current_user.admin? || current_user.creator?(@tournament)
       @users = User.all
     else
       @users = User.where(id: current_user.id)
@@ -23,15 +23,13 @@ class TournamentsController < ApplicationController
       begin
         @tournament.users << User.find(params[:user][:username])
         flash[:notice] = 'User added to tournament'
-        redirect_to @tournament
       rescue ActiveRecord::RecordInvalid
         flash[:alert] = 'User already in tournament'
-        redirect_to @tournament
       end
     rescue ActiveRecord::RecordNotFound
       flash[:alert] = 'User not found'
-      redirect_to @tournament
     end
+    redirect_to @tournament
   end
 
   def remove_user

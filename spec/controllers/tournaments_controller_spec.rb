@@ -205,6 +205,72 @@ RSpec.describe TournamentsController, type: :controller do
         it { expect(flash[:alert]).to include('Tournament started or ended') }
       end
     end
+
+    describe 'add user to tournament' do
+      before  { test_tournament }
+      subject { post :add_user, params: { id: test_tournament, user: { username: user.id } } }
+
+      context 'POST #add_user' do
+        it { expect(subject).to redirect_to(test_tournament) }
+        it { expect{ subject }.to change(TournamentUser, :count).by(1) }
+
+        it 'add valid data to join table' do
+          subject
+          expect(TournamentUser.first.user_id).to eq(user.id)
+          expect(TournamentUser.first.tournament_id).to eq(test_tournament.id)
+        end
+
+        it 'raise error if user already in tournament' do
+          TournamentUser.create(user_id: user.id, tournament_id: test_tournament.id)
+          subject
+
+          expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include('User already in tournament')
+        end
+
+        it 'raise error if user not found' do
+          post :add_user, params: { id: test_tournament, user: { username: 'bad_id' } }
+
+          expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include('User not found')
+        end
+      end
+    end
+
+    describe 'remove user from tournament' do
+      before do
+        test_tournament
+        test_tournament.users << user
+      end
+      subject { delete :remove_user, params: { id: test_tournament.id, user_id: user.id} }
+
+      context 'it delete user from tournament' do
+        it { expect{subject}.to change(TournamentUser, :count).by(-1) }
+      end
+
+      context 'when current_user try delete other user' do
+        before do
+          user_2 = create(:user)
+          login(user_2)
+        end
+
+        it 'not delete record' do
+          subject
+          expect(flash[:alert]).to be_present
+          expect(flash[:alert]).to include('You cant remove other users from tournament')
+          expect{subject}.to change(TournamentUser, :count).by(0)
+        end
+      end
+
+      context 'when admin try delete other user' do
+        before do
+          admin = create(:user, :admin)
+          login(admin)
+        end
+
+        it { expect{subject}.to change(TournamentUser, :count).by(-1) }
+      end
+    end
   end
 
   context 'when user not logged' do
