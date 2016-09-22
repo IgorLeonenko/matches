@@ -11,7 +11,7 @@ html
       .col-md-1
       .col-md-10
         - if current_user
-          nav.navbar-light.col-md-12 style="background-color: #e3f2fd;"
+          nav.navbar-light.col-md-12 style="background-color: #e3f2fd; margin-bottom: 20px;"
             a.navbar-brand
               'Matches app :)
             ul.nav.navbar-nav
@@ -20,7 +20,7 @@ html
               li.nav-item
                 = link_to 'tournaments', tournaments_path, class: 'nav-link'
               li.pull-md-right
-                = link_to 'Log Out', log_out_path, method: :delete, class: 'nav-link'
+                = link_to "#{current_user.username} | Log Out", log_out_path, method: :delete, class: 'nav-link'
         = render 'shared/errors'
         = yield
       .col-md-1
