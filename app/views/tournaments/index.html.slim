@@ -32,7 +32,7 @@ table.table.table-bordered
         td
           = link_to 'show', tournament_path(t)
           '
-          - if current_user.creator?(t)
+          - if current_user.creator?(t) || current_user.admin?
             = link_to 'edit', edit_tournament_path(t)
             '
             = link_to 'destroy', tournament_path(t), method: :delete, data: {confirm: "Are you sure?"}

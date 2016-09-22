@@ -81,7 +81,7 @@ class TournamentsController < ApplicationController
   def destroy
     if @tournament.state == 'ended' || @tournament.state == 'started'
       flash[:alert] = 'Tournament started or ended'
-    elsif !current_user.creator?(@tournament)
+    elsif !current_user.admin? && !current_user.creator?(@tournament)
       flash[:alert] = 'You are not creator'
     else
       @tournament.destroy
