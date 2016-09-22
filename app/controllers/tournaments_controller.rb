@@ -20,9 +20,9 @@ class TournamentsController < ApplicationController
   def add_user
     @tournament = Tournament.find(params[:tournament_id])
     begin
-      User.find(params[:user][:username])
+      User.find(params[:user][:id])
       begin
-        @tournament.users << User.find(params[:user][:username])
+        @tournament.users << User.find(params[:user][:id])
         flash[:notice] = 'User added to tournament'
       rescue ActiveRecord::RecordInvalid
         flash[:alert] = 'User already in tournament'
