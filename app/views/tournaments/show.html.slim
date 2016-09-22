@@ -4,6 +4,10 @@
     '
     span.text-success= @tournament.title
   p
+    | Creator:
+    '
+    span.text-success= @tournament.creator
+  p
     | Game:
     '
     span.text-info= @tournament.game.name
@@ -33,8 +37,21 @@
     span.text-info= @tournament.description
   = link_to 'Back', tournaments_path, class: 'btn btn-primary btm-sm'
 .col-md-6
-  h4 Teams in tournament
-  ul.list-unstyled
-    - @tournament.teams.each do |t|
-      li
-        = t.name
+  h4 Users in tournament
+  - if @tournament.users.any?
+    ol.list-unstyled
+      - @tournament.users.each do |u|
+        li
+          = u.username
+          '
+          = link_to 'remove user', remove_user_path(user_id: u),
+                    method: :delete, data: {confirm: "Do you really want to leave the tournament?"}
+  - else
+    h5.text-danger Still no user assigned
+  - unless @users_quantity == 0
+    h4.text-info Add user to tournament
+  - if @users_quantity.blank?
+    = render 'add_user'
+  - else
+    - @users_quantity.times do
+      = render 'add_user'

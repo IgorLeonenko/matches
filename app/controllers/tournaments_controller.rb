@@ -1,12 +1,48 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :destroy]
+  before_action :set_tournament, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
 
   def index
     @tournaments = Tournament.all
   end
 
   def show
-    @team = Team.new
+    if current_user.admin?
+      @users = User.all
+    else
+      @users = User.where(id: current_user.id)
+    end
+    @users_quantity =
+      unless @tournament.players_in_team.blank?
+        @tournament.players_total_quantity - @tournament.users.size
+      end
+  end
+
+  def add_user
+    begin
+      User.find(params[:user][:username])
+      begin
+        @tournament.users << User.find(params[:user][:username])
+        flash[:notice] = 'User added to tournament'
+        redirect_to @tournament
+      rescue ActiveRecord::RecordInvalid
+        flash[:alert] = 'User already in tournament'
+        redirect_to @tournament
+      end
+    rescue ActiveRecord::RecordNotFound
+      flash[:alert] = 'User not found'
+      redirect_to @tournament
+    end
+  end
+
+  def remove_user
+    user = User.find(params[:user_id])
+    if user == current_user || current_user.admin?
+      @tournament.users.delete(user)
+      flash[:notice] = 'User removed from tournament'
+    else
+      flash[:alert] = 'You cant remove other users from tournament'
+    end
+    redirect_to @tournament
   end
 
   def new

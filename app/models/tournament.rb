@@ -6,7 +6,7 @@ class Tournament < ApplicationRecord
   belongs_to :game
 
   has_many :tournament_users
-  has_many :users, through: :tournament_users
+  has_many :users, through: :tournament_users, dependent: :destroy
 
   has_many :match_tournaments
   has_many :matches, through: :match_tournaments
@@ -26,7 +26,13 @@ class Tournament < ApplicationRecord
 
   mount_uploader :picture, TournamentPictureUploader
 
-  accepts_nested_attributes_for :teams
+  def players_total_quantity
+    (teams_quantity * players_in_team)
+  end
+
+  def creator
+    User.find(creator_id).username
+  end
 
   private
 
