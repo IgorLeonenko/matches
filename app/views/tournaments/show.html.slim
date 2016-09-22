@@ -44,7 +44,7 @@
         li
           = u.username
           '
-          = link_to 'remove user', remove_user_path(user_id: u),
+          = link_to 'remove user', tournament_remove_user_path(@tournament, u),
                     method: :delete, data: {confirm: "Do you really want to leave the tournament?"}
   - else
     h5.text-danger Still no user assigned

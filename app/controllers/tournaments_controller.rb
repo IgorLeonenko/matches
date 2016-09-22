@@ -1,5 +1,5 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :destroy, :add_user, :remove_user]
+  before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
   def index
     @tournaments = Tournament.all
@@ -18,6 +18,7 @@ class TournamentsController < ApplicationController
   end
 
   def add_user
+    @tournament = Tournament.find(params[:tournament_id])
     begin
       User.find(params[:user][:username])
       begin
@@ -33,6 +34,7 @@ class TournamentsController < ApplicationController
   end
 
   def remove_user
+    @tournament = Tournament.find(params[:tournament_id])
     user = User.find(params[:user_id])
     if user == current_user || current_user.admin?
       @tournament.users.delete(user)

@@ -208,7 +208,7 @@ RSpec.describe TournamentsController, type: :controller do
 
     describe 'add user to tournament' do
       before  { test_tournament }
-      subject { post :add_user, params: { id: test_tournament, user: { username: user.id } } }
+      subject { post :add_user, params: { tournament_id: test_tournament, user: { username: user.id } } }
 
       context 'POST #add_user' do
         it { expect(subject).to redirect_to(test_tournament) }
@@ -229,7 +229,7 @@ RSpec.describe TournamentsController, type: :controller do
         end
 
         it 'raise error if user not found' do
-          post :add_user, params: { id: test_tournament, user: { username: 'bad_id' } }
+          post :add_user, params: { tournament_id: test_tournament, user: { username: 'bad_id' } }
 
           expect(flash[:alert]).to be_present
           expect(flash[:alert]).to include('User not found')
@@ -242,7 +242,7 @@ RSpec.describe TournamentsController, type: :controller do
         test_tournament
         test_tournament.users << user
       end
-      subject { delete :remove_user, params: { id: test_tournament.id, user_id: user.id} }
+      subject { delete :remove_user, params: { tournament_id: test_tournament.id, user_id: user.id} }
 
       context 'it delete user from tournament' do
         it { expect{subject}.to change(TournamentUser, :count).by(-1) }
