@@ -15,6 +15,6 @@ Rails.application.routes.draw do
     delete 'remove_user/:user_id', to: 'tournaments#remove_user', as: 'remove_user'
   end
 
-  # resources :teams
+  resources :teams
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
