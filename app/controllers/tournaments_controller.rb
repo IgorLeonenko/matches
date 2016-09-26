@@ -6,6 +6,7 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    @teams = Team.all
     if current_user.admin? || current_user.creator?(@tournament)
       @users = User.all
     else
@@ -17,30 +18,32 @@ class TournamentsController < ApplicationController
       end
   end
 
-  def add_user
+  def team
     @tournament = Tournament.find(params[:tournament_id])
-    begin
-      User.find(params[:user][:id])
-      begin
-        @tournament.users << User.find(params[:user][:id])
-        flash[:notice] = 'User added to tournament'
-      rescue ActiveRecord::RecordInvalid
-        flash[:alert] = 'User already in tournament'
-      end
-    rescue ActiveRecord::RecordNotFound
-      flash[:alert] = 'User not found'
-    end
-    redirect_to @tournament
+    @team = Team.new
   end
 
-  def remove_user
+  def add_team
     @tournament = Tournament.find(params[:tournament_id])
-    user = User.find(params[:user_id])
-    if user == current_user || current_user.admin?
-      @tournament.users.delete(user)
-      flash[:notice] = 'User removed from tournament'
-    else
-      flash[:alert] = 'You cant remove other users from tournament'
+    team = Team.where(id: params[:team][:id]).first_or_initialize(team_params)
+    if team.new_record?
+      users_to_team = params[:team][:user_ids]
+      unless users_to_team.blank?
+        users_to_team.each do |u|
+          team.users << User.find(u)
+        end
+      end
+      team.save
+    end
+
+    begin
+      @tournament.teams << team
+      team.users.each do |u|
+        @tournament.users << u
+      end
+      flash[:notice] = 'Team added'
+    rescue ActiveRecord::RecordInvalid => e
+      flash[:alert] = "#{e}"
     end
     redirect_to @tournament
   end
@@ -99,5 +102,9 @@ class TournamentsController < ApplicationController
   def tournament_params
     params.require(:tournament).permit(:title, :game_id, :description, :picture, :start_date,
                                        :teams_quantity, :players_in_team, :style)
+  end
+
+  def team_params
+    params.require(:team).permit(:name, :user_ids)
   end
 end

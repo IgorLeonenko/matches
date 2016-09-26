@@ -37,21 +37,18 @@
     span.text-info= @tournament.description
   = link_to 'Back', tournaments_path, class: 'btn btn-primary btm-sm'
 .col-md-6
-  h4 Users in tournament
-  - if @tournament.users.any?
-    ol.list-unstyled
-      - @tournament.users.each do |u|
-        li
-          = u.username
-          '
-          = link_to 'remove user', tournament_remove_user_path(@tournament, u),
-                    method: :delete, data: {confirm: "Do you really want to leave the tournament?"}
-  - else
-    h5.text-danger Still no user assigned
-  - unless @users_quantity == 0
-    h4.text-info Add user to tournament
-  - if @users_quantity.blank?
-    = render 'add_user'
-  - else
-    - @users_quantity.times do
-      = render 'add_user'
+  h4 Teams in tournament
+  ol
+    - @tournament.teams.each do |team|
+      li
+        = team.name
+        ul
+          - team.users.each do |user|
+            li
+              = user.username
+  h4.text-info Add team to tournament
+  .col-md-6
+    = simple_form_for(:team, url: tournament_add_team_path(@tournament), html: { class: 'form-horizontal' }) do |f|
+      = f.input :id, collection: @teams, label_method: :name, label: 'Team name'
+      = f.submit 'Add team', class: 'btn btn-success'
+    = link_to 'Create new team', tournament_team_path(@tournament), class: 'btn btn-primary pull-md-right'

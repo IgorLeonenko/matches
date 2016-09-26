@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :tournaments do
     post 'add_user', to: 'tournaments#add_user', as: 'add_user'
     delete 'remove_user/:user_id', to: 'tournaments#remove_user', as: 'remove_user'
+    get 'team', to: 'tournaments#team', as: 'team'
+    post 'add_team', to: 'tournaments#add_team', as: 'add_team'
   end
 
   resources :teams

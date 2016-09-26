@@ -1,0 +1,5 @@
+= simple_form_for(@team, url: tournament_add_team_path(@tournament), html: { class: 'form-horizontal' }) do |f|
+  = f.input :name
+  = field_set_tag 'Add user'
+  = f.association :users, collection: User.all, as: :check_boxes, include_hidden: false
+  = f.submit 'Add team'
