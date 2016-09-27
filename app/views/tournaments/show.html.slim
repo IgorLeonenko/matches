@@ -38,17 +38,25 @@
   = link_to 'Back', tournaments_path, class: 'btn btn-primary btm-sm'
 .col-md-6
   h4 Teams in tournament
-  ol
-    - @tournament.teams.each do |team|
-      li
-        = team.name
-        ul
-          - team.users.each do |user|
-            li
-              = user.username
+  - if @tournament.teams.empty?
+    h5.text-danger No teams in tournament yet
+  - else
+    ol
+      - @tournament.teams.each do |team|
+        li
+          = team.name
+          - unless @tournament.players_in_team.blank?
+            '
+            = '(' + team.users.size.to_s + '/' + @tournament.players_in_team.to_s + ')'
+          ul
+            - team.users.each do |user|
+              li
+                = user.username
+        - if @tournament.players_in_team.nil? || team.users.size < @tournament.players_in_team
+          = button_to 'add user', tournament_add_user_to_team_path(@tournament)
   h4.text-info Add team to tournament
   .col-md-6
-    = simple_form_for(:team, url: tournament_add_team_path(@tournament), html: { class: 'form-horizontal' }) do |f|
+    = simple_form_for(:team, url: tournament_join_team_path(@tournament), html: { class: 'form-horizontal' }) do |f|
       = f.input :id, collection: @teams, label_method: :name, label: 'Team name'
       = f.submit 'Add team', class: 'btn btn-success'
     = link_to 'Create new team', tournament_team_path(@tournament), class: 'btn btn-primary pull-md-right'

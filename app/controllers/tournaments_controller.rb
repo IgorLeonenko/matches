@@ -23,29 +23,27 @@ class TournamentsController < ApplicationController
     @team = Team.new
   end
 
-  def add_team
+  def join_team
     @tournament = Tournament.find(params[:tournament_id])
     team = Team.where(id: params[:team][:id]).first_or_initialize(team_params)
-    if team.new_record?
-      users_to_team = params[:team][:user_ids]
-      unless users_to_team.blank?
-        users_to_team.each do |u|
-          team.users << User.find(u)
-        end
+    users_to_team = params[:team][:user_ids]
+    unless users_to_team.blank?
+      users_to_team.each do |user|
+        team.users << User.find(user)
       end
-      team.save
     end
-
     begin
-      @tournament.teams << team
-      team.users.each do |u|
-        @tournament.users << u
-      end
+      @tournament.add_team(team)
+      team.save
       flash[:notice] = 'Team added'
-    rescue ActiveRecord::RecordInvalid => e
+    rescue => e
       flash[:alert] = "#{e}"
     end
     redirect_to @tournament
+  end
+
+  def add_user_to_team
+
   end
 
   def new

@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   delete 'log_out', to: 'sessions#destroy', as: 'log_out'
 
   resources :tournaments do
-    post 'add_user', to: 'tournaments#add_user', as: 'add_user'
+    post 'add_user_to_team', to: 'tournaments#add_user_to_team', as: 'add_user_to_team'
     delete 'remove_user/:user_id', to: 'tournaments#remove_user', as: 'remove_user'
     get 'team', to: 'tournaments#team', as: 'team'
-    post 'add_team', to: 'tournaments#add_team', as: 'add_team'
+    post 'join_team', to: 'tournaments#join_team', as: 'join_team'
   end
 
   resources :teams

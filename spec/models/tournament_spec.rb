@@ -90,14 +90,13 @@ RSpec.describe Tournament, type: :model do
     context 'when add more teams than teams_quantity' do
       before do
         tournament.teams_quantity = 2
-        3.times do
-          tournament.teams << team
+        2.times do
+          tournament.add_team(team)
         end
       end
 
       it 'is invalid' do
-        tournament.valid?
-        expect(tournament.errors.full_messages).to include('Can\'t be more teams than teams quantity')
+        expect{ tournament.add_team(team) }.to raise_error('Can\'t be more teams than teams quantity')
       end
     end
 
