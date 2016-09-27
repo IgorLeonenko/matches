@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title Matches
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .row
+      .col-md-1
+      .col-md-10
+        - if current_user
+          nav.navbar-light.col-md-12 style="background-color: #e3f2fd; margin-bottom: 20px;"
+            a.navbar-brand
+              'Matches app :)
+            ul.nav.navbar-nav
+              li.nav-item
+                = link_to 'matches', matches_path, class: "nav-link #{params[:controller] == 'matches' ? 'active' : ''}"
+              li.nav-item
+                = link_to 'tournaments', tournaments_path, class: 'nav-link'
+              li.nav-item
+                = link_to 'teams', teams_path, class: 'nav-link'
+              li.pull-md-right
+                = link_to "#{current_user.username} | Log Out", log_out_path, method: :delete, class: 'nav-link'
+        = render 'shared/errors'
+        = yield
+      .col-md-1

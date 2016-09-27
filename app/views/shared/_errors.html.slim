@@ -1,0 +1,5 @@
+- unless notice.blank? && alert.blank?
+  - flash.each do |key, value|
+    div.col-md-12.text-center.fade-in class=("#{flash_class(key)}")
+      = value
+      = link_to 'x', '#', {"data-dismiss" => "alert", class: "close"}

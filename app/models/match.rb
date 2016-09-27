@@ -6,6 +6,9 @@ class Match < ApplicationRecord
   belongs_to :invited_team, class_name: 'Team'
   belongs_to :game
 
+  has_many :match_tournaments
+  has_many :tournaments, through: :match_tournaments
+
   validates :home_team, :invited_team, :game,
             :name, :status, presence: true
   validates :name, uniqueness: true, length: { minimum: 3 }

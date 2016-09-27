@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :team_users
   has_many :teams, through: :team_users
 
+  has_many :tournament_users
+  has_many :tournaments, through: :tournament_users
+
   validates :name, :email, :username, presence: true
   validates :name, :username, length: { minimum: 3 }
   validates :email, uniqueness: true,
@@ -11,4 +14,8 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
 
   mount_uploader :avatar, AvatarUploader
+
+  def creator?(tournament)
+    id == Tournament.find(tournament.id).creator_id
+  end
 end

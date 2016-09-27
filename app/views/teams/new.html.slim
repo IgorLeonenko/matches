@@ -1,0 +1,6 @@
+h4 Create team
+= simple_form_for(@team) do |f|
+  = f.input :name
+  = field_set_tag 'Add user'
+  = f.association :users, collection: @users, as: :check_boxes, include_hidden: false
+  = f.submit
