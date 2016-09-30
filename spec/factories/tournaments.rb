@@ -10,5 +10,11 @@ FactoryGirl.define do
     game_id { game.id }
     teams_quantity 2
     players_in_team 2
+
+    trait :with_teams do
+      after(:create) do |t|
+        2.times { create(:team, :with_users, tournament_id: t.id) }
+      end
+    end
   end
 end

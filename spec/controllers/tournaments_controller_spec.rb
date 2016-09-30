@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TournamentsController, type: :controller do
   let(:user)            { create(:user) }
-  let(:test_tournament) { create(:tournament, creator_id: user.id) }
-  let(:team)            { create(:team, :with_users)}
+  let(:test_tournament) { create(:tournament, :with_teams, creator_id: user.id) }
 
   context 'when user logged in' do
     before { login(user) }
@@ -204,33 +203,6 @@ RSpec.describe TournamentsController, type: :controller do
         it { expect(response).to redirect_to(tournaments_path) }
         it { expect(flash[:alert]).to be_present }
         it { expect(flash[:alert]).to include('Tournament started or ended') }
-      end
-    end
-
-    describe 'add team to tournament' do
-      before  { test_tournament }
-      subject { post :join_team, params: { tournament_id: test_tournament, team: { id: team.id } } }
-
-      context 'POST #join_team' do
-        it { expect(subject).to redirect_to(test_tournament) }
-        it { expect{ subject }.to change(TournamentUser, :count).by(2) }
-        it { expect{ subject }.to change(TeamTournament, :count).by(1) }
-
-        it 'add valid data to join table' do
-          subject
-          expect(TournamentUser.first.user_id).to eq(team.users.first.id)
-          expect(TournamentUser.first.tournament_id).to eq(test_tournament.id)
-          expect(TeamTournament.first.team_id).to eq(team.id)
-          expect(TeamTournament.first.tournament_id).to eq(test_tournament.id)
-        end
-
-        it 'raise error if user already in tournament' do
-          TournamentUser.create(user_id: team.users.first.id, tournament_id: test_tournament.id)
-          subject
-
-          expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include('Validation failed: One of player\'s already in tournament')
-        end
       end
     end
   end

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe MatchesController, type: :controller do
 
-  let(:user)   { create(:user) }
-  let(:team_1) { create(:team, :with_users) }
-  let(:team_2) { create(:team, :with_users) }
+  let(:user)       { create(:user) }
+  let(:tournament) { create(:tournament)}
+  let(:team_1)     { create(:team, :with_users, tournament: tournament) }
+  let(:team_2)     { create(:team, :with_users, tournament: tournament) }
   let(:test_match) { create(:match, home_team: team_1, invited_team: team_2 ) }
 
   context 'when user logged in' do

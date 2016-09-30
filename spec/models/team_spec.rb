@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe Team, type: :model do
 
   describe 'validations' do
-    let(:first_team)  { build(:team, :with_users) }
-    let(:second_team) { build(:team, :with_users) }
-    let(:empty_team)  { build(:team) }
+    let(:tournament)  { create(:tournament)}
+    let(:first_team)  { build(:team, :with_users, tournament: tournament) }
+    let(:second_team) { build(:team, :with_users, tournament: tournament) }
+    let(:empty_team)  { build(:team, tournament: tournament) }
     let(:user)        { create(:user) }
 
     context 'when valid data' do

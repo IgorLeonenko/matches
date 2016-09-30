@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe Match, type: :model do
 
   describe 'validations' do
-    let(:team_home)    { create(:team, :with_users) }
-    let(:team_invited) { create(:team, :with_users) }
+    let(:tournament)   { create(:tournament)}
+    let(:team_home)    { create(:team, :with_users, tournament: tournament) }
+    let(:team_invited) { create(:team, :with_users, tournament: tournament) }
     let(:empty_team)   { build(:team) }
     let(:match)        { create(:match, home_team: team_home, invited_team: team_invited) }
     let(:second_match) { create(:match, home_team: team_home, invited_team: team_invited) }
