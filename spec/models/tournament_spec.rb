@@ -4,7 +4,7 @@ RSpec.describe Tournament, type: :model do
   describe 'validation' do
     let(:tournament) { build(:tournament) }
     let(:user)       { create(:user) }
-    let(:team)       { create(:team, :with_users) }
+    let(:team)       { build(:team, :with_users) }
 
     context 'when valid data' do
       it { expect(tournament).to be_valid }
@@ -91,12 +91,12 @@ RSpec.describe Tournament, type: :model do
       before do
         tournament.teams_quantity = 2
         2.times do
-          tournament.add_team(team)
+          tournament.add_team!(team)
         end
       end
 
       it 'is invalid' do
-        expect{ tournament.add_team(team) }.to raise_error('Can\'t be more teams than teams quantity')
+        expect{ tournament.add_team!(team) }.to raise_error('Validation failed: Can\'t be more teams than teams quantity')
       end
     end
 
