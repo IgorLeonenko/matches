@@ -26,7 +26,8 @@
   p
     | Teams quantity:
     '
-    span.text-primary= @tournament.teams_quantity
+    span.text-primary
+      = '(' + @tournament.teams.size.to_s + '/' + @tournament.teams_quantity.to_s + ')'
   p
     | Players in team:
     '
@@ -53,10 +54,8 @@
               li
                 = user.username
         - if @tournament.players_in_team.nil? || team.users.size < @tournament.players_in_team
-          = button_to 'add user', tournament_add_user_to_team_path(@tournament)
-  h4.text-info Add team to tournament
+          = simple_form_for(team, url: tournament_team_path(@tournament, team)) do |f|
+            = f.select :user_ids, @users.map { |u| [u.username, u.id] }
+            = f.submit 'Add user', class: 'btn btn-success'
   .col-md-6
-    = simple_form_for(:team, url: tournament_join_team_path(@tournament), html: { class: 'form-horizontal' }) do |f|
-      = f.input :id, collection: @teams, label_method: :name, label: 'Team name'
-      = f.submit 'Add team', class: 'btn btn-success'
-    = link_to 'Create new team', tournament_team_path(@tournament), class: 'btn btn-primary pull-md-right'
+    = link_to 'Add team', new_tournament_team_path(@tournament), class: 'btn btn-primary'

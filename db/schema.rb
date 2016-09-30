@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919114724) do
+ActiveRecord::Schema.define(version: 20160919093258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,15 +48,6 @@ ActiveRecord::Schema.define(version: 20160919114724) do
     t.index ["name"], name: "index_matches_on_name", unique: true, using: :btree
   end
 
-  create_table "team_tournaments", force: :cascade do |t|
-    t.integer  "team_id",       null: false
-    t.integer  "tournament_id", null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.index ["team_id"], name: "index_team_tournaments_on_team_id", using: :btree
-    t.index ["tournament_id"], name: "index_team_tournaments_on_tournament_id", using: :btree
-  end
-
   create_table "team_users", force: :cascade do |t|
     t.integer "team_id", null: false
     t.integer "user_id", null: false
@@ -66,10 +57,11 @@ ActiveRecord::Schema.define(version: 20160919114724) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_teams_on_name", unique: true, using: :btree
+    t.string   "name",          null: false
+    t.integer  "tournament_id", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id", using: :btree
   end
 
   create_table "tournament_users", force: :cascade do |t|
@@ -85,7 +77,7 @@ ActiveRecord::Schema.define(version: 20160919114724) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-09-21 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-09-28 00:00:00', null: false
     t.string   "picture"
     t.string   "style",           default: "league",              null: false
     t.string   "state",           default: "open",                null: false
@@ -113,8 +105,6 @@ ActiveRecord::Schema.define(version: 20160919114724) do
 
   add_foreign_key "match_tournaments", "matches"
   add_foreign_key "match_tournaments", "tournaments"
-  add_foreign_key "team_tournaments", "teams"
-  add_foreign_key "team_tournaments", "tournaments"
   add_foreign_key "tournament_users", "tournaments"
   add_foreign_key "tournament_users", "users"
   add_foreign_key "tournaments", "games"

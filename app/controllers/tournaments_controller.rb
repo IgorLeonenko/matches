@@ -6,44 +6,11 @@ class TournamentsController < ApplicationController
   end
 
   def show
-    @teams = Team.all
     if current_user.admin? || current_user.creator?(@tournament)
       @users = User.all
     else
       @users = User.where(id: current_user.id)
     end
-    @users_quantity =
-      unless @tournament.players_in_team.blank?
-        @tournament.players_total_quantity - @tournament.users.size
-      end
-  end
-
-  def team
-    @tournament = Tournament.find(params[:tournament_id])
-    @team = Team.new
-  end
-
-  def join_team
-    @tournament = Tournament.find(params[:tournament_id])
-    team = Team.where(id: params[:team][:id]).first_or_initialize(team_params)
-    users_to_team = params[:team][:user_ids]
-    unless users_to_team.blank?
-      users_to_team.each do |user|
-        team.users << User.find(user)
-      end
-    end
-    begin
-      @tournament.add_team(team)
-      team.save
-      flash[:notice] = 'Team added'
-    rescue => e
-      flash[:alert] = "#{e}"
-    end
-    redirect_to @tournament
-  end
-
-  def add_user_to_team
-
   end
 
   def new
@@ -100,9 +67,5 @@ class TournamentsController < ApplicationController
   def tournament_params
     params.require(:tournament).permit(:title, :game_id, :description, :picture, :start_date,
                                        :teams_quantity, :players_in_team, :style)
-  end
-
-  def team_params
-    params.require(:team).permit(:name, :user_ids)
   end
 end

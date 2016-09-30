@@ -11,11 +11,10 @@ class Tournament < ApplicationRecord
   has_many :match_tournaments
   has_many :matches, through: :match_tournaments
 
-  has_many :team_tournaments
-  has_many :teams, through: :team_tournaments, dependent: :destroy
+  has_many :teams, dependent: :destroy
 
   validates :title, :start_date, :style, :state,
-            :teams_quantity, :game, presence: true
+            :teams_quantity, :game_id, presence: true
   validates :title, length: { minimum: 5 }
   validates :teams_quantity, numericality: {
                                                only_integer: true, greater_than: 0 }
@@ -33,14 +32,26 @@ class Tournament < ApplicationRecord
     User.find(creator_id).username
   end
 
-  def add_team(team)
-    unless teams.size < teams_quantity
-      raise "Can\'t be more teams than teams quantity"
+  def add_team!(team)
+    if teams.size >= teams_quantity
+      raise 'Validation failed: Can\'t be more teams than teams quantity'
     else
       teams << team
-      team.users.each do |user|
-        users << user
+    end
+  end
+
+  def add_user!(team)
+    if !players_in_team.nil? && team.users.size > players_in_team
+      raise 'Validation failed: Can\'t be more players than players in team'
+    else
+      if team.new_record?
+        team.users.each do |user|
+          users << user
+        end
+      else
+        users << team.users.last
       end
     end
   end
+
 end

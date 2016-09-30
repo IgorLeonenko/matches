@@ -1,11 +1,10 @@
 class CreateTeams < ActiveRecord::Migration[5.0]
   def change
     create_table :teams do |t|
-      t.string :name, null: false, uniq: true
+      t.string :name, null: false
+      t.belongs_to :tournament, index: true, null: false, unique: true
 
       t.timestamps
     end
-
-    add_index :teams, :name, unique: true
   end
 end
