@@ -1,7 +1,7 @@
 = simple_form_for(@team, url: tournament_teams_path(@tournament)) do |f|
   = f.input :name
   = field_set_tag 'Add user'
-  = f.association :users, collection: @users, as: :check_boxes, include_hidden: false, label_method: :username
+  = f.association :users, as: :check_boxes, include_hidden: false, label_method: :username
   = f.submit 'Add team', class: 'btn btn-success'
   '
   = link_to 'back', tournament_path(@tournament), class: 'btn btn-primary'

@@ -7,9 +7,9 @@ class TournamentsController < ApplicationController
 
   def show
     if current_user.admin? || current_user.creator?(@tournament)
-      @users = User.all
+      @users ||= User.all
     else
-      @users = User.where(id: current_user.id)
+      @users ||= User.where(id: current_user.id)
     end
   end
 

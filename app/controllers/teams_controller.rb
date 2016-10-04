@@ -1,69 +1,51 @@
 class TeamsController < ApplicationController
-  before_action :set_users, only: [:new, :create]
-  before_action :set_tournament
-  before_action :set_team, only: :update
 
   def new
-    @team = Team.new
+    @team = tournament.teams.build
   end
 
   def create
-    @team = Team.new(team_params)
-    users_to_team = params[:team][:user_ids]
-    unless users_to_team.blank?
-      users_to_team.each do |user|
-        @team.users << User.find(user)
-      end
-    end
-
-    @team.transaction do
+    Team.transaction do
+      @team = tournament.teams.build(team_params)
       begin
-        @tournament.add_team!(@team)
-        @team.save!
-        @tournament.add_user!(@team)
-        flash[:notice] = 'Team added'
-      rescue => e
-        @error = true
-        flash.now[:alert] = "#{e}"
+        team.assign_users_to_team(params[:team][:user_ids])
+        team.save!
+      rescue => @e
+        @team_error = true
+        raise ActiveRecord::Rollback
       end
-      raise ActiveRecord::Rollback if @error
     end
 
-    if @error
+    if @team_error == true
+      flash.now[:alert] = "#{@e}"
       render :new
     else
-      redirect_to @tournament
+      flash[:notice] = 'Team added'
+      redirect_to tournament
     end
   end
 
   def update
-    user = User.find(params[:team][:user_ids])
-    @team.transaction do
+    team.transaction do
       begin
-        @team.users << user
-        @tournament.add_user!(@team)
+        team.assign_users_to_team(params[:team][:user_ids].split(','))
         flash[:notice] = 'User added'
       rescue => e
-        @error = true
         flash[:alert] = "#{e}"
+        raise ActiveRecord::Rollback
       end
-      raise ActiveRecord::Rollback if @error
     end
-    redirect_to @tournament
+    redirect_to tournament
   end
 
   private
 
-  def set_users
-    @users = User.all
+  def team
+    @team ||= Team.find(params[:id])
   end
 
-  def set_team
-    @team = Team.find(params[:id])
-  end
-
-  def set_tournament
-    @tournament = Tournament.find(params[:tournament_id])
+  def tournament
+    @tournament ||= Tournament.find(params[:tournament_id])
   end
 
   def team_params
