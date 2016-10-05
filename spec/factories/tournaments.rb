@@ -16,5 +16,11 @@ FactoryGirl.define do
         2.times { create(:team, :with_users, tournament_id: t.id) }
       end
     end
+
+    trait :with_users do
+      after(:create) do |t|
+        2.times { t.users << create(:user) }
+      end
+    end
   end
 end

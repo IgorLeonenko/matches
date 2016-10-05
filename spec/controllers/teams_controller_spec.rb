@@ -10,8 +10,10 @@ RSpec.describe TeamsController, type: :controller do
 
     describe 'POST #create' do
       context 'with valid attributes' do
-        subject { post :create, params: { tournament_id: tournament.id,
-                       team: { name: 'good team', user_ids: [user.id] } } }
+        subject do
+          post :create, params: { tournament_id: tournament.id,
+                        team: { name: 'good team', user_ids: [user.id] } }
+        end
 
         it { expect { subject }.to change(Team, :count).by(1) }
         it { expect { subject }.to change(TeamUser, :count).by(1) }
@@ -54,13 +56,11 @@ RSpec.describe TeamsController, type: :controller do
         end
 
         context 'when one of users already in tournament' do
+          let(:tournament_with_users) { create(:tournament, :with_users) }
           before do
-            team.users.each do |u|
-              tournament.users << u
-            end
-            tournament.save
-            post :create, params: { tournament_id: tournament.id,
-                          team: { name: 'good team', user_ids: [team.users.first.id] } }
+            post :create, params: { tournament_id: tournament_with_users.id,
+                          team: { name: 'good team',
+                                  user_ids: [tournament_with_users.users.first.id] } }
           end
 
           it { expect(response).to render_template('new') }
@@ -83,11 +83,8 @@ RSpec.describe TeamsController, type: :controller do
         end
 
         context 'when players more than tournament players quantity' do
+          let(:users) { create_list(:user, 3) }
           before do
-            users = []
-            3.times do
-              users << create(:user)
-            end
             post :create, params: { tournament_id: tournament.id,
                           team: { name: 'good team', user_ids: [users.map(&:id)] } }
           end
