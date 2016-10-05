@@ -45,6 +45,8 @@ end
 
 gem 'simple_form'
 
+gem 'sidekiq'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
