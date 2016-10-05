@@ -5,15 +5,14 @@ class TeamsController < ApplicationController
   end
 
   def create
-    Team.transaction do
-      @team = tournament.teams.build(team_params)
-      begin
+    begin
+      Team.transaction do
+        @team = tournament.teams.build(team_params)
         team.assign_users_to_team(params[:team][:user_ids])
         team.save!
-      rescue => @e
-        @team_error = true
-        raise ActiveRecord::Rollback
       end
+    rescue => @e
+      @team_error = true
     end
 
     if @team_error == true
@@ -26,14 +25,13 @@ class TeamsController < ApplicationController
   end
 
   def update
-    team.transaction do
-      begin
+    begin
+      Team.transaction do
         team.assign_users_to_team(params[:team][:user_ids].split(','))
-        flash[:notice] = 'User added'
-      rescue => e
-        flash[:alert] = "#{e}"
-        raise ActiveRecord::Rollback
       end
+      flash[:notice] = 'User added'
+    rescue => e
+      flash[:alert] = "#{e}"
     end
     redirect_to tournament
   end
