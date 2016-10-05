@@ -36,6 +36,31 @@ class TeamsController < ApplicationController
     redirect_to tournament
   end
 
+  def destroy
+    begin
+      team.users.each do |user|
+        tournament.users.delete(user)
+      end
+      team.destroy
+      flash[:notice] = 'Team removed from tournament'
+    rescue => e
+      flash[:alert] = "#{e}"
+    end
+    redirect_to tournament
+  end
+
+  def remove_user
+    user = User.find(params[:user_id])
+    team = Team.find(params[:team_id])
+    team.users.delete(user)
+    tournament.users.delete(user)
+    if team.users.size == 0
+      team.destroy
+    end
+    flash[:notice] = 'User removed from team'
+    redirect_to tournament
+  end
+
   private
 
   def team

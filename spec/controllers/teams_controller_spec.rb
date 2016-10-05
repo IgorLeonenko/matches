@@ -4,6 +4,7 @@ RSpec.describe TeamsController, type: :controller do
   let(:user)       { create(:user) }
   let(:tournament) { create(:tournament, creator_id: user.id) }
   let(:team)       { create(:team, :with_users, tournament: tournament) }
+  let(:full_tournament) { create(:tournament, :with_teams, creator_id: user.id) }
 
   context 'when user logged in' do
     before { login(user) }
@@ -70,7 +71,6 @@ RSpec.describe TeamsController, type: :controller do
         end
 
         context 'when teams more than tournament teams quantity' do
-          let(:full_tournament) { create(:tournament, :with_teams) }
           before do
             post :create, params: { tournament_id: full_tournament.id,
                           team: { name: 'good team', user_ids: [user.id] } }
@@ -94,6 +94,33 @@ RSpec.describe TeamsController, type: :controller do
           it { expect{ response }.to_not change(Team, :count) }
           it { expect{ response }.to_not change(TeamUser, :count) }
         end
+      end
+    end
+
+    describe 'DELETE' do
+      before { full_tournament }
+
+      context '#delete team from tournament' do
+        subject do
+          delete :destroy, params: { tournament_id: full_tournament.id,
+                                     id: full_tournament.teams[0].id }
+        end
+
+        it { expect{ subject }.to change(Team, :count).by(-1) }
+        it { expect{ subject }.to change(TournamentUser, :count).by(-2) }
+        it { expect(subject).to redirect_to(full_tournament) }
+      end
+
+      context '#delete user from tournament' do
+        subject do
+          delete :remove_user, params: { tournament_id: full_tournament.id,
+                                         team_id: full_tournament.teams[0].id,
+                                         user_id: full_tournament.teams[0].users[0].id }
+        end
+
+        it { expect{ subject }.to change(TeamUser, :count).by(-1) }
+        it { expect{ subject }.to change(TournamentUser, :count).by(-1) }
+        it { expect(subject).to redirect_to(full_tournament) }
       end
     end
   end
