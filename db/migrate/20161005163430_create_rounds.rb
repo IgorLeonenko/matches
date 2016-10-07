@@ -6,5 +6,7 @@ class CreateRounds < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :rounds, :number, unique: true
   end
 end

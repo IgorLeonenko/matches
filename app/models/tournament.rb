@@ -31,4 +31,24 @@ class Tournament < ApplicationRecord
   def creator
     User.find(creator_id).username
   end
+
+  def full_of_teams?
+    teams.size == teams_quantity
+  end
+
+  def full_of_players?
+    if players_in_team.present?
+      if players_total_quantity == users.size
+        true
+      else
+        false
+      end
+    else
+      true
+    end
+  end
+
+  def can_be_started?
+    full_of_teams? && full_of_players? && Time.zone.today > start_date
+  end
 end

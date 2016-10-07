@@ -24,7 +24,7 @@ class TournamentsController < ApplicationController
       flash[:notice] = 'Tournament created sucessfully'
       redirect_to @tournament
     else
-      flash[:alert] = 'Something wrong'
+      flash.now[:alert] = "#{@tournament.errors.full_messages.join(', ')}"
       render :new
     end
   end
