@@ -29,7 +29,7 @@ end
 
 2.times do |i|
   tournaments << Tournament.create(title: "test_tournament_#{i}", description: 'some description', start_date: '2016-09-28 00:00:00',
-                    style: 'league', state: 'open', game_id: 1, creator_id: 1, picture: '', teams_quantity: 2)
+                    style: 'league', state: 'open', game_id: games[0].id, creator_id: 1, picture: '', teams_quantity: 2)
 end
 
 tournaments[0].users << users[0]
@@ -46,5 +46,5 @@ teams[0].users << users[1]
 teams[1].users << users[2]
 teams[1].users << users[3]
 
-Match.create(name: 'fighting', home_team: teams[0], invited_team: teams[1], game: games[0])
-Match.create(name: 'football', home_team: teams[1], invited_team: teams[0], game: games[1])
+Match.create(home_team: teams[0], invited_team: teams[1], game: games[0])
+Match.create(home_team: teams[1], invited_team: teams[0], game: games[1])
