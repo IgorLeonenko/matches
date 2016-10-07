@@ -8,10 +8,8 @@ class Tournament < ApplicationRecord
   has_many :tournament_users
   has_many :users, through: :tournament_users, dependent: :destroy
 
-  has_many :match_tournaments
-  has_many :matches, through: :match_tournaments
-
   has_many :teams, dependent: :destroy
+  has_many :rounds
 
   validates :title, :start_date, :style, :state,
             :teams_quantity, :game_id, presence: true
