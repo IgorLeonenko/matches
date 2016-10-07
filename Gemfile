@@ -46,6 +46,7 @@ end
 gem 'simple_form'
 
 gem 'sidekiq'
+gem 'whenever', :require => false
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
