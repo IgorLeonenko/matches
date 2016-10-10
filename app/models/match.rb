@@ -13,13 +13,30 @@ class Match < ApplicationRecord
   validates :status, inclusion: { in: STATUS }
   validate  :player_can_be_only_in_one_team_on_match
 
+
+  def winner_team
+    choose_winner_or_looser[0]
+  end
+
+  def loosing_team
+    choose_winner_or_looser[1]
+  end
+
   private
 
-    def player_can_be_only_in_one_team_on_match
-      return if home_team.blank? || invited_team.blank?
-
-      unless home_team.user_ids & invited_team.user_ids == []
-        errors.add(:base, "Same player in different teams")
-      end
+  def choose_winner_or_looser
+    if home_team_score > invited_team_score
+      [home_team, invited_team]
+    else
+      [invited_team, home_team]
     end
+  end
+
+  def player_can_be_only_in_one_team_on_match
+    return if home_team.blank? || invited_team.blank?
+
+    unless home_team.user_ids & invited_team.user_ids == []
+      errors.add(:base, "Same player in different teams")
+    end
+  end
 end
