@@ -1,5 +1,4 @@
 = simple_form_for(@match, html: { class: 'form-horizontal' }) do |f|
-  = f.input :name
   = f.input :status, collection: Match::STATUS
   = f.association :game
   = f.association :home_team
