@@ -3,10 +3,8 @@ class TournamentWorker
 
   def perform(tournament_id)
     tournament = Tournament.find(tournament_id)
-    if tournament.can_be_started? && tournament.state == 'open'
-      tournament.update_attribute(:state, 'started')
-      schedule_matches(tournament)
-    end
+    tournament.update_attribute(:state, 'started')
+    schedule_matches(tournament)
   end
 
   def schedule_matches(tournament)
