@@ -6,6 +6,7 @@ class Match < ApplicationRecord
   belongs_to :home_team, class_name: 'Team'
   belongs_to :invited_team, class_name: 'Team'
   belongs_to :game
+  belongs_to :round
 
   validates :home_team, :invited_team, :game,
             :status, presence: true

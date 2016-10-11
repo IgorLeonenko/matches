@@ -20,6 +20,10 @@ class Team < ApplicationRecord
     end
   end
 
+  def in_first_round?(round)
+    round.matches.exists?(home_team_id: id) || round.matches.exists?(invited_team_id: id)
+  end
+
   private
 
   def cant_be_more_players_than_tournament_players_quantity

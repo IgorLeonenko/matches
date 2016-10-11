@@ -46,7 +46,11 @@ class Tournament < ApplicationRecord
     end
   end
 
+  def not_started?
+    Time.zone.today > start_date && state == 'open'
+  end
+
   def can_be_started?
-    full_of_teams? && full_of_players? && Time.zone.today > start_date
+    full_of_teams? && full_of_players? && not_started?
   end
 end
