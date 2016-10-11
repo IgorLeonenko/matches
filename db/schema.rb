@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 20161005163430) do
     t.integer  "tournament_id", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.index ["number"], name: "index_rounds_on_number", unique: true, using: :btree
     t.index ["tournament_id"], name: "index_rounds_on_tournament_id", using: :btree
   end
 
