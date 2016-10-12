@@ -23,6 +23,18 @@ class Match < ApplicationRecord
     choose_winner_or_looser[1]
   end
 
+  def can_be_played?
+    if round.prev.present?
+      if round.prev.finished?
+        true
+      else
+        false
+      end
+    else
+      true
+    end
+  end
+
   private
 
   def choose_winner_or_looser

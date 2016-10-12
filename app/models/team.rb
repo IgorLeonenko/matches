@@ -20,8 +20,8 @@ class Team < ApplicationRecord
     end
   end
 
-  def in_first_round?(round)
-    round.matches.exists?(home_team_id: id) || round.matches.exists?(invited_team_id: id)
+  def already_in_rounds?(round)
+    round.check_team(id) || round.next.check_team(id)
   end
 
   private

@@ -19,7 +19,7 @@ class Round < ApplicationRecord
     self.class.where("number < ?", number).last
   end
 
-  def check_teams(team_id)
+  def check_team(team_id)
     matches.exists?(home_team_id: team_id) || matches.exists?(invited_team_id: team_id)
   end
 end

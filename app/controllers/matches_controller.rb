@@ -27,13 +27,18 @@ class MatchesController < ApplicationController
   end
 
   def update
-    if @match.update_attributes(match_params)
-      flash[:notice] = 'Match edited sucessfully'
-      redirect_to @match
-      MatchWorker.perform_in(1.minute, @match.round.tournament_id)
+    if @match.can_be_played?
+      if @match.update_attributes(match_params)
+        flash[:notice] = 'Match edited sucessfully'
+        redirect_to @match
+        MatchWorker.perform_in(1.minute, @match.round.tournament_id)
+      else
+        flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
+        render :edit
+      end
     else
-      flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
-      render :edit
+      flash[:alert] = 'Previous round not finished yet'
+      redirect_to @match
     end
   end
 
