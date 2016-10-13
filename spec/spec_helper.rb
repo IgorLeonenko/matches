@@ -19,6 +19,8 @@
 require 'factory_girl_rails'
 require 'support/factory_girl'
 require 'support/users_helper'
+require 'sidekiq/testing'
+Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
 
