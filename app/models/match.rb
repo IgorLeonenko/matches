@@ -24,11 +24,15 @@ class Match < ApplicationRecord
   end
 
   def can_be_played?
-    if round.prev.present?
-      if round.prev.finished?
-        true
+    if style == 'tournament'
+      if round.prev.present?
+        if round.prev.finished?
+          true
+        else
+          false
+        end
       else
-        false
+        true
       end
     else
       true

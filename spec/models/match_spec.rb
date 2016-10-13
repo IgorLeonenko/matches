@@ -21,14 +21,6 @@ RSpec.describe Match, type: :model do
       end
     end
 
-    context 'when same game name' do
-      before { second_match.name = match.name }
-
-      it 'is invalid' do
-        expect(second_match).not_to be_valid
-      end
-    end
-
     context 'when no teams assigned' do
 
       it 'is invalid' do
@@ -40,14 +32,6 @@ RSpec.describe Match, type: :model do
 
     context 'when no game assigned' do
       before { match.game = nil }
-
-      it 'is invalid' do
-        expect(match).not_to be_valid
-      end
-    end
-
-    context 'when name shorter than 3 chars' do
-      before { match.name = 'gb' }
 
       it 'is invalid' do
         expect(match).not_to be_valid

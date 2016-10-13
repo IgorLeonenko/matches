@@ -100,11 +100,11 @@ RSpec.describe MatchesController, type: :controller do
 
         it 'change @match attributes' do
           put :update, params: { id: test_match, match: attributes_for(:match,
-                                                        name: 'TestMatch',
+                                                        status: 'in game',
                                                         home_team_id: team_1.id,
                                                         invited_team_id: team_2.id ) }
           test_match.reload
-          expect(test_match.name).to eq('TestMatch')
+          expect(test_match.status).to eq('in game')
         end
 
         it 'redirects to updated @match' do
@@ -122,7 +122,7 @@ RSpec.describe MatchesController, type: :controller do
       context 'with invalid attributes' do
         subject do
           put :update, params: { id: test_match, match: attributes_for(:match,
-                                                         name: nil,
+                                                         status: nil,
                                                          home_team_id: nil,
                                                          invited_team_id: team_2.id ) }
           test_match.reload
@@ -130,7 +130,7 @@ RSpec.describe MatchesController, type: :controller do
 
         it 'does not change @match attributes' do
           subject
-          expect(test_match.name).to eq(test_match.name)
+          expect(test_match.status).to eq(test_match.status)
         end
 
         it 're-render action edit' do

@@ -31,7 +31,7 @@ class MatchesController < ApplicationController
       if @match.update_attributes(match_params)
         flash[:notice] = 'Match edited sucessfully'
         redirect_to @match
-        MatchWorker.perform_in(1.minute, @match.round.tournament_id)
+        MatchWorker.perform_in(1.minute, @match.round.tournament_id) if @match.round_id.present?
       else
         flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
         render :edit

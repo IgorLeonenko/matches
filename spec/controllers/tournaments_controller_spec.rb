@@ -75,7 +75,7 @@ RSpec.describe TournamentsController, type: :controller do
         it 'has flash[:alert] message' do
           subject
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include('Something wrong')
+          expect(flash[:alert]).to include('Title can\'t be blank, Title is too short (minimum is 5 characters)')
         end
       end
     end
