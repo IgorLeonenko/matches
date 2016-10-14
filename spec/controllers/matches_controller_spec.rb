@@ -47,8 +47,13 @@ RSpec.describe MatchesController, type: :controller do
     describe 'POST #create' do
       context 'with valid attributes' do
         subject { post :create, params: { match: attributes_for(:match,
-                                                 home_team_id: team_1.id,
-                                                 invited_team_id: team_2.id ) } }
+                                                 home_team_attributes: {
+                                                  name: team_1.name,
+                                                  user_ids: [team_1.users.map(&:id)]
+                                                },
+                                                 invited_team_attributes: {
+                                                  name: team_2.name,
+                                                  user_ids: [team_2.users.map(&:id)] } ) } }
 
         it 'create a new match' do
           expect { subject }.to change(Match, :count).by(1)
@@ -68,8 +73,8 @@ RSpec.describe MatchesController, type: :controller do
 
       context 'with invalid attributes' do
         subject { post :create, params: { match: attributes_for(:match,
-                                                 home_team_id: 'bad_id',
-                                                 invited_team_id: 'bad_id' ) } }
+                                                 home_team_attributes: {name: ''},
+                                                 invited_team_attributes: {name: ''} ) } }
         it 'not create a new match' do
           expect { subject }.to_not change(Match, :count)
         end
@@ -82,7 +87,6 @@ RSpec.describe MatchesController, type: :controller do
         it 'has flash[:alert] message' do
           subject
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include('Something wrong')
         end
       end
     end
@@ -141,7 +145,6 @@ RSpec.describe MatchesController, type: :controller do
         it 'has flash[:alert] message' do
           subject
           expect(flash[:alert]).to be_present
-          expect(flash[:alert]).to include('Something went wrong ')
         end
       end
     end
