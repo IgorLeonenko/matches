@@ -29,7 +29,7 @@ end
 
 2.times do |i|
   tournaments << Tournament.create(title: "test_tournament_#{i}", description: 'some description', start_date: '2016-09-28 00:00:00',
-                    style: 'league', state: 'open', game_id: games[0].id, creator_id: 1, picture: '', teams_quantity: 2)
+                    style: 'league', state: 'open', game_id: games[0].id, creator_id: users[0].id, picture: '', teams_quantity: 2)
 end
 
 tournaments[0].users << users[0]
@@ -38,7 +38,7 @@ tournaments[1].users << users[2]
 tournaments[1].users << users[3]
 
 2.times do |i|
-  teams << Team.create(name: "#{team_names[i-1]}", tournament_id: "#{i+1}")
+  teams << Team.create(name: "#{team_names[i-1]}", tournament: tournaments[i])
 end
 
 teams[0].users << users[0]
