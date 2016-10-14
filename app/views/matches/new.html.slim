@@ -1,4 +1,20 @@
-h3 Add new match
+h3 Add new friendly match
 .col-md-4
-  = render 'form'
+  = simple_form_for(@match, html: { class: 'form-horizontal' }) do |f|
+    = f.association :game
+    = f.simple_fields_for 'home_team_attributes[]', @match.home_team do |ht|
+      = field_set_tag 'Team 1'
+      = ht.input :name
+      = ht.input :user_ids, collection: @users.map { |user| [user.username, user.id] },
+                                                     as: :check_boxes, include_hidden: false
+    = f.input :home_team_score
+    = f.simple_fields_for 'invited_team_attributes[]', @match.invited_team do |it|
+      = field_set_tag 'Team 2'
+      = it.input :name
+      = it.input :user_ids, collection: @users.map { |user| [user.username, user.id] },
+                                                     as: :check_boxes, include_hidden: false
+    = f.input :invited_team_score
+    = f.button :submit, class: 'btn btn-primary'
+    '
+    = link_to 'back', matches_path, class: 'btn btn-success'
 .col-md-8

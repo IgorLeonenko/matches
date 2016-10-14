@@ -30,8 +30,11 @@
       = '(' + @tournament.teams.size.to_s + '/' + @tournament.teams_quantity.to_s + ')'
   p
     | Players in team:
-    '
-    span.text-primary= @tournament.players_in_team
+    - if @tournament.players_in_team > 0
+      '
+      span.text-primary= @tournament.players_in_team
+    - else
+      span.text-primary -
   p
     | Description:
     '
@@ -46,7 +49,7 @@
       - @tournament.teams.each do |team|
         li
           = team.name
-          - unless @tournament.players_in_team.blank?
+          - unless @tournament.players_in_team == 0
             '
             = '(' + team.users.size.to_s + '/' + @tournament.players_in_team.to_s + ')'
           '

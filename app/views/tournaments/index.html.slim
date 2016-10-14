@@ -28,7 +28,10 @@ table.table.table-bordered
         td
           = t.teams_quantity
         td
-          = t.players_in_team
+          - if t.players_in_team > 0
+            = t.players_in_team
+          - else
+            span -
         td
           = link_to 'show', tournament_path(t)
           '

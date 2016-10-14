@@ -10,17 +10,24 @@ class MatchesController < ApplicationController
 
   def new
     @match = Match.new
+    @users = User.all
+    @match.build_home_team
+    @match.build_invited_team
   end
 
   def create
+    @users = User.all
     @match = Match.new(match_params)
+    @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
+    @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
     if @match.save
       flash[:notice] = 'Match created sucessfully'
       redirect_to @match
     else
-      flash.now[:alert] = "Something wrong #{': ' + @match.errors.messages[:base].join()}"
+      flash.now[:alert] = "#{@match.errors.full_messages.join(', ')}"
       render :new
     end
+
   end
 
   def edit
@@ -31,9 +38,9 @@ class MatchesController < ApplicationController
       if @match.update_attributes(match_params)
         flash[:notice] = 'Match edited sucessfully'
         redirect_to @match
-        MatchWorker.perform_in(1.minute, @match.round.tournament_id) if @match.round_id.present?
+        MatchWorker.perform_in(1.minute, @match.round.tournament_id) if @match.round_id > 0
       else
-        flash.now[:alert] = "Something went wrong #{': ' + @match.errors.messages[:base].join()}"
+        flash.now[:alert] = "#{@match.errors.full_messages.join(', ')}"
         render :edit
       end
     else
@@ -59,7 +66,9 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:name, :status, :game_id, :home_team_id, :invited_team_id,
-                                  :home_team_score, :invited_team_score)
+    params.require(:match).permit(:name, :status, :game_id,
+                                  :home_team_score, :invited_team_score,
+                                  home_team_attributes: [:name, :user_ids],
+                                  invited_team_attributes: [:name, :user_ids])
   end
 end

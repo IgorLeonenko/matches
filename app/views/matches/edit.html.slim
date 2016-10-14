@@ -1,4 +1,11 @@
 h3 Edit match
 .col-md-4
-  = render 'form'
+  = simple_form_for(@match, html: { class: 'form-horizontal' }) do |f|
+    = f.input :status, as: :select, collection: Match::STATUS
+    = f.input :style, disabled: true
+    = field_set_tag "Team #{@match.home_team.name}"
+    = f.input :home_team_score, label: 'score'
+    = field_set_tag "Team #{@match.home_team.name}"
+    = f.input :invited_team_score, label: 'score'
+    = f.button :submit, class: 'btn btn-primary'
 .col-md-8
