@@ -12,10 +12,10 @@ class Tournament < ApplicationRecord
   has_many :rounds
 
   validates :title, :start_date, :style, :state,
-            :teams_quantity, :game_id, presence: true
+            :teams_quantity, :game_id, :players_in_team, presence: true
   validates :title, length: { minimum: 5 }
-  validates :teams_quantity, numericality: {
-                             only_integer: true, greater_than: 0 }
+  validates :teams_quantity, numericality: { only_integer: true, greater_than: 0 }
+  validates :players_in_team, numericality: { only_integer: true }
   validates :description, length: { maximum: 500 }
   validates :style, inclusion: { in: STYLE }
   validates :state, inclusion: { in: STATE }
@@ -35,7 +35,7 @@ class Tournament < ApplicationRecord
   end
 
   def full_of_players?
-    if players_in_team.present?
+    if players_in_team > 0
       if players_total_quantity == users.size
         true
       else

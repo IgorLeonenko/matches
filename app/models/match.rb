@@ -8,11 +8,14 @@ class Match < ApplicationRecord
   belongs_to :game
   belongs_to :round
 
-  validates :home_team, :invited_team, :game,
+  validates :home_team, :invited_team, :game, :round_id,
             :status, presence: true
   validates :home_team_score, :invited_team_score, presence: true, numericality: true
   validates :status, inclusion: { in: STATUS }
   validate  :player_can_be_only_in_one_team_on_match
+  validate  :cant_be_same_team_name
+
+  accepts_nested_attributes_for :home_team, :invited_team
 
 
   def winner_team
@@ -24,7 +27,7 @@ class Match < ApplicationRecord
   end
 
   def can_be_played?
-    if style == 'tournament'
+    unless round_id == 0
       if round.prev.present?
         if round.prev.finished?
           true
@@ -40,6 +43,16 @@ class Match < ApplicationRecord
   end
 
   private
+
+  def cant_be_same_team_name
+    return if round_id != 0
+
+    teams_names = [home_team.name, invited_team.name]
+
+    if teams_names.uniq.length != teams_names.length
+      errors.add(:base, 'Can\'t be same team names')
+    end
+  end
 
   def choose_winner_or_looser
     if home_team_score > invited_team_score

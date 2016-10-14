@@ -15,7 +15,7 @@ class Team < ApplicationRecord
     unless users_ids.nil?
       users_ids.each do |user_id|
         users << User.find(user_id)
-        tournament.users << User.find(user_id)
+        tournament.users << User.find(user_id) if tournament
       end
     end
   end
@@ -27,18 +27,19 @@ class Team < ApplicationRecord
   private
 
   def cant_be_more_players_than_tournament_players_quantity
-    if tournament
-      if tournament.players_in_team.present? && tournament.players_in_team < users.size
-        errors.add(:base, 'Can\'t be more players than players in team')
-      end
+    return unless tournament
+
+    if tournament.players_in_team > 0 && tournament.players_in_team < users.size
+      errors.add(:base, 'Can\'t be more players than players in team')
     end
+
   end
 
   def cant_be_more_teams_than_tournament_teams_quantity
-    if tournament
-      if tournament.teams_quantity < tournament.teams.size
-        errors.add(:base, 'Can\'t be more teams than teams quantity')
-      end
+    return unless tournament
+
+    if tournament.teams_quantity < tournament.teams.size
+      errors.add(:base, 'Can\'t be more teams than teams quantity')
     end
   end
 end
