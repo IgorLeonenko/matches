@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20161005163430) do
     t.integer  "home_team_score",    default: 0,          null: false
     t.integer  "invited_team_score", default: 0,          null: false
     t.integer  "game_id",                                 null: false
-    t.integer  "round_id"
+    t.integer  "round_id",           default: 0,          null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.index ["game_id"], name: "index_matches_on_game_id", using: :btree
@@ -57,10 +57,10 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name",          null: false
-    t.integer  "tournament_id", null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "name",                      null: false
+    t.integer  "tournament_id", default: 0, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.index ["tournament_id"], name: "index_teams_on_tournament_id", using: :btree
   end
 
@@ -77,12 +77,12 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-10-06 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-10-14 00:00:00', null: false
     t.string   "picture"
     t.string   "style",           default: "league",              null: false
     t.string   "state",           default: "open",                null: false
     t.integer  "teams_quantity",  default: 0,                     null: false
-    t.integer  "players_in_team"
+    t.integer  "players_in_team", default: 0,                     null: false
     t.integer  "creator_id"
     t.integer  "game_id",                                         null: false
     t.datetime "created_at",                                      null: false
