@@ -77,9 +77,9 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-10-14 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-10-15 00:00:00', null: false
     t.string   "picture"
-    t.string   "style",           default: "league",              null: false
+    t.string   "style",           default: "deathmatch",          null: false
     t.string   "state",           default: "open",                null: false
     t.integer  "teams_quantity",  default: 0,                     null: false
     t.integer  "players_in_team", default: 0,                     null: false

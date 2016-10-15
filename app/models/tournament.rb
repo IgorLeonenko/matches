@@ -1,6 +1,6 @@
 class Tournament < ApplicationRecord
 
-  STYLE = %w(league deathmatch)
+  STYLE = %w(deathmatch league)
   STATE = %w(open started ended)
 
   belongs_to :game
