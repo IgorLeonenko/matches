@@ -1,22 +1,21 @@
 class MatchesController < ApplicationController
-  before_action :match, only:[:show, :edit, :update, :destroy]
+  before_action :load_users, only: [:new, :create]
 
   def index
     @matches = Match.includes(:game, :home_team, :invited_team).all
   end
 
   def show
+    match
   end
 
   def new
     @match = Match.new
-    @users = User.all
     @match.build_home_team
     @match.build_invited_team
   end
 
   def create
-    @users = User.all
     @match = Match.new(match_params)
     @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
     @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
@@ -27,7 +26,6 @@ class MatchesController < ApplicationController
       flash.now[:alert] = "#{@match.errors.full_messages.join(', ')}"
       render :new
     end
-
   end
 
   def edit
@@ -61,8 +59,12 @@ class MatchesController < ApplicationController
 
   private
 
+  def load_users
+    @users ||= User.all
+  end
+
   def match
-    @match = Match.includes(:game, :home_team, :invited_team).find(params[:id])
+    @match ||= Match.includes(:game, :home_team, :invited_team).find(params[:id])
   end
 
   def match_params

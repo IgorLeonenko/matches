@@ -64,7 +64,7 @@ class TeamsController < ApplicationController
   private
 
   def team
-    @team ||= Team.find(params[:id])
+    @team ||= Team.includes(:users).find(params[:id])
   end
 
   def tournament

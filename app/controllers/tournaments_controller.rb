@@ -1,11 +1,11 @@
 class TournamentsController < ApplicationController
-  before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
   def index
     @tournaments = Tournament.all
   end
 
   def show
+    tournament
     if current_user.admin? || current_user.creator?(@tournament)
       @users ||= User.all
     else
@@ -22,7 +22,7 @@ class TournamentsController < ApplicationController
     @tournament.creator_id = current_user.id
     if @tournament.save
       flash[:notice] = 'Tournament created sucessfully'
-      redirect_to @tournament
+      redirect_to tournament
     else
       flash.now[:alert] = "#{@tournament.errors.full_messages.join(', ')}"
       render :new
@@ -30,14 +30,14 @@ class TournamentsController < ApplicationController
   end
 
   def edit
-    if @tournament.state == 'ended' || !current_user.creator?(@tournament)
+    if tournament.state == 'ended' || !current_user.creator?(tournament)
       flash[:alert] = 'You are not creator of tournament or tournament ended'
       redirect_to tournaments_path
     end
   end
 
   def update
-    if @tournament.update_attributes(tournament_params)
+    if tournament.update_attributes(tournament_params)
       flash[:notice] = 'Tournament edited sucessfully'
       redirect_to @tournament
     else
@@ -47,12 +47,12 @@ class TournamentsController < ApplicationController
   end
 
   def destroy
-    if @tournament.state == 'ended' || @tournament.state == 'started'
+    if tournament.state == 'ended' || tournament.state == 'started'
       flash[:alert] = 'Tournament started or ended'
-    elsif !current_user.admin? && !current_user.creator?(@tournament)
+    elsif !current_user.admin? && !current_user.creator?(tournament)
       flash[:alert] = 'You are not creator'
     else
-      @tournament.destroy
+      tournament.destroy
       flash[:notice] = 'Tournament deleted sucessfully'
     end
     redirect_to tournaments_path
@@ -60,8 +60,8 @@ class TournamentsController < ApplicationController
 
   private
 
-  def set_tournament
-    @tournament = Tournament.find(params[:id])
+  def tournament
+    @tournament ||= Tournament.includes(:game, teams: [:users]).find(params[:id])
   end
 
   def tournament_params
