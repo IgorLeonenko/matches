@@ -9,7 +9,7 @@ RSpec.describe Match, type: :model do
     let(:empty_team)   { build(:team) }
     let(:match)        { create(:match, home_team: team_home, invited_team: team_invited) }
     let(:second_match) { create(:match, home_team: team_home, invited_team: team_invited) }
-    let(:bad_match)    { build(:match) }
+    let(:bad_match)    { build(:match, home_team: team_home, invited_team: team_home) }
     let(:user)         { create(:user) }
 
     context 'when valid data' do
@@ -25,8 +25,7 @@ RSpec.describe Match, type: :model do
 
       it 'is invalid' do
         expect(bad_match).not_to be_valid
-        expect(bad_match.errors[:home_team]).to include('can\'t be blank')
-        expect(bad_match.errors[:invited_team]).to include('can\'t be blank')
+        expect(bad_match.errors.full_messages).to include('Can\'t be same team names')
       end
     end
 

@@ -32,23 +32,23 @@ class MatchesController < ApplicationController
   end
 
   def update
-    if @match.can_be_played?
-      if @match.update_attributes(match_params)
+    if match.can_be_played?
+      if match.update_attributes(match_params)
         flash[:notice] = 'Match edited sucessfully'
-        redirect_to @match
-        MatchWorker.perform_in(1.minute, @match.round.tournament_id) if @match.round_id > 0
+        redirect_to match
+        MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
       else
         flash.now[:alert] = "#{@match.errors.full_messages.join(', ')}"
         render :edit
       end
     else
       flash[:alert] = 'Previous round not finished yet'
-      redirect_to @match
+      redirect_to match
     end
   end
 
   def destroy
-    if @match.destroy
+    if match.destroy
       flash[:notice] = 'Match deleted sucessfully'
       redirect_to matches_path
     else
