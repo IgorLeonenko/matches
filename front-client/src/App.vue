@@ -9,7 +9,6 @@
 <script>
 import auth from './auth'
 import Navigation from './components/Nav'
-import Hello from './components/Hello'
 
 export default {
   data () {
@@ -19,8 +18,7 @@ export default {
   },
   name: 'app',
   components: {
-    Navigation,
-    Hello
+    Navigation
   }
 }
 </script>

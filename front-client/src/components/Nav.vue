@@ -20,15 +20,11 @@ export default {
       user: auth.user
     }
   },
-  computed: {},
-  ready () {},
-  attached () {},
   methods: {
     logout () {
       auth.logout()
     }
-  },
-  components: {}
+  }
 }
 </script>
 
