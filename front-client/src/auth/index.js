@@ -1,4 +1,6 @@
 import axios from 'axios'
+import api from '../api'
+import {router} from '../main'
 
 const LOGIN_PATH = 'http://localhost:3000/user_token'
 
@@ -6,16 +8,23 @@ export default {
   user: {
     authenticated: false
   },
-
   login (email, password) {
     axios.post(LOGIN_PATH, {auth: {email: email, password: password}}).then(response => {
       localStorage.setItem('id_token', response.data.knock.jwt)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
       this.user.authenticated = true
-      this.user.data = response.data.user
+      this.user.data = JSON.parse(localStorage.getItem('user'))
+      api.logIn()
+      router.go('/matches')
     })
   },
   logout () {
     localStorage.removeItem('id_token')
     this.user.authenticated = false
+    api.logOut()
+    router.go('/')
+  },
+  getToken () {
+    return localStorage.getItem('id_token')
   }
 }

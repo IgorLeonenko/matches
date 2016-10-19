@@ -23,11 +23,25 @@ const routes = [
 
 ]
 
-const router = new VueRouter({
+export const router = new VueRouter({
   routes
 })
 
 new Vue({
   router,
+  beforeMount () {
+    var token = auth.getToken()
+    if (token) {
+      auth.user.authenticated = true
+      auth.user.data = JSON.parse(localStorage.getItem('user'))
+      api.logIn()
+      this.$router.push('/matches')
+    } else {
+      auth.user.authenticated = false
+      auth.user.data = ''
+      api.logOut()
+      this.$router.push('/login')
+    }
+  },
   render: h => h(App)
 }).$mount('#app')
