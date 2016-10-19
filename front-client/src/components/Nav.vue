@@ -1,0 +1,36 @@
+<template>
+  <div>
+    <div v-if="user.authenticated">
+      <p>Welcome, {{user.data.username}}</p>
+      <router-link to="/home">Go to Home</router-link>
+      <router-link to='/matches'>Matches</router-link>
+      <a @click='logout()'>Logout</a>
+    </div>
+    <div v-else>
+      <router-link to='/login'>Login</router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+import auth from '../auth'
+export default {
+  data () {
+    return {
+      user: auth.user
+    }
+  },
+  computed: {},
+  ready () {},
+  attached () {},
+  methods: {
+    logout () {
+      auth.logout()
+    }
+  },
+  components: {}
+}
+</script>
+
+<style>
+</style>
