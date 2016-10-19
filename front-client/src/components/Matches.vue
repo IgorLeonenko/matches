@@ -39,8 +39,7 @@
       getMatches().then(response => {
         this.matches = response.data
       })
-    },
-    methods: {}
+    }
   }
 </script>
 
