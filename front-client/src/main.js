@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 
 import Login from './components/Login'
 import Matches from './components/Matches'
+import showMatch from './components/ShowMatch'
 import auth from './auth'
 import api from './api'
 
@@ -19,6 +20,11 @@ const routes = [
     path: '/matches',
     name: 'matches',
     component: Matches
+  },
+  {
+    path: '/matches/:id',
+    name: 'showMatch',
+    component: showMatch
   }
 
 ]

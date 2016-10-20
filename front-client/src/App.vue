@@ -32,4 +32,8 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+#app table {
+  margin: 0 auto;
+  width: 60%;
+}
 </style>
