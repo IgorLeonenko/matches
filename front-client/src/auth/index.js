@@ -20,11 +20,17 @@ export default {
   },
   logout () {
     localStorage.removeItem('id_token')
+    localStorage.removeItem('user')
     this.user.authenticated = false
     api.logOut()
     router.go('/')
   },
-  getToken () {
-    return localStorage.getItem('id_token')
+  checkAuth () {
+    var jwt = localStorage.getItem('id_token')
+    if (jwt) {
+      this.user.authenticated = true
+    } else {
+      this.user.authenticated = false
+    }
   }
 }

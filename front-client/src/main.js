@@ -27,20 +27,30 @@ export const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next()
+  } else {
+    if (auth.user.authenticated === true) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  }
+})
+
 new Vue({
   router,
   beforeMount () {
-    var token = auth.getToken()
-    if (token) {
-      auth.user.authenticated = true
+    auth.checkAuth()
+    if (auth.user.authenticated === true) {
       auth.user.data = JSON.parse(localStorage.getItem('user'))
       api.logIn()
       this.$router.push('/matches')
     } else {
-      auth.user.authenticated = false
-      auth.user.data = ''
+      localStorage.removeItem('user')
       api.logOut()
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   },
   render: h => h(App)
