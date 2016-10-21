@@ -36,21 +36,23 @@
     <p v-else>
       No matches yet
     </p>
+    <router-link to='/new_match'>Create friendly match</router-link>
   </div>
 </template>
 
 <script>
-  import { getMatches } from '../api'
+  import api from '../api'
   import { router } from '../main'
 
   export default {
+    name: 'Matches',
     data () {
       return {
         matches: []
       }
     },
     mounted () {
-      getMatches().then(response => {
+      api.getMatches().then(response => {
         this.matches = response.data
       })
     },

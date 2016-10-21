@@ -6,9 +6,6 @@ const API_PATH = 'http://localhost:3000/api/v1'
 
 axios.defaults.baseURL = API_PATH
 
-export const getMatches = () => axios.get(API_PATH + '/matches')
-export const getMatch = id => axios.get(API_PATH + '/matches/' + id)
-
 axios.interceptors.response.use(response => {
   return response
 }, error => {
@@ -24,5 +21,11 @@ export default {
   },
   logOut () {
     axios.defaults.headers.common['Authorization'] = ''
+  },
+  async getMatches () {
+    return (await axios.get(API_PATH + '/matches'))
+  },
+  async getMatch (id) {
+    return (await axios.get(API_PATH + '/matches/' + id))
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div id='match'>
     <h2>Match</h2>
-    <table>
+    <table v-if='match'>
       <thead>
         <tr>
           <td>Home team</td>
@@ -36,18 +36,17 @@
 </template>
 
 <script>
-  import { getMatch } from '../api'
+  import api from '../api'
   import { router } from '../main'
   export default {
+    name: 'Match',
     data () {
       return {
-        match: {
-          type: Object
-        }
+        match: null
       }
     },
     mounted () {
-      getMatch(this.$route.params.id).then(response => {
+      api.getMatch(this.$route.params.id).then(response => {
         this.match = response.data
       })
     },
