@@ -4,11 +4,11 @@
     <table v-if="matches">
       <thead>
         <tr>
-          <td>id</td>
-          <td>style</td>
-          <td>game</td>
-          <td>home team</td>
-          <td>invited team</td>
+          <th>id</th>
+          <th>style</th>
+          <th>game</th>
+          <th>home team</th>
+          <th>invited team</th>
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,6 @@
     <p v-else>
       No matches yet
     </p>
-    <router-link to='/new_match'>Create friendly match</router-link>
   </div>
 </template>
 

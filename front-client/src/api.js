@@ -27,5 +27,11 @@ export default {
   },
   async getMatch (id) {
     return (await axios.get(API_PATH + '/matches/' + id))
+  },
+  async getTournaments () {
+    return (await axios.get(API_PATH + '/tournaments'))
+  },
+  async getTournament (id) {
+    return (await axios.get(API_PATH + '/tournaments/' + id))
   }
 }
