@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/monterail-logo.png">
     <navigation></navigation>
     <router-view></router-view>
   </div>
