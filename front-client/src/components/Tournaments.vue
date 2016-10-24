@@ -30,6 +30,7 @@
         </tr>
       </tbody>
     </table>
+    <router-link :to="{name: 'tournamentNew'}">New</router-link>
   </div>
 </template>
 
@@ -38,6 +39,7 @@
   import { router } from '../main'
 
   export default {
+    name: 'Tournaments',
     data () {
       return {
         tournaments: []

@@ -22,6 +22,9 @@ export default {
   logOut () {
     axios.defaults.headers.common['Authorization'] = ''
   },
+  async getGames () {
+    return (await axios.get(API_PATH + '/games'))
+  },
   async getMatches () {
     return (await axios.get(API_PATH + '/matches'))
   },
@@ -33,5 +36,8 @@ export default {
   },
   async getTournament (id) {
     return (await axios.get(API_PATH + '/tournaments/' + id))
+  },
+  async createTournament (data) {
+    return (await axios.post(API_PATH + '/tournaments/', {tournament: data}))
   }
 }

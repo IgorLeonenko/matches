@@ -7,6 +7,7 @@ import Matches from './components/Matches'
 import showMatch from './components/ShowMatch'
 import Tournaments from './components/Tournaments'
 import Tournament from './components/Tournament'
+import newTournament from './components/NewTournament'
 import tournamentInfo from './components/TournamentInfo'
 import tournamentTeams from './components/TournamentTeams'
 import tournamentMatches from './components/TournamentMatches'
@@ -35,6 +36,11 @@ const routes = [
     path: '/tournaments',
     name: 'tournaments',
     component: Tournaments
+  },
+  {
+    path: 'tournaments/new',
+    name: 'tournamentNew',
+    component: newTournament
   },
   {
     path: '/tournaments/:id',
