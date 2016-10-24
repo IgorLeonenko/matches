@@ -5,8 +5,8 @@
         Welcome, {{user.data.username}} |
         <a href='#' @click='logout()'>Logout</a>
       </p>
-      <router-link to='/matches'>Matches</router-link>
-      <router-link to='/tournaments'>Tournaments</router-link>
+      <router-link :to="{name: 'matches'}">Matches</router-link>
+      <router-link :to="{name: 'tournaments'}">Tournaments</router-link>
     </div>
     <div v-else>
       <router-link to='/login'>Login</router-link>
