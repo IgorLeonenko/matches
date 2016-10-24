@@ -1,7 +1,8 @@
 <template>
   <div id='tournament'>
-    <div>
+    <div v-if="tournament">
       <div class='left'>
+        <h3>Tournament {{tournament.title}}</h3>
         <router-link :to="{name: 'tournamentInfo', params: {id: $route.params.id}}"
                      v-bind:class="{active: $route.name == 'tournamentInfo'}">
           Info
@@ -14,8 +15,9 @@
                      v-bind:class="{active: $route.name == 'tournamentMatches'}">
           Matches
         </router-link>
-        <info v-if="$route.name == 'Tournament'"></info>
-        <router-view></router-view>
+        <router-view :rounds="tournament.rounds"></router-view>
+        <router-view :tournament="tournament"></router-view>
+        <router-view :teams="tournament.teams"></router-view>
         <button type='button' @click="goBack()">Back</button>
       </div>
     </div>
@@ -23,12 +25,23 @@
 </template>
 
 <script>
+  import api from '../api'
   import { router } from '../main'
   import Info from './TournamentInfo'
   export default {
     name: 'Tournament',
+    data () {
+      return {
+        tournament: {}
+      }
+    },
     components: {
       Info
+    },
+    created () {
+      api.getTournament(this.$route.params.id).then(response => {
+        this.tournament = response.data
+      })
     },
     methods: {
       goBack () {

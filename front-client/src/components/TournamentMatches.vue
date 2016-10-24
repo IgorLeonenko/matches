@@ -1,6 +1,5 @@
 <template>
   <div id='tournament-matches'>
-    <h3>Matches in tournament {{tournament_name}}</h3>
     <ul v-for='round in rounds'>
       <li>
         Round number: {{round.number}}
@@ -23,29 +22,19 @@
               </tbody>
             </table>
           </div>
+          <p v-if="round.matches.length == 0"><i>No matches assigned</i></p>
       </li>
     </ul>
-    <p v-if="rounds.length == 0">No matches assigned</p>
+
   </div>
 </template>
 
 <script>
-  import api from '../api'
   import { router } from '../main'
   export default {
     name: 'TournamentMatches',
-    data () {
-      return {
-        rounds: [],
-        matches: [],
-        tournament_name: null
-      }
-    },
-    mounted () {
-      api.getTournament(this.$route.params.id).then(response => {
-        this.rounds = response.data.rounds
-        this.tournament_name = response.data.title
-      })
+    props: {
+      rounds: Array
     },
     methods: {
       showMatch (id) {
@@ -57,6 +46,6 @@
 
 <style scoped>
   tbody tr:hover {
-      background-color: #41b883;
-    }
+    background-color: #41b883;
+  }
 </style>

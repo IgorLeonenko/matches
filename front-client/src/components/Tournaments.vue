@@ -50,7 +50,7 @@
     },
     methods: {
       showTournament (id) {
-        router.push({name: 'Tournament', params: { id: id }})
+        router.push({name: 'tournamentInfo', params: { id: id }})
       }
     }
   }
