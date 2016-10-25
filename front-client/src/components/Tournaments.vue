@@ -1,7 +1,7 @@
 <template>
   <div id='tournaments'>
     <h1>Tournaments</h1>
-    <table v-if='tournaments'>
+    <table v-if='this.$store.state.tournaments'>
       <thead>
         <tr>
           <th>id</th>
@@ -13,7 +13,7 @@
           <th>teams quantity / players in team</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         <tr v-for="tournament in tournaments" v-on:click='showTournament(tournament.id)'>
           <td>{{tournament.id}}</td>
           <td>{{tournament.title}}</td>
@@ -35,20 +35,14 @@
 </template>
 
 <script>
-  import api from '../api'
   import { router } from '../main'
 
   export default {
     name: 'Tournaments',
-    data () {
-      return {
-        tournaments: []
+    computed: {
+      tournaments () {
+        return this.$store.state.tournaments.data
       }
-    },
-    mounted () {
-      api.getTournaments().then(response => {
-        this.tournaments = response.data
-      })
     },
     methods: {
       showTournament (id) {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+import store from './vuex/store'
 
 import Login from './components/Login'
 import Matches from './components/Matches'
@@ -84,12 +85,14 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
   router,
+  store,
   beforeMount () {
     auth.checkAuth()
     if (auth.user.authenticated === true) {
       auth.user.data = JSON.parse(localStorage.getItem('user'))
       api.logIn()
       this.$router.push('/tournaments')
+      store.dispatch('getTournaments')
     } else {
       localStorage.removeItem('user')
       api.logOut()

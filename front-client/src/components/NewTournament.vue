@@ -71,11 +71,7 @@ export default {
   },
   methods: {
     submit () {
-      api.createTournament(this.tournament).then(response => {
-        console.log(response.data)
-      }).catch(error => {
-        console.log(error)
-      })
+      this.$store.dispatch('addTournament', this.tournament)
     }
   }
 }
