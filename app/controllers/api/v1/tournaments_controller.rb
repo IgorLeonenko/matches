@@ -19,6 +19,11 @@ module Api
         render json: TournamentRepresenter.new(tournament).with_teams_and_users
       end
 
+      def update
+        tournament.update_attributes!(tournament_params)
+        render json: TournamentRepresenter.new(tournament)
+      end
+
       def destroy
         if tournament.state == "ended" || tournament.state == "started"
           render json: { errors: "Tournament started or ended"}, status: 422
