@@ -1,56 +1,24 @@
 <template>
   <div>
     <h1>New tournament</h1>
-    <p v-if='error'>{{error}}</p>
-    <form id='new-tournament'>
-      <p>
-        <label for='title'>Title</label>
-        <input type='text' v-model='tournament.title' name='title'></input>
-      </p>
-      <p>
-        <label for='description'>Description</label>
-        <textarea v-model='tournament.description' name='description'></textarea>
-      </p>
-      <p>
-        <label for='game'>Choose game</label>
-        <select v-model='tournament.game_id'>
-          <option v-for="game in games" v-bind:value="game.id">
-            {{ game.name }}
-          </option>
-        </select>
-      </p>
-      <p>
-        <label for='picture'>Image</label>
-        <input type="text" v-model='tournament.picture' name="picture"></input>
-      </p>
-      <p>
-        <label for='date'>Start date</label>
-        <input type="date" v-model='tournament.start_date' name="date"></input>
-      </p>
-      <p>
-        <label for='teams_quantity'>Teams quantity</label>
-        <input type="number" v-model='tournament.teams_quantity'
-               name="teams_quantity"></input>
-      </p>
-      <p>
-        <label for='players_in_team'>Players in team</label>
-        <input type="number" v-model='tournament.players_in_team'
-               name="players_in_team">
-        </input>
-      </p>
-      <button @click='submit()'>Create tournament</button>
-    </form>
+    <tournament-form :button-text='buttonText'
+                     :tournament="tournament">
+
+    </tournament-form>
+    <button type='button' @click="goBack()">Back</button>
   </div>
 </template>
 
 <script>
-import api from '../api'
+import TournamentForm from './TournamentForm'
+import { router } from '../main'
+
 export default {
   name: 'NewTournament',
   data () {
     return {
-      error: '',
-      games: [],
+      errors: '',
+      buttonText: 'Create',
       tournament: {
         title: '',
         description: '',
@@ -64,21 +32,13 @@ export default {
       }
     }
   },
-  created () {
-    api.getGames().then(response => {
-      this.games = response.data
-    })
+  components: {
+    TournamentForm
   },
   methods: {
-    submit () {
-      this.$store.dispatch('addTournament', this.tournament)
+    goBack () {
+      router.push('/tournaments')
     }
   }
 }
 </script>
-
-<style scoped>
-  #new-tournament {
-    text-align: left;
-  }
-</style>

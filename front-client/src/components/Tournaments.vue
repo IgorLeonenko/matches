@@ -41,7 +41,7 @@
     name: 'Tournaments',
     computed: {
       tournaments () {
-        return this.$store.state.tournaments.data
+        return this.$store.state.tournaments
       }
     },
     methods: {
@@ -55,5 +55,6 @@
 <style scoped>
   tbody tr:hover {
     background-color: #41b883;
+    cursor: pointer;
   }
 </style>

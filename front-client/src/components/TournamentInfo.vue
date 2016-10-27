@@ -15,7 +15,7 @@
     </p>
     <p>
       Teams slots:
-      ({{tournament.teams_size}} / {{tournament.teams_quantity}})
+      ({{tournament.teams.length}} / {{tournament.teams_quantity}})
     </p>
   </div>
 </template>

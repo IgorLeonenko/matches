@@ -34,7 +34,7 @@
   export default {
     name: 'TournamentMatches',
     props: {
-      rounds: Array
+      rounds: {}
     },
     methods: {
       showMatch (id) {

@@ -9,6 +9,7 @@ import showMatch from './components/ShowMatch'
 import Tournaments from './components/Tournaments'
 import Tournament from './components/Tournament'
 import newTournament from './components/NewTournament'
+import updateTournament from './components/UpdateTournament'
 import tournamentInfo from './components/TournamentInfo'
 import tournamentTeams from './components/TournamentTeams'
 import tournamentMatches from './components/TournamentMatches'
@@ -62,6 +63,11 @@ const routes = [
         path: 'matches',
         name: 'tournamentMatches',
         component: tournamentMatches
+      },
+      {
+        path: 'edit',
+        name: 'tournamentUpdate',
+        component: updateTournament
       }
     ]
   }
@@ -86,7 +92,7 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
-  beforeMount () {
+  async beforeMount () {
     auth.checkAuth()
     if (auth.user.authenticated === true) {
       auth.user.data = JSON.parse(localStorage.getItem('user'))

@@ -16,7 +16,7 @@
   export default {
     name: 'TournamentTeams',
     props: {
-      teams: Array
+      teams: {}
     }
   }
 </script>

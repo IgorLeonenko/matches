@@ -15,37 +15,38 @@
                      v-bind:class="{active: $route.name == 'tournamentMatches'}">
           Matches
         </router-link>
-        <router-view :rounds="tournament.rounds"></router-view>
-        <router-view :tournament="tournament"></router-view>
-        <router-view :teams="tournament.teams"></router-view>
+        <router-view :rounds="tournament.rounds"
+                     :tournament="tournament"
+                     :teams="tournament.teams">
+        </router-view>
         <button type='button' @click="goBack()">Back</button>
+        <button v-if="$route.name != 'tournamentUpdate'" type='button'
+                @click='editTournament($route.params.id)'>
+          Edit tournament
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import api from '../api'
   import { router } from '../main'
-  import Info from './TournamentInfo'
   export default {
     name: 'Tournament',
-    data () {
-      return {
-        tournament: {}
+    computed: {
+      tournament () {
+        var tournament = this.$store.state.tournaments.findIndex(
+          ({ id }) => id === this.$route.params.id
+        )
+        return this.$store.state.tournaments[tournament]
       }
-    },
-    components: {
-      Info
-    },
-    created () {
-      api.getTournament(this.$route.params.id).then(response => {
-        this.tournament = response.data
-      })
     },
     methods: {
       goBack () {
         router.push('/tournaments')
+      },
+      editTournament (id) {
+        router.push({name: 'tournamentUpdate', params: {id: id}})
       }
     }
   }
