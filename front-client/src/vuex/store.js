@@ -8,9 +8,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tournaments: [],
+    games: [],
     errors: []
   },
   mutations: {
+    SET_GAMES_LIST (state, games) {
+      state.games = games.data
+    },
     SET_TOURNAMENTS_LIST (state, tournaments) {
       state.tournaments = tournaments.data
     },
@@ -27,6 +31,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getGames ({commit}) {
+      let games = await api.getGames()
+      commit('SET_GAMES_LIST', games)
+    },
     async getTournaments ({commit}) {
       let tournaments = await api.getTournaments()
       commit('SET_TOURNAMENTS_LIST', tournaments)

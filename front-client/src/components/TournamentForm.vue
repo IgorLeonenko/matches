@@ -43,7 +43,6 @@
 </template>
 
 <script>
-  import api from '../api'
   export default {
     name: 'TournamentForm',
     props: {
@@ -53,13 +52,8 @@
     data () {
       return {
         errors: '',
-        games: []
+        games: this.$store.state.games
       }
-    },
-    mounted () {
-      api.getGames().then(response => {
-        this.games = response.data
-      })
     },
     methods: {
       sendTournament () {

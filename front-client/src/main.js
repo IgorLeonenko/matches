@@ -99,6 +99,7 @@ new Vue({
       api.logIn()
       this.$router.push('/tournaments')
       store.dispatch('getTournaments')
+      store.dispatch('getGames')
     } else {
       localStorage.removeItem('user')
       api.logOut()
