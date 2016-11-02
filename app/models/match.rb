@@ -33,7 +33,7 @@ class Match < ApplicationRecord
   private
 
   def cant_be_same_team_name
-    return if round_id != 0
+    return if style == "tournament"
 
     teams_names = [home_team.name, invited_team.name]
 
