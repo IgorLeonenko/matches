@@ -1,7 +1,7 @@
 class Tournament < ApplicationRecord
 
-  STYLE = %w(deathmatch league)
-  STATE = %w(open started ended)
+  STYLES = %w(deathmatch league)
+  STATES = %w(open started ended)
 
   belongs_to :game
 
@@ -17,8 +17,8 @@ class Tournament < ApplicationRecord
   validates :teams_quantity, numericality: { only_integer: true, greater_than: 0 }
   validates :players_in_team, numericality: { only_integer: true }
   validates :description, length: { maximum: 500 }
-  validates :style, inclusion: { in: STYLE }
-  validates :state, inclusion: { in: STATE }
+  validates :style, inclusion: { in: STYLES }
+  validates :state, inclusion: { in: STATES }
 
   mount_uploader :picture, TournamentPictureUploader
 

@@ -1,7 +1,7 @@
 class Match < ApplicationRecord
 
-  STATUS = %w(prepare in\ game played)
-  STYLE  = %W(friendly tournament)
+  STATUSES = %w(prepare in\ game played)
+  STYLES  = %w(friendly tournament)
 
   belongs_to :home_team, class_name: 'Team'
   belongs_to :invited_team, class_name: 'Team'
@@ -11,7 +11,7 @@ class Match < ApplicationRecord
   validates :home_team, :invited_team, :game, :round_id,
             :status, presence: true
   validates :home_team_score, :invited_team_score, presence: true, numericality: true
-  validates :status, inclusion: { in: STATUS }
+  validates :status, inclusion: { in: STATUSES }
   validate  :player_can_be_only_in_one_team_on_match
   validate  :cant_be_same_team_name
 
