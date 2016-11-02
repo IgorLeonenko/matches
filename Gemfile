@@ -26,27 +26,16 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-gem 'knock'
+gem 'knock', '~> 1.5'
 
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rubocop', require: false
 
 gem 'carrierwave', '>= 1.0.0.beta', '< 2.0'
-gem 'mini_magick'
+gem 'mini_magick', '~> 4.5.1'
 
 gem 'faker', '~> 1.6', '>= 1.6.5'
-
-#for views
-gem "slim-rails"
-gem 'bootstrap', '~> 4.0.0.alpha3'
-gem 'sprockets-rails', :require => 'sprockets/railtie'
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.1.0'
-end
-
-gem 'simple_form'
 
 gem 'sidekiq'
 gem 'whenever', :require => false
