@@ -20,7 +20,7 @@ module Api
           render json: MatchRepresenter.new(match).with_teams
           MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
         else
-          render json: { errors: "Previous round not finished yet" }, status: 422
+          render json: { errors: 'Previous round not finished yet' }, status: 422
         end
       end
 
@@ -36,7 +36,7 @@ module Api
       end
 
       def match_params
-        params.require(:match).permit(:status, :game_id,
+        params.require(:match).permit(:name, :status, :game_id,
                                       :home_team_score, :invited_team_score,
                                       home_team_attributes: [:name, :user_ids],
                                       invited_team_attributes: [:name, :user_ids])

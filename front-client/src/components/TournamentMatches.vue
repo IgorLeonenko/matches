@@ -2,7 +2,7 @@
   <div id='tournament-matches'>
     <ul v-for='round in rounds'>
       <li>
-        Round number: {{round.number}}
+        <b>Round {{round.number}}</b>
           <div v-if="round.matches.length > 0">
             <h4>Matches in round:</h4>
             <table>
@@ -11,13 +11,22 @@
                 <th>status</th>
                 <th>home team</th>
                 <th>invited team</th>
+                <th></th>
               </thead>
               <tbody>
-                <tr v-for="match in round.matches" @click="showMatch(match.id)">
+                <tr v-for="match in round.matches">
                   <td>{{match.id}}</td>
                   <td>{{match.status}}</td>
-                  <td>{{match.home_team_name}}</td>
-                  <td>{{match.invited_team_name}}</td>
+                  <td>{{match.home_team.name}}</td>
+                  <td>{{match.invited_team.name}}</td>
+                  <td>
+                    <button type='type' @click='playMatch(match)' v-show="match.status === 'prepare'">
+                      Play match
+                    </button>
+                    <button type='type' @click='showMatch(match.id)' v-show="match.status === 'in game'">
+                      Go to match
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -37,15 +46,14 @@
       rounds: {}
     },
     methods: {
+      playMatch (match) {
+        match.status = 'in game'
+        this.$store.dispatch('updateMatch', match)
+        router.push({name: 'showMatch', params: { id: match.id }})
+      },
       showMatch (id) {
         router.push({name: 'showMatch', params: { id: id }})
       }
     }
   }
 </script>
-
-<style scoped>
-  tbody tr:hover {
-    background-color: #41b883;
-  }
-</style>

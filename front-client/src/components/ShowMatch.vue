@@ -1,6 +1,8 @@
 <template>
   <div id='match'>
-    <h2>Match</h2>
+    <h2>
+      Match {{match.status}}
+    </h2>
     <table v-if='match'>
       <thead>
         <tr>
@@ -36,19 +38,16 @@
 </template>
 
 <script>
-  import api from '../api'
   import { router } from '../main'
   export default {
     name: 'Match',
-    data () {
-      return {
-        match: null
+    computed: {
+      match () {
+        var match = this.$store.state.matches.findIndex(
+          ({ id }) => id === this.$route.params.id
+        )
+        return this.$store.state.matches[match]
       }
-    },
-    mounted () {
-      api.getMatch(this.$route.params.id).then(response => {
-        this.match = response.data
-      })
     },
     methods: {
       goBack () {

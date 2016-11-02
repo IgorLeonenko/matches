@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 20161005163430) do
     t.index ["tournament_id"], name: "index_rounds_on_tournament_id", using: :btree
   end
 
+  create_table "team_tournaments", force: :cascade do |t|
+    t.integer  "team_id",       null: false
+    t.integer  "tournament_id", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["team_id"], name: "index_team_tournaments_on_team_id", using: :btree
+    t.index ["tournament_id"], name: "index_team_tournaments_on_tournament_id", using: :btree
+  end
+
   create_table "team_users", force: :cascade do |t|
     t.integer "team_id", null: false
     t.integer "user_id", null: false

@@ -20,10 +20,6 @@
                      :teams="tournament.teams">
         </router-view>
         <button type='button' @click="goBack()">Back</button>
-        <button v-if="$route.name != 'tournamentUpdate'" type='button'
-                @click='editTournament($route.params.id)'>
-          Edit tournament
-        </button>
       </div>
     </div>
   </div>
@@ -44,9 +40,6 @@
     methods: {
       goBack () {
         router.push('/tournaments')
-      },
-      editTournament (id) {
-        router.push({name: 'tournamentUpdate', params: {id: id}})
       }
     }
   }

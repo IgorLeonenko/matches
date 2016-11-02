@@ -17,14 +17,24 @@
       Teams slots:
       ({{tournament.teams.length}} / {{tournament.teams_quantity}})
     </p>
+    <button v-if="$route.name != 'tournamentUpdate'" type='button'
+            @click='editTournament($route.params.id)'>
+      Edit tournament
+    </button>
   </div>
 </template>
 
 <script>
+  import { router } from '../main'
   export default {
     name: 'TournamentInfo',
     props: {
       tournament: {}
+    },
+    methods: {
+      editTournament (id) {
+        router.push({name: 'tournamentUpdate', params: {id: id}})
+      }
     }
   }
 </script>

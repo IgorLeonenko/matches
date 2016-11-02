@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="match in matches" v-on:click="showMatch(match.id)">
+        <tr v-for="match in matches" @click="showMatch(match.id)">
           <td>
             {{ match.id }}
           </td>
@@ -40,20 +40,14 @@
 </template>
 
 <script>
-  import api from '../api'
   import { router } from '../main'
 
   export default {
     name: 'Matches',
-    data () {
-      return {
-        matches: []
+    computed: {
+      matches () {
+        return this.$store.state.matches
       }
-    },
-    mounted () {
-      api.getMatches().then(response => {
-        this.matches = response.data
-      })
     },
     methods: {
       showMatch (id) {

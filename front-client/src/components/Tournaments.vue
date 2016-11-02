@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody >
-        <tr v-for="tournament in tournaments" v-on:click='showTournament(tournament.id)'>
+        <tr v-for="tournament in tournaments" @click='showTournament(tournament.id)'>
           <td>{{tournament.id}}</td>
           <td>{{tournament.title}}</td>
           <td>{{tournament.description}}</td>

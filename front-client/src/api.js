@@ -8,6 +8,7 @@ const API_PATH = 'http://localhost:3000/api/v1'
 axios.defaults.baseURL = API_PATH
 
 axios.interceptors.response.use(response => {
+  store.dispatch('errors', '')
   return response
 }, error => {
   if (error.response.status === 401 || error.response.status === 403) {
@@ -28,11 +29,14 @@ export default {
   async getGames () {
     return await axios.get(API_PATH + '/games')
   },
+  async getUsers () {
+    return await axios.get(API_PATH + '/users')
+  },
   async getMatches () {
     return await axios.get(API_PATH + '/matches')
   },
-  async getMatch (id) {
-    return await axios.get(API_PATH + '/matches/' + id)
+  async updateMatch (params, id) {
+    return await axios.patch(API_PATH + '/matches/' + id, {match: params})
   },
   async getTournaments () {
     return await axios.get(API_PATH + '/tournaments')
@@ -42,5 +46,17 @@ export default {
   },
   async updateTournament (params, id) {
     return await axios.patch(API_PATH + '/tournaments/' + id, {tournament: params})
+  },
+  async addTeam (id, params) {
+    return await axios.post(API_PATH + '/tournaments/' + id + '/teams', {team: params})
+  },
+  async removeTeam (tournamentId, teamId) {
+    return await axios.delete(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId)
+  },
+  async addUserToTeam (tournamentId, teamId, userId) {
+    return await axios.patch(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId, {team: {user_ids: userId}})
+  },
+  async removeUser (tournamentId, teamId, userId) {
+    return await axios.delete(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId + '/remove_user/' + userId)
   }
 }
