@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.integer  "number"
+    t.integer  "number",        null: false
     t.integer  "tournament_id", null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-10-15 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-11-02 00:00:00', null: false
     t.string   "picture"
     t.string   "style",           default: "deathmatch",          null: false
     t.string   "state",           default: "open",                null: false
