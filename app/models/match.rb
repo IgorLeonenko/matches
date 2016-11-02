@@ -27,19 +27,7 @@ class Match < ApplicationRecord
   end
 
   def can_be_played?
-    unless round_id == 0
-      if round.prev.present?
-        if round.prev.finished?
-          true
-        else
-          false
-        end
-      else
-        true
-      end
-    else
-      true
-    end
+    round_id == 0 || !round.prev.present? || round.prev.finished?
   end
 
   private
