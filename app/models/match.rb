@@ -19,11 +19,11 @@ class Match < ApplicationRecord
 
 
   def winner_team
-    choose_winner_or_looser[0]
+    order_teams_by_score[0]
   end
 
   def loosing_team
-    choose_winner_or_looser[1]
+    order_teams_by_score[1]
   end
 
   def can_be_played?
@@ -42,7 +42,7 @@ class Match < ApplicationRecord
     end
   end
 
-  def choose_winner_or_looser
+  def order_teams_by_score
     if home_team_score > invited_team_score
       [home_team, invited_team]
     else
