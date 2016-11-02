@@ -12,11 +12,11 @@ class Round < ApplicationRecord
   end
 
   def next
-    self.class.where("number > ?", number).first
+    self.class.where("number > ? AND tournament_id = ?", number, tournament_id).first
   end
 
   def prev
-    self.class.where("number < ?", number).last
+    self.class.where("number < ? AND tournament_id = ?", number, tournament_id).last
   end
 
   def check_team(team_id)
