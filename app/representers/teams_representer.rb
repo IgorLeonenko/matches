@@ -3,13 +3,11 @@ class TeamsRepresenter
     @teams = teams
   end
 
-  def as_json(_ = {})
-    @teams.map do |team|
-      {
-        id: team.id,
-        name: team.name,
-        users: UsersRepresenter.new(team.users)
-      }
-    end
+  def basic
+    @teams.map { |team| TeamRepresenter.new(team).basic }
+  end
+
+  def with_users
+    @teams.map { |team| TeamRepresenter.new(team).with_users}
   end
 end

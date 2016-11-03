@@ -3,17 +3,28 @@ class TournamentRepresenter
     @tournament = tournament
   end
 
-  def as_json(_ = {})
+  def basic
     {
-        id: @tournament.id,
-        title: @tournament.title,
-        description: @tournament.description,
-        style: @tournament.style,
-        state: @tournament.state,
-        start_date: @tournament.start_date,
-        teams_quantity: @tournament.teams_quantity,
-        players_in_team: @tournament.players_in_team,
-        teams: TeamsRepresenter.new(@tournament.teams)
-      }
+      id: @tournament.id,
+      title: @tournament.title,
+      description: @tournament.description,
+      style: @tournament.style,
+      state: @tournament.state,
+      start_date: @tournament.start_date,
+      teams_quantity: @tournament.teams_quantity,
+      players_in_team: @tournament.players_in_team
+    }
+  end
+
+  def with_teams
+    basic.megre(
+      teams: TeamsRepresenter.new(@tournament.teams).basic
+    )
+  end
+
+  def with_teams_and_users
+    basic.merge(
+      teams: TeamsRepresenter.new(@tournament.teams).with_users
+    )
   end
 end

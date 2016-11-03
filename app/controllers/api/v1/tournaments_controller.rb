@@ -4,16 +4,11 @@ module Api
 
       def index
         @tournaments = Tournament.all
-        render json: TournamentsRepresenter.new(@tournaments)
+        render json: TournamentsRepresenter.new(@tournaments).with_teams_and_users
       end
 
       def show
-        if current_user.admin? || current_user.creator?(@tournament)
-          @users ||= User.all
-        else
-          @users ||= User.where(id: current_user.id)
-        end
-        render json: TournamentRepresenter.new(tournament)
+        render json: TournamentRepresenter.new(tournament).with_teams_and_users
       end
 
       def new

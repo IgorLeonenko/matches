@@ -5,11 +5,11 @@ module Api
 
       def index
         @matches = Match.includes(:game, :home_team, :invited_team).all
-        render json: MatchesRepresenter.new(@matches)
+        render json: MatchesRepresenter.new(@matches).with_teams
       end
 
       def show
-        render json: MatchRepresenter.new(match)
+        render json: MatchRepresenter.new(match).with_teams
       end
 
       def new

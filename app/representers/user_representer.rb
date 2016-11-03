@@ -3,13 +3,13 @@ class UserRepresenter
     @user = user
   end
 
-  def as_json(_ = {})
+  def basic
     {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      username: user.username,
-      avatar: user.avatar
+      id: @user.id,
+      email: @user.email,
+      name: @user.name,
+      username: @user.username,
+      avatar: @user.avatar
     }
   end
 end
