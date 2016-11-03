@@ -18,11 +18,9 @@ module Api
         end
 
         if @team_error == true
-          flash.now[:alert] = "#{@e}"
-          render :new
+          render json: { errors: @e }, status: 422
         else
-          flash[:notice] = "Team added"
-          redirect_to tournament
+          render json: TeamRepresenter.new(@team).with_users
         end
       end
 
@@ -44,11 +42,10 @@ module Api
             tournament.users.delete(user)
           end
           team.destroy
-          flash[:notice] = "Team removed from tournament"
+          render json: {}, status: :no_content
         rescue => e
-          flash[:alert] = "#{e}"
+          render json: { errors: "#{e}" }, status: 422
         end
-        redirect_to tournament
       end
 
       def remove_user
@@ -56,11 +53,10 @@ module Api
         team = Team.find(params[:team_id])
         team.users.delete(user)
         tournament.users.delete(user)
-        if team.users.size.sero?
+        if team.users.size.zero?
           team.destroy
         end
-        flash[:notice] = "User removed from team"
-        redirect_to tournament
+        render json: {}, status: :no_content
       end
 
       private

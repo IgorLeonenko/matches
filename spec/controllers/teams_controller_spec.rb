@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe TeamsController, type: :controller do
+RSpec.describe Api::V1::TeamsController, type: :controller do
   let(:user)       { create(:user) }
   let(:tournament) { create(:tournament, creator_id: user.id) }
   let(:team)       { create(:team, :with_users, tournament: tournament) }
@@ -18,7 +18,6 @@ RSpec.describe TeamsController, type: :controller do
 
         it { expect { create_valid }.to change(Team, :count).by(1) }
         it { expect { create_valid }.to change(TeamUser, :count).by(1) }
-        it { expect(create_valid).to redirect_to(tournament) }
 
         context "add correct datas to database" do
           before { create_valid }
@@ -29,6 +28,14 @@ RSpec.describe TeamsController, type: :controller do
           it { expect(tournament.teams.first.id).to eq(Team.first.id) }
           it { expect(tournament.users.first.id).to eq(user.id) }
         end
+
+        context "right json response" do
+          before { create_valid }
+
+          it { expect(json["id"]).to eq(Team.last.id) }
+          it { expect(json["name"]).to eq(Team.last.name) }
+          it { expect(json["users"][0]["id"]).to eq(user.id) }
+        end
       end
 
       context "with invalid data" do
@@ -38,10 +45,10 @@ RSpec.describe TeamsController, type: :controller do
                                     team: { name: "good team", user_ids: [] } }
           end
 
-          it { expect(response).to render_template("new") }
+          it { expect(response.code).to eq("422") }
           it { expect(Team.count).to eq(0) }
           it { expect(TeamUser.count).to eq(0) }
-          it { expect(flash[:alert]).to include("Validation failed: Users can\'t be blank") }
+          it { expect(json["errors"]).to eq("Validation failed: Users can\'t be blank") }
         end
 
         context "when name is not present" do
@@ -50,10 +57,10 @@ RSpec.describe TeamsController, type: :controller do
                                     team: { name: "", user_ids: [user.id] } }
           end
 
-          it { expect(response).to render_template("new") }
+          it { expect(response.code).to eq("422") }
           it { expect(Team.count).to eq(0) }
           it { expect(TeamUser.count).to eq(0) }
-          it { expect(flash[:alert]).to include("Validation failed: Name can\'t be blank") }
+          it { expect(json["errors"]).to eq("Validation failed: Name can\'t be blank, Name is too short (minimum is 5 characters)") }
         end
 
         context "when one of users already in tournament" do
@@ -64,8 +71,8 @@ RSpec.describe TeamsController, type: :controller do
                                             user_ids: [tournament_with_users.users.first.id] } }
           end
 
-          it { expect(response).to render_template("new") }
-          it { expect(flash[:alert]).to include("Validation failed: User already in tournament") }
+          it { expect(response.code).to eq("422") }
+          it { expect(json["errors"]).to eq("Validation failed: User already in tournament") }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end
@@ -76,8 +83,8 @@ RSpec.describe TeamsController, type: :controller do
                                     team: { name: "good team", user_ids: [user.id] } }
           end
 
-          it { expect(response).to render_template("new") }
-          it { expect(flash[:alert]).to include("Validation failed: Can\'t be more teams than teams quantity") }
+          it { expect(response.code).to eq("422") }
+          it { expect(json["errors"]).to eq("Validation failed: Can\'t be more teams than teams quantity") }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end
@@ -89,8 +96,8 @@ RSpec.describe TeamsController, type: :controller do
                                     team: { name: "good team", user_ids: [users.map(&:id)] } }
           end
 
-          it { expect(response).to render_template("new") }
-          it { expect(flash[:alert]).to include("Validation failed: Can\'t be more players than players in team") }
+          it { expect(response.code).to eq("422") }
+          it { expect(json["errors"]).to eq("Validation failed: Can\'t be more players than players in team") }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end
@@ -108,7 +115,7 @@ RSpec.describe TeamsController, type: :controller do
 
         it { expect { delete_team }.to change(Team, :count).by(-1) }
         it { expect { delete_team }.to change(TournamentUser, :count).by(-2) }
-        it { expect(delete_team).to redirect_to(full_tournament) }
+        it { expect(delete_team.response_code).to eq(204) }
       end
 
       context "#delete user from tournament" do
@@ -120,7 +127,7 @@ RSpec.describe TeamsController, type: :controller do
 
         it { expect { delete_user }.to change(TeamUser, :count).by(-1) }
         it { expect { delete_user }.to change(TournamentUser, :count).by(-1) }
-        it { expect(delete_user).to redirect_to(full_tournament) }
+        it { expect(delete_user.response_code).to eq(204) }
       end
     end
   end
