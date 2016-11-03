@@ -22,14 +22,10 @@ module Api
         @match = Match.new(match_params)
         @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
         @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
-        respond_to do |format|
-          if @match.save
-            format.html { redirect_to(@match, notice: "Match created sucessfully") }
-            format.json { render json: MatchRepresenter.new(@match) }
-          else
-            format.html { render :new, alert: "#{@match.errors.full_messages.join(", ")}" }
-            format.json { render json: @match.errors }
-          end
+        if @match.save
+          render json: MatchRepresenter.new(@match)
+        else
+          render json: { errors: @match.errors }, status: 422
         end
       end
 
@@ -39,27 +35,19 @@ module Api
       def update
         if match.can_be_played?
           if match.update_attributes(match_params)
-            flash[:notice] = "Match edited sucessfully"
-            redirect_to match
+            render json: MatchRepresenter.new(match).with_teams
             MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
           else
-            flash.now[:alert] = "#{@match.errors.full_messages.join(", ")}"
-            render :edit
+            render json: { errors: match.errors }, status: 422
           end
         else
-          flash[:alert] = "Previous round not finished yet"
-          redirect_to match
+          render json: { errors: "Previous round not finished yet" }, status: 422
         end
       end
 
       def destroy
-        if match.destroy
-          flash[:notice] = "Match deleted sucessfully"
-          redirect_to matches_path
-        else
-          flash[:alert] = "Something went wrong"
-          redirect_to matches_path
-        end
+        match.destroy
+        render json: {}, status: :no_content
       end
 
       private
