@@ -19,41 +19,29 @@ module Api
         @tournament = Tournament.new(tournament_params)
         @tournament.creator_id = current_user.id
         if @tournament.save
-          flash[:notice] = "Tournament created sucessfully"
-          redirect_to tournament
+          render json: TournamentRepresenter.new(tournament).with_teams_and_users
         else
-          flash.now[:alert] = "#{@tournament.errors.full_messages.join(", ")}"
-          render :new
-        end
-      end
-
-      def edit
-        if tournament.state == "ended" || !current_user.creator?(tournament)
-          flash[:alert] = "You are not creator of tournament or tournament ended"
-          redirect_to tournaments_path
+          render json: { errors: @tournament.errors }, status: 422
         end
       end
 
       def update
         if tournament.update_attributes(tournament_params)
-          flash[:notice] = "Tournament edited sucessfully"
-          redirect_to @tournament
+          render json: TournamentRepresenter.new(tournament).with_teams_and_users
         else
-          flash.now[:alert] = "Something went wrong"
-          render :edit
+          render json: { errors: tournament.errors }, status: 422
         end
       end
 
       def destroy
         if tournament.state == "ended" || tournament.state == "started"
-          flash[:alert] = "Tournament started or ended"
+          render json: { errors: "Tournament started or ended"}, status: 422
         elsif !current_user.admin? && !current_user.creator?(tournament)
-          flash[:alert] = "You are not creator"
+          render json: { errors: "You are not creator" }, status: 422
         else
           tournament.destroy
-          flash[:notice] = "Tournament deleted sucessfully"
+          render json: {}, status: :no_content
         end
-        redirect_to tournaments_path
       end
 
       private
