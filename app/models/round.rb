@@ -7,7 +7,7 @@ class Round < ApplicationRecord
 
   def finished?
     if matches.any?
-      matches.where(status: 'played').size == matches.size
+      matches.where(status: "played").size == matches.size
     end
   end
 

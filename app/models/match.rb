@@ -1,10 +1,10 @@
 class Match < ApplicationRecord
 
-  STATUSES = %w(prepare in\ game played)
-  STYLES  = %w(friendly tournament)
+  STATUSES = %w(prepare in\ game played).freeze
+  STYLES   = %w(friendly tournament).freeze
 
-  belongs_to :home_team, class_name: 'Team'
-  belongs_to :invited_team, class_name: 'Team'
+  belongs_to :home_team, class_name: "Team"
+  belongs_to :invited_team, class_name: "Team"
   belongs_to :game
   belongs_to :round
 
@@ -27,7 +27,7 @@ class Match < ApplicationRecord
   end
 
   def can_be_played?
-    round_id == 0 || !round.prev.present? || round.prev.finished?
+    round_id.zero? || !round.prev.present? || round.prev.finished?
   end
 
   private
@@ -38,7 +38,7 @@ class Match < ApplicationRecord
     teams_names = [home_team.name, invited_team.name]
 
     if teams_names.uniq.length != teams_names.length
-      errors.add(:base, 'Can\'t be same team names')
+      errors.add(:base, "Can\'t be same team names")
     end
   end
 

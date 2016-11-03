@@ -8,6 +8,6 @@ class TeamsRepresenter
   end
 
   def with_users
-    @teams.map { |team| TeamRepresenter.new(team).with_users}
+    @teams.map { |team| TeamRepresenter.new(team).with_users }
   end
 end

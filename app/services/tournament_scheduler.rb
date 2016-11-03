@@ -6,14 +6,14 @@ class TournamentScheduler
   end
 
   def start_tournament
-    @tournament.update_attribute(:state, 'started')
+    @tournament.update_attribute(:state, "started")
 
     rounds_number = Math.log2(@teams.size).ceil
     rounds_number.times do |r_number|
       @rounds << @tournament.rounds.create(number: r_number)
     end
 
-    if Math.log2(@teams.size) % 1 == 0
+    if (Math.log2(@teams.size) % 1).zero?
       @teams.sample(@teams.size).each_slice(2) do |team_ary|
         schedule_matches(@rounds, @tournament, team_ary)
       end
@@ -30,21 +30,19 @@ class TournamentScheduler
     teams = []
     auto_winners = []
     @teams.each do |team|
-      unless team.already_in_rounds?(@tournament.rounds.first)
-        auto_winners << team
-      end
+      next unless team.already_in_rounds?(@tournament.rounds.first)
+      auto_winners << team
     end
     rounds.each do |round|
-      round.matches.where(status: 'played').each do |match|
-        unless round.next.check_team(match.winner_team.id)
-          teams += auto_winners
-          teams << match.winner_team
-          teams.each_slice(2) do |team_ary|
-            round.next.matches.create(status: 'prepare', style: 'tournament',
-                                      home_team: team_ary[0],
-                                      invited_team: team_ary[1],
-                                      game: @tournament.game)
-          end
+      round.matches.where(status: "played").each do |match|
+        next unless round.next.check_team(match.winner_team.id)
+        teams += auto_winners
+        teams << match.winner_team
+        teams.each_slice(2) do |team_ary|
+          round.next.matches.create(status: "prepare", style: "tournament",
+                                    home_team: team_ary[0],
+                                    invited_team: team_ary[1],
+                                    game: @tournament.game)
         end
       end
     end
@@ -53,7 +51,7 @@ class TournamentScheduler
   private
 
   def schedule_matches(rounds, tournament, team_ary)
-    rounds.first.matches.create(status: 'prepare', style: 'tournament',
+    rounds.first.matches.create(status: "prepare", style: "tournament",
                                 home_team: team_ary[0],
                                 invited_team: team_ary[1],
                                 game: tournament.game)

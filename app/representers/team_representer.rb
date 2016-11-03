@@ -6,13 +6,13 @@ class TeamRepresenter
   def basic
     {
       id: @team.id,
-      name: @team.name
+      name: @team.name,
     }
   end
 
   def with_users
     basic.merge(
-      users: UsersRepresenter.new(@team.users).basic
+      users: UsersRepresenter.new(@team.users).basic,
     )
   end
 end

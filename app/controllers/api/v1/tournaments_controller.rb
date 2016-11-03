@@ -19,24 +19,24 @@ module Api
         @tournament = Tournament.new(tournament_params)
         @tournament.creator_id = current_user.id
         if @tournament.save
-          flash[:notice] = 'Tournament created sucessfully'
+          flash[:notice] = "Tournament created sucessfully"
           redirect_to tournament
         else
-          flash.now[:alert] = "#{@tournament.errors.full_messages.join(', ')}"
+          flash.now[:alert] = "#{@tournament.errors.full_messages.join(", ")}"
           render :new
         end
       end
 
       def edit
-        if tournament.state == 'ended' || !current_user.creator?(tournament)
-          flash[:alert] = 'You are not creator of tournament or tournament ended'
+        if tournament.state == "ended" || !current_user.creator?(tournament)
+          flash[:alert] = "You are not creator of tournament or tournament ended"
           redirect_to tournaments_path
         end
       end
 
       def update
         if tournament.update_attributes(tournament_params)
-          flash[:notice] = 'Tournament edited sucessfully'
+          flash[:notice] = "Tournament edited sucessfully"
           redirect_to @tournament
         else
           flash.now[:alert] = "Something went wrong"
@@ -45,13 +45,13 @@ module Api
       end
 
       def destroy
-        if tournament.state == 'ended' || tournament.state == 'started'
-          flash[:alert] = 'Tournament started or ended'
+        if tournament.state == "ended" || tournament.state == "started"
+          flash[:alert] = "Tournament started or ended"
         elsif !current_user.admin? && !current_user.creator?(tournament)
-          flash[:alert] = 'You are not creator'
+          flash[:alert] = "You are not creator"
         else
           tournament.destroy
-          flash[:notice] = 'Tournament deleted sucessfully'
+          flash[:notice] = "Tournament deleted sucessfully"
         end
         redirect_to tournaments_path
       end

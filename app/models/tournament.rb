@@ -1,7 +1,6 @@
 class Tournament < ApplicationRecord
-
-  STYLES = %w(deathmatch league)
-  STATES = %w(open started ended)
+  STYLES = %w(deathmatch league).freeze
+  STATES = %w(open started ended).freeze
 
   belongs_to :game
 
@@ -47,7 +46,7 @@ class Tournament < ApplicationRecord
   end
 
   def not_started?
-    Time.zone.today >= start_date && state == 'open'
+    Time.zone.today >= start_date && state == "open"
   end
 
   def can_be_started?

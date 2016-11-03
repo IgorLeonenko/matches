@@ -16,14 +16,13 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'factory_girl_rails'
-require 'support/factory_girl'
-require 'support/users_helper'
-require 'sidekiq/testing'
+require "factory_girl_rails"
+require "support/factory_girl"
+require "support/users_helper"
+require "sidekiq/testing"
 Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
-
   config.after(:all) do
     if Rails.env.test?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])

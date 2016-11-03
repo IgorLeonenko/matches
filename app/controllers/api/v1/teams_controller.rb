@@ -21,7 +21,7 @@ module Api
           flash.now[:alert] = "#{@e}"
           render :new
         else
-          flash[:notice] = 'Team added'
+          flash[:notice] = "Team added"
           redirect_to tournament
         end
       end
@@ -29,9 +29,9 @@ module Api
       def update
         begin
           Team.transaction do
-            team.assign_users_to_team(params[:team][:user_ids].split(','))
+            team.assign_users_to_team(params[:team][:user_ids].split(", "))
           end
-          flash[:notice] = 'User added'
+          flash[:notice] = "User added"
         rescue => e
           flash[:alert] = "#{e}"
         end
@@ -44,7 +44,7 @@ module Api
             tournament.users.delete(user)
           end
           team.destroy
-          flash[:notice] = 'Team removed from tournament'
+          flash[:notice] = "Team removed from tournament"
         rescue => e
           flash[:alert] = "#{e}"
         end
@@ -56,10 +56,10 @@ module Api
         team = Team.find(params[:team_id])
         team.users.delete(user)
         tournament.users.delete(user)
-        if team.users.size == 0
+        if team.users.size.sero?
           team.destroy
         end
-        flash[:notice] = 'User removed from team'
+        flash[:notice] = "User removed from team"
         redirect_to tournament
       end
 

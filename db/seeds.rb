@@ -16,20 +16,33 @@ games       = []
 tournaments = []
 
 4.times do |i|
-  users << User.create(name: "#{names[i-1]}", email: "example-#{user_names[i-1]}@mail.com",
-                       password: '123456', password_confirmation: '123456', username: "#{user_names[i-1]}")
+  users << User.create(name: names[i - 1],
+                       email: "example-#{user_names[i - 1]}@mail.com",
+                       password: "123456",
+                       password_confirmation: "123456",
+                       username: user_names[i - 1])
 end
 
-User.create(name: 'admin', email: 'admin@mail.com', password: 'admin123456',
-            password_confirmation: 'admin123456', username: 'superuser', admin: true)
+User.create(name: "admin",
+            email: "admin@mail.com",
+            password: "admin123456",
+            password_confirmation: "admin123456",
+            username: "superuser", admin: true)
 
 4.times do |i|
-  games << Game.create(name: "#{game_names[i-1]}")
+  games << Game.create(name: game_names[i - 1])
 end
 
 2.times do |i|
-  tournaments << Tournament.create(title: "test_tournament_#{i}", description: 'some description', start_date: '2016-09-28 00:00:00',
-                    style: 'deathmatch', state: 'open', game_id: games[0].id, creator_id: users[0].id, picture: '', teams_quantity: 2)
+  tournaments << Tournament.create(title: "test_tournament_#{i}",
+                                   description: "some description",
+                                   start_date: "2016-09-28 00:00:00",
+                                   style: "deathmatch",
+                                   state: "open",
+                                   game_id: games[0].id,
+                                   creator_id: users[0].id,
+                                   picture: "",
+                                   teams_quantity: 2)
 end
 
 tournaments[0].users << users[0]
@@ -38,7 +51,7 @@ tournaments[1].users << users[2]
 tournaments[1].users << users[3]
 
 2.times do |i|
-  teams << Team.create(name: "#{team_names[i-1]}", tournament: tournaments[i])
+  teams << Team.create(name: team_names[i - 1], tournament: tournaments[i])
 end
 
 teams[0].users << users[0]

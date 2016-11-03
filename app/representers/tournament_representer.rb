@@ -12,19 +12,19 @@ class TournamentRepresenter
       state: @tournament.state,
       start_date: @tournament.start_date,
       teams_quantity: @tournament.teams_quantity,
-      players_in_team: @tournament.players_in_team
+      players_in_team: @tournament.players_in_team,
     }
   end
 
   def with_teams
     basic.megre(
-      teams: TeamsRepresenter.new(@tournament.teams).basic
+      teams: TeamsRepresenter.new(@tournament.teams).basic,
     )
   end
 
   def with_teams_and_users
     basic.merge(
-      teams: TeamsRepresenter.new(@tournament.teams).with_users
+      teams: TeamsRepresenter.new(@tournament.teams).with_users,
     )
   end
 end
