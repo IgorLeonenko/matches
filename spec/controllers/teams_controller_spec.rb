@@ -29,7 +29,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           it { expect(tournament.users.first.id).to eq(user.id) }
         end
 
-        context "right json response" do
+        context "return correct json" do
           before { create_valid }
 
           it { expect(json["id"]).to eq(Team.last.id) }

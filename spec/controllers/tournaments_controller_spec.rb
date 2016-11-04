@@ -8,7 +8,7 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
     before { login(user) }
 
     describe "GET #index" do
-      context "render index page" do
+      context "return correct json" do
         before do
           test_tournament
           get :index
@@ -20,7 +20,7 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
     end
 
     describe "GET #show" do
-      context "render show page" do
+      context "return correct json" do
         before { get :show, params: { id: test_tournament } }
 
         it { expect(response.status).to eq(200) }
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
         subject(:create_valid) { post :create, params: { tournament: attributes_for(:tournament) } }
 
         it { expect { create_valid }.to change(Tournament, :count).by(1) }
-        it "create a new tournament" do
+        it "return correct json" do
           create_valid
           expect(json["id"]).to eq(Tournament.last.id)
         end

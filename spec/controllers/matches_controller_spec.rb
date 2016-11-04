@@ -11,7 +11,7 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
     before { login(user) }
 
     describe "GET #index" do
-      context "render index page" do
+      context "return correct json" do
         before do
           test_match
           get :index
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
     end
 
     describe "GET #show" do
-      context "render show page" do
+      context "return correct json" do
         before { get :show, params: { id: test_match } }
 
         it { expect(response.status).to eq(200) }
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
         end
 
         it { expect { create_valid }.to change(Match, :count).by(1) }
-        it "create a new match" do
+        it "return correct json" do
           create_valid
           expect(json["match"]["id"]).to eq(Match.last.id)
         end
