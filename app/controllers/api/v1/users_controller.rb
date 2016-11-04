@@ -2,24 +2,13 @@ module Api
   module V1
     class UsersController < ApplicationController
 
-      def new
-        if current_user
-          flash[:notice] = "You are already logged in"
-          redirect_to matches_path
-        else
-          @user = User.new
-        end
-      end
-
       def create
         @user = User.new(user_params)
         if @user.save
           session[:user_id] = @user.id
-          flash[:notice] = "User created sucessfully"
-          redirect_to matches_path
+          render json: UserRepresenter.new(@user).basic
         else
-          flash[:alert] = "Something wrong"
-          render :new
+          render json: { errors: @user.errors }, status: 422
         end
       end
 
