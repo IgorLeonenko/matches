@@ -1,11 +1,6 @@
 module Api
   module V1
     class TeamsController < ApplicationController
-
-      def new
-        @team = tournament.teams.build
-      end
-
       def create
         begin
           Team.transaction do
