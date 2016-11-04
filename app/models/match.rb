@@ -13,7 +13,7 @@ class Match < ApplicationRecord
   validates :home_team_score, :invited_team_score, presence: true, numericality: true
   validates :status, inclusion: { in: STATUSES }
   validate  :player_can_be_only_in_one_team_on_match
-  validate  :cant_be_same_team_name
+  validate  :unique_team_name
 
   accepts_nested_attributes_for :home_team, :invited_team
 
@@ -32,7 +32,7 @@ class Match < ApplicationRecord
 
   private
 
-  def cant_be_same_team_name
+  def unique_team_name
     return if style == "tournament"
 
     if home_team.name == invited_team.name
