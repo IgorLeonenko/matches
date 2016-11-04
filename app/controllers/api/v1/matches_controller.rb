@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MatchesController < ApplicationController
+    class MatchesController < BaseController
       def index
         @matches = Match.includes(:game, :home_team, :invited_team).all
         render json: MatchesRepresenter.new(@matches).with_teams
@@ -10,21 +10,15 @@ module Api
         @match = Match.new(match_params)
         @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
         @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
-        if @match.save
-          render json: MatchRepresenter.new(@match)
-        else
-          render json: { errors: @match.errors }, status: 422
-        end
+        @match.save
+        render json: MatchRepresenter.new(@match)
       end
 
       def update
         if match.can_be_played?
-          if match.update_attributes(match_params)
-            render json: MatchRepresenter.new(match).with_teams
-            MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
-          else
-            render json: { errors: match.errors }, status: 422
-          end
+          match.update_attributes!(match_params)
+          render json: MatchRepresenter.new(match).with_teams
+          MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
         else
           render json: { errors: "Previous round not finished yet" }, status: 422
         end

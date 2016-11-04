@@ -1,6 +1,6 @@
 module Api
   module V1
-    class TournamentsController < ApplicationController
+    class TournamentsController < BaseController
       def index
         @tournaments = Tournament.all
         render json: TournamentsRepresenter.new(@tournaments).with_teams_and_users
@@ -8,20 +8,13 @@ module Api
 
       def create
         @tournament = Tournament.new(tournament_params)
-        @tournament.creator_id = current_user.id
-        if @tournament.save
-          render json: TournamentRepresenter.new(tournament).with_teams_and_users
-        else
-          render json: { errors: @tournament.errors }, status: 422
-        end
+        @tournament.save!
+        render json: TournamentRepresenter.new(@tournament).with_teams_and_users
       end
 
       def update
-        if tournament.update_attributes(tournament_params)
-          render json: TournamentRepresenter.new(tournament).with_teams_and_users
-        else
-          render json: { errors: tournament.errors }, status: 422
-        end
+        tournament.update_attributes!(tournament_params)
+        render json: TournamentRepresenter.new(tournament).with_teams_and_users
       end
 
       def destroy
@@ -30,7 +23,7 @@ module Api
         elsif !current_user.admin? && !current_user.creator?(tournament)
           render json: { errors: "You are not creator" }, status: 422
         else
-          tournament.destroy
+          tournament.destroy!
           render json: {}, status: :no_content
         end
       end
@@ -43,7 +36,7 @@ module Api
 
       def tournament_params
         params.require(:tournament).permit(:title, :game_id, :description, :picture, :start_date,
-                                           :teams_quantity, :players_in_team, :style)
+                                           :teams_quantity, :players_in_team, :style, :creator_id)
       end
     end
   end

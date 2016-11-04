@@ -1,6 +1,6 @@
 module Api
   module V1
-    class TeamsController < ApplicationController
+    class TeamsController < BaseController
       def create
         begin
           Team.transaction do
@@ -8,15 +8,8 @@ module Api
             team.assign_users_to_team(params[:team][:user_ids])
             team.save!
           end
-        rescue => @e
-          @team_error = true
         end
-
-        if @team_error == true
-          render json: { errors: @e }, status: 422
-        else
-          render json: TeamRepresenter.new(@team).with_users
-        end
+        render json: TeamRepresenter.new(@team).with_users
       end
 
       def update
@@ -24,11 +17,8 @@ module Api
           Team.transaction do
             team.assign_users_to_team(params[:team][:user_ids].split(", "))
           end
-          flash[:notice] = "User added"
-        rescue => e
-          flash[:alert] = "#{e}"
         end
-        redirect_to tournament
+        render json: TeamRepresenter.new(team).with_users
       end
 
       def destroy
@@ -36,11 +26,9 @@ module Api
           team.users.each do |user|
             tournament.users.delete(user)
           end
-          team.destroy
-          render json: {}, status: :no_content
-        rescue => e
-          render json: { errors: "#{e}" }, status: 422
         end
+        team.destroy!
+        render json: {}, status: :no_content
       end
 
       def remove_user
@@ -49,7 +37,7 @@ module Api
         team.users.delete(user)
         tournament.users.delete(user)
         if team.users.size.zero?
-          team.destroy
+          team.destroy!
         end
         render json: {}, status: :no_content
       end
