@@ -35,9 +35,7 @@ class Match < ApplicationRecord
   def cant_be_same_team_name
     return if style == "tournament"
 
-    teams_names = [home_team.name, invited_team.name]
-
-    if teams_names.uniq.length != teams_names.length
+    if home_team.name == invited_team.name
       errors.add(:base, "Can\'t be same team names")
     end
   end
