@@ -6,9 +6,7 @@ class Round < ApplicationRecord
   validates :number, uniqueness: { scope: :tournament_id }
 
   def finished?
-    if matches.any?
-      matches.where(status: "played").size == matches.size
-    end
+    matches.pluck(:status).all? { |el| el == "played" }
   end
 
   def next
