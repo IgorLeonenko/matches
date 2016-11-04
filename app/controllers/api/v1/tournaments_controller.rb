@@ -20,8 +20,6 @@ module Api
       def destroy
         if tournament.state == "ended" || tournament.state == "started"
           render json: { errors: "Tournament started or ended"}, status: 422
-        elsif !current_user.admin? && !current_user.creator?(tournament)
-          render json: { errors: "You are not creator" }, status: 422
         else
           tournament.destroy!
           render json: {}, status: :no_content

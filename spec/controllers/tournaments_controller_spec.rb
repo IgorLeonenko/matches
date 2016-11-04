@@ -19,23 +19,6 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
       end
     end
 
-    describe "GET #show" do
-      context "return correct json" do
-        before { get :show, params: { id: test_tournament } }
-
-        it { expect(response.status).to eq(200) }
-        it { expect(json["id"]).to eq(test_tournament.id) }
-      end
-
-      context "assigns requested @tournament" do
-        before do
-          get :show, params: { id: test_tournament }
-        end
-
-        it { expect(assigns(:tournament)).to eq(test_tournament) }
-      end
-    end
-
     describe "POST #create" do
       context "with valid attributes" do
         subject(:create_valid) { post :create, params: { tournament: attributes_for(:tournament) } }
@@ -98,18 +81,6 @@ RSpec.describe Api::V1::TournamentsController, type: :controller do
         it { expect(delete_tournament.response_code).to eq(204) }
 
         it { expect { delete_tournament }.to change(Tournament, :count).by(-1) }
-      end
-
-      context "when current user is not creator" do
-        before do
-          test_tournament.creator_id = 6789
-          test_tournament.save
-          delete :destroy, params: { id: test_tournament.id }
-        end
-
-        it { expect(response.code).to eq("422") }
-        it { expect(Tournament.count).to eq(1) }
-        it { expect(json["errors"]).to eq("You are not creator") }
       end
 
       context "when tournament state ended or started" do

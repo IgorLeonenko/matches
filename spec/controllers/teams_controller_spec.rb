@@ -48,7 +48,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           it { expect(response.code).to eq("422") }
           it { expect(Team.count).to eq(0) }
           it { expect(TeamUser.count).to eq(0) }
-          it { expect(json["errors"]).to eq("Validation failed: Users can\'t be blank") }
+          it { expect(json["errors"]).to eq("users" => ["can't be blank"]) }
         end
 
         context "when name is not present" do
@@ -60,7 +60,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           it { expect(response.code).to eq("422") }
           it { expect(Team.count).to eq(0) }
           it { expect(TeamUser.count).to eq(0) }
-          it { expect(json["errors"]).to eq("Validation failed: Name can\'t be blank, Name is too short (minimum is 5 characters)") }
+          it { expect(json["errors"]).to eq("name" => ["can't be blank", "is too short (minimum is 5 characters)"]) }
         end
 
         context "when one of users already in tournament" do
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           end
 
           it { expect(response.code).to eq("422") }
-          it { expect(json["errors"]).to eq("Validation failed: User already in tournament") }
+          it { expect(json["errors"]).to eq("user_id" => ["already in tournament"]) }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           end
 
           it { expect(response.code).to eq("422") }
-          it { expect(json["errors"]).to eq("Validation failed: Can\'t be more teams than teams quantity") }
+          it { expect(json["errors"]).to eq("base" => ["Can't be more teams than teams quantity"]) }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end
@@ -97,7 +97,7 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
           end
 
           it { expect(response.code).to eq("422") }
-          it { expect(json["errors"]).to eq("Validation failed: Can\'t be more players than players in team") }
+          it { expect(json["errors"]).to eq("base" => ["Can't be more players than players in team"]) }
           it { expect { response }.not_to change(Team, :count) }
           it { expect { response }.not_to change(TeamUser, :count) }
         end

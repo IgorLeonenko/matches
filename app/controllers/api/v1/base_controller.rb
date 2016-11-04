@@ -7,7 +7,7 @@ module Api
       private
 
       def handle_errors(exception)
-        render json: { errors: exception.errors }, status: 422
+        render json: { errors: exception.record.errors }, status: 422
       end
     end
   end

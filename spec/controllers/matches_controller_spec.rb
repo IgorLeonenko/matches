@@ -22,23 +22,6 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
       end
     end
 
-    describe "GET #show" do
-      context "return correct json" do
-        before { get :show, params: { id: test_match } }
-
-        it { expect(response.status).to eq(200) }
-        it { expect(json["id"]).to eq(test_match.id) }
-      end
-
-      context "assigns requested @match" do
-        before do
-          get :show, params: { id: test_match }
-        end
-
-        it { expect(assigns(:match)).to eq(test_match) }
-      end
-    end
-
     describe "POST #create" do
       context "with valid attributes" do
         subject(:create_valid) do
@@ -58,7 +41,7 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
         it { expect { create_valid }.to change(Match, :count).by(1) }
         it "return correct json" do
           create_valid
-          expect(json["match"]["id"]).to eq(Match.last.id)
+          expect(json["id"]).to eq(Match.last.id)
         end
       end
 

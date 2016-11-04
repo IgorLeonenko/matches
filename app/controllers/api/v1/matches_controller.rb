@@ -10,8 +10,8 @@ module Api
         @match = Match.new(match_params)
         @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
         @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
-        @match.save
-        render json: MatchRepresenter.new(@match)
+        @match.save!
+        render json: MatchRepresenter.new(@match).with_teams
       end
 
       def update
