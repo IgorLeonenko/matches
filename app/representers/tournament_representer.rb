@@ -1,4 +1,4 @@
-class TournamentRepresenter
+class TournamentRepresenter < BaseRepresenter
   def initialize(tournament)
     @tournament = tournament
   end

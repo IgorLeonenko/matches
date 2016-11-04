@@ -1,4 +1,4 @@
-class UserRepresenter
+class UserRepresenter < BaseRepresenter
   def initialize(user)
     @user = user
   end

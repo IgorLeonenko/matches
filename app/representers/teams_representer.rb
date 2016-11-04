@@ -1,4 +1,4 @@
-class TeamsRepresenter
+class TeamsRepresenter < BaseRepresenter
   def initialize(teams)
     @teams = teams
   end

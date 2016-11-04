@@ -1,4 +1,4 @@
-class MatchRepresenter
+class MatchRepresenter < BaseRepresenter
   def initialize(match)
     @match = match
   end
