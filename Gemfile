@@ -38,8 +38,8 @@ gem "mini_magick", "~> 4.5.1"
 
 gem "faker", "~> 1.6", ">= 1.6.5"
 
-gem "sidekiq"
-gem "whenever", require: false
+gem "sidekiq", "~> 4.2.2"
+gem "sidekiq-cron", "~> 0.4.0"
 
 # Use Capistrano for deployment
 # gem "capistrano-rails", group: :development
