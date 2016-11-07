@@ -34,15 +34,7 @@ class Tournament < ApplicationRecord
   end
 
   def full_of_players?
-    if players_in_team > 0
-      if players_total_quantity == users.size
-        true
-      else
-        false
-      end
-    else
-      true
-    end
+    players_in_team <= 0 || players_total_quantity == users.size
   end
 
   def not_started?
