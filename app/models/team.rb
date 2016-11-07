@@ -8,8 +8,8 @@ class Team < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :tournament_id }, length: { minimum: 5 }
   validates :users, presence: true
   validates :tournament_id, presence: true
-  validate  :cant_be_more_players_than_tournament_players_quantity
-  validate  :cant_be_more_teams_than_tournament_teams_quantity
+  validate  :tournament_players_quantity
+  validate  :tournament_teams_quantity
 
   def assign_users_to_team(users_ids)
     unless users_ids.nil?
@@ -26,7 +26,7 @@ class Team < ApplicationRecord
 
   private
 
-  def cant_be_more_players_than_tournament_players_quantity
+  def tournament_players_quantity
     return unless tournament
 
     if tournament.players_in_team > 0 && tournament.players_in_team < users.size
@@ -34,7 +34,7 @@ class Team < ApplicationRecord
     end
   end
 
-  def cant_be_more_teams_than_tournament_teams_quantity
+  def tournament_teams_quantity
     return unless tournament
 
     if tournament.teams_quantity < tournament.teams.size
