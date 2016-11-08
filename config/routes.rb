@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :matches, only: [:index, :create, :update, :destroy]
 
-      resources :users, only: :create
+      resources :users, only: [:index, :create]
 
       resources :tournaments, only: [:index, :create, :update, :destroy] do
         resources :teams, only: [:create, :update, :destroy] do

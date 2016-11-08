@@ -1,6 +1,11 @@
 module Api
   module V1
     class UsersController < BaseController
+      def index
+        users = User.all
+        render json: UsersRepresenter.new(users).basic
+      end
+
       def create
         @user = User.new(user_params)
         @user.save!
