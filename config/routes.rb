@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
       resources :users, only: [:index, :create]
 
+      resources :games, only: :index
+
       resources :tournaments, only: [:index, :create, :update, :destroy] do
         resources :teams, only: [:create, :update, :destroy] do
           delete 'remove_user/:user_id', to: 'teams#remove_user', as: 'remove_user'
