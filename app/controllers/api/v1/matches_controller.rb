@@ -36,7 +36,7 @@ module Api
       end
 
       def match_params
-        params.require(:match).permit(:name, :status, :game_id,
+        params.require(:match).permit(:status, :game_id,
                                       :home_team_score, :invited_team_score,
                                       home_team_attributes: [:name, :user_ids],
                                       invited_team_attributes: [:name, :user_ids])
