@@ -14,4 +14,8 @@ class TournamentsRepresenter < BaseRepresenter
   def with_teams_and_users
     @tournaments.map { |tournament| TournamentRepresenter.new(tournament).with_teams_and_users }
   end
+
+  def with_all
+    @tournaments.map { |tournament| TournamentRepresenter.new(tournament).with_all }
+  end
 end
