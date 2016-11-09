@@ -110,8 +110,6 @@ new Vue({
       auth.user.data = JSON.parse(localStorage.getItem('user'))
       api.logIn()
       store.dispatch('getUsers')
-      store.dispatch('getMatches')
-      store.dispatch('getTournaments')
       store.dispatch('getGames')
       this.$router.push('/tournaments')
     } else {

@@ -44,6 +44,9 @@
         return this.$store.state.tournaments
       }
     },
+    mounted () {
+      this.$store.dispatch('getTournaments')
+    },
     methods: {
       showTournament (id) {
         router.push({name: 'tournamentInfo', params: { id: id }})

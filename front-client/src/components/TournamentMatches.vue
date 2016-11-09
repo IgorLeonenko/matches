@@ -17,8 +17,14 @@
                 <tr v-for="match in round.matches">
                   <td>{{match.id}}</td>
                   <td>{{match.status}}</td>
-                  <td>{{match.home_team.name}}</td>
-                  <td>{{match.invited_team.name}}</td>
+                  <td>
+                    {{match.home_team.name}}
+                    {{match.home_team_score}}
+                  </td>
+                  <td>
+                    {{match.invited_team.name}}
+                    {{match.invited_team_score}}
+                  </td>
                   <td>
                     <button type='type' @click='playMatch(match)' v-show="match.status === 'prepare'">
                       Play match
@@ -47,8 +53,8 @@
     },
     methods: {
       playMatch (match) {
-        match.status = 'in game'
-        this.$store.dispatch('updateMatch', match)
+        var params = {status: 'in game'}
+        this.$store.dispatch('updateMatch', [params, match])
         router.push({name: 'showMatch', params: { id: match.id }})
       },
       showMatch (id) {

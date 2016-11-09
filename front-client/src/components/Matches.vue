@@ -50,6 +50,9 @@
         return this.$store.state.matches
       }
     },
+    mounted () {
+      this.$store.dispatch('getMatches')
+    },
     methods: {
       showMatch (id) {
         router.push({name: 'showMatch', params: { id: id }})
