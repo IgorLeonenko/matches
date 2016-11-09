@@ -35,7 +35,8 @@
   export default {
     name: 'NewTeam',
     props: {
-      tournament: {}
+      tournament: {},
+      team: {}
     },
     data () {
       return {

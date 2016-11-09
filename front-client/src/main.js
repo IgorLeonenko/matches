@@ -4,7 +4,9 @@ import VueRouter from 'vue-router'
 import store from './vuex/store'
 
 import Login from './components/Login'
+import signUp from './components/SignUp'
 import Matches from './components/Matches'
+import newMatch from './components/NewMatch'
 import showMatch from './components/ShowMatch'
 import Tournaments from './components/Tournaments'
 import Tournament from './components/Tournament'
@@ -25,9 +27,19 @@ const routes = [
     component: Login
   },
   {
+    path: '/signup',
+    name: 'signup',
+    component: signUp
+  },
+  {
     path: '/matches',
     name: 'matches',
     component: Matches
+  },
+  {
+    path: '/matches/new',
+    name: 'newMatch',
+    component: newMatch
   },
   {
     path: '/matches/:id',
@@ -78,7 +90,7 @@ export const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path === '/signup') {
     next()
   } else {
     if (auth.user.authenticated === true) {
@@ -97,11 +109,11 @@ new Vue({
     if (auth.user.authenticated === true) {
       auth.user.data = JSON.parse(localStorage.getItem('user'))
       api.logIn()
-      this.$router.push('/tournaments')
       store.dispatch('getUsers')
       store.dispatch('getMatches')
       store.dispatch('getTournaments')
       store.dispatch('getGames')
+      this.$router.push('/tournaments')
     } else {
       localStorage.removeItem('user')
       api.logOut()

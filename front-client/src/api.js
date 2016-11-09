@@ -32,11 +32,17 @@ export default {
   async getUsers () {
     return await axios.get(API_PATH + '/users')
   },
+  async createUser (params) {
+    return await axios.post(API_PATH + '/users/', {user: params})
+  },
   async getMatches () {
     return await axios.get(API_PATH + '/matches')
   },
   async updateMatch (params, id) {
     return await axios.patch(API_PATH + '/matches/' + id, {match: params})
+  },
+  async createFriendlyMatch (params) {
+    return await axios.post(API_PATH + '/matches', {match: params})
   },
   async getTournaments () {
     return await axios.get(API_PATH + '/tournaments')
@@ -54,7 +60,7 @@ export default {
     return await axios.delete(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId)
   },
   async addUserToTeam (tournamentId, teamId, userId) {
-    return await axios.patch(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId, {team: {user_ids: userId}})
+    return await axios.patch(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId, {team: {user_ids: [userId]}})
   },
   async removeUser (tournamentId, teamId, userId) {
     return await axios.delete(API_PATH + '/tournaments/' + tournamentId + '/teams/' + teamId + '/remove_user/' + userId)

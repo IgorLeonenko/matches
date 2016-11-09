@@ -23,11 +23,11 @@
             {{ match.game }}
           </td>
           <td>
-            <p>{{ match.home_team_name }}</p>
+            <p>{{ match.home_team.name }}</p>
             <p>{{ match.home_team_score }}</p>
           </td>
           <td>
-            <p>{{ match.invited_team_name }}</p>
+            <p>{{ match.invited_team.name }}</p>
             <p>{{ match.invited_team_score }}</p>
           </td>
         </tr>
@@ -36,6 +36,7 @@
     <p v-else>
       No matches yet
     </p>
+    <router-link :to="{name: 'newMatch'}">New friendly match</router-link>
   </div>
 </template>
 

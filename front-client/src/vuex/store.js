@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../api'
 import { router } from '../main'
+import auth from '../auth'
 
 Vue.use(Vuex)
 
@@ -30,6 +31,9 @@ export default new Vuex.Store({
       let index = state.tournaments.findIndex(({ id }) => id === tournament.id)
       state.tournaments.splice(index, 1, tournament)
     },
+    ADD_MATCH (state, match) {
+      state.matches.push(match)
+    },
     ADD_TEAM (state, {tournamentId, team}) {
       let index = state.tournaments.findIndex(({ id }) => id === tournamentId)
       let tournament = state.tournaments[index]
@@ -40,6 +44,9 @@ export default new Vuex.Store({
       let tournament = state.tournaments[tournamentIndex]
       let teamIndex = tournament.teams.findIndex(({ id }) => id === team.data.id)
       tournament.teams.splice(teamIndex, 1)
+    },
+    ADD_USER (state, user) {
+      state.users.push(user)
     },
     ADD_USER_TO_TEAM (state, {tournamentId, team}) {
       let tournamentIndex = state.tournaments.findIndex(({ id }) => id === tournamentId)
@@ -89,11 +96,31 @@ export default new Vuex.Store({
       let matches = await api.getMatches()
       commit('SET_MATCHES_LIST', matches)
     },
+    async createMatch ({commit}, match) {
+      match = await api.createFriendlyMatch(match)
+      if (match) {
+        commit('ADD_MATCH', match.data)
+        router.push({name: 'matches'})
+      }
+    },
+    async updateMatch ({commit}, [params, match]) {
+      match = await api.updateMatch(params, match.id)
+      if (match) {
+        commit('EDIT_MATCH', match.data)
+      }
+    },
     async addTournament ({commit}, tournament) {
       tournament = await api.createTournament(tournament)
       if (tournament) {
         commit('ADD_TOURNAMENT', tournament.data)
         router.push({name: 'tournaments'})
+      }
+    },
+    async createUser ({commit}, user) {
+      user = await api.createUser(user)
+      if (user) {
+        commit('ADD_USER', user.data)
+        auth.login(user.data.email, user.data.password)
       }
     },
     async updateTournament ({commit}, tournament) {
@@ -125,12 +152,6 @@ export default new Vuex.Store({
       let team = await api.removeUser(tournamentId, teamId, userId)
       if (team) {
         commit('REMOVE_USER', {tournamentId, team})
-      }
-    },
-    async updateMatch ({commit}, match) {
-      match = await api.updateMatch(match, match.id)
-      if (match) {
-        commit('EDIT_MATCH', match.data)
       }
     },
     errors ({commit}, errors) {

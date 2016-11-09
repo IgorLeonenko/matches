@@ -1,0 +1,141 @@
+<template>
+  <div>
+    <p v-if='errors.length > 0'>{{errors}}</p>
+    <form id='match' v-on:submit.prevent>
+      <p>
+        <label for='game'>Choose game</label>
+        <select v-model='match.game_id'>
+          <option v-for="game in games" :value="game.id">
+            {{ game.name }}
+          </option>
+        </select>
+      </p>
+      <p>
+        <h4>Home team</h4>
+        <label for='name'>name</label>
+        <input type="text" v-model="match.home_team_attributes.name" name="name"></input>
+        <p>
+          <label for='users'>Add user</label>
+          <select v-model='userToHomeTeam'>
+            <option v-for="user in users" :value="user">
+              {{ user.username }}
+            </option>
+          </select>
+          <button type='button' @click='addUserToHomeTeam(userToHomeTeam)'>+</button>
+        </p>
+        <p>
+          <h5 v-if="usersInHomeTeam.length > 0">Players in home team:</h5>
+          <ul>
+            <li v-for="user in selectedToHomeTeam">
+              {{user.username}}
+              <button type='button' @click='removeUserFromHomeTeam(user)'>x</button>
+            </li>
+          </ul>
+        </p>
+      </p>
+      <p>
+        <h4>Invited team</h4>
+        <label for='invited-team-name'>name</label>
+        <input type="text" v-model="match.invited_team_attributes.name" name="name"></input>
+        <p>
+          <label for='users'>Add user</label>
+          <select v-model='userToInvitedTeam'>
+            <option v-for="user in users" :value="user">
+              {{ user.username }}
+            </option>
+          </select>
+          <button type='button' @click='addUserToInvitedTeam(userToInvitedTeam)'>+</button>
+        </p>
+        <p>
+          <h5 v-if="usersInInvitedTeam.length > 0">Players in invited team:</h5>
+          <ul>
+            <li v-for="user in selectedToInvitedTeam">
+              {{user.username}}
+              <button type='button' @click='removeUserFromInvitedTeam(user)'>x</button>
+            </li>
+          </ul>
+        </p>
+      <p>
+      <button @click='createMatch()'>Create friendly match</button>
+    </form>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'FriendlyMatchForm',
+    data () {
+      return {
+        games: this.$store.state.games,
+        users: this.$store.state.users,
+        userToHomeTeam: {},
+        usersInHomeTeam: [],
+        userToInvitedTeam: {},
+        usersInInvitedTeam: [],
+        match: {
+          status: 'prepare',
+          game_id: '',
+          home_team_attributes: {
+            name: '',
+            user_ids: []
+          },
+          invited_team_attributes: {
+            name: '',
+            user_ids: []
+          }
+        }
+      }
+    },
+    computed: {
+      selectedToHomeTeam () {
+        return this.usersInHomeTeam
+      },
+      selectedToInvitedTeam () {
+        return this.usersInInvitedTeam
+      },
+      errors () {
+        return this.$store.state.errors
+      }
+    },
+    methods: {
+      createMatch () {
+        this.$store.dispatch('createMatch', this.match)
+        this.errors = this.$store.state.errors
+      },
+      addUserToHomeTeam (user) {
+        if (!this.match.home_team_attributes.user_ids.includes(user.id)) {
+          this.match.home_team_attributes.user_ids.push(user.id)
+          this.usersInHomeTeam.push(user)
+          this.$store.dispatch('errors', '')
+        } else {
+          this.$store.dispatch('errors', 'User already in list')
+        }
+      },
+      removeUserFromHomeTeam (user) {
+        var index = this.usersInHomeTeam.findIndex(({id}) => id === user.id)
+        this.match.home_team_attributes.user_ids.splice(index, 1)
+        this.usersInHomeTeam.splice(index, 1)
+      },
+      addUserToInvitedTeam (user) {
+        if (!this.match.home_team_attributes.user_ids.includes(user.id)) {
+          this.match.invited_team_attributes.user_ids.push(user.id)
+          this.usersInInvitedTeam.push(user)
+          this.$store.dispatch('errors', '')
+        } else {
+          this.$store.dispatch('errors', 'User already in list')
+        }
+      },
+      removeUserFromInvitedTeam (user) {
+        var index = this.usersInInvitedTeam.findIndex(({id}) => id === user.id)
+        this.match.invited_team_attributes.user_ids.splice(index, 1)
+        this.usersInInvitedTeam.splice(index, 1)
+      }
+    }
+  }
+</script>
+
+<style scoped>
+  #match {
+    text-align: left;
+  }
+</style>

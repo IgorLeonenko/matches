@@ -9,7 +9,8 @@
       <router-link :to="{name: 'tournaments'}">Tournaments</router-link>
     </div>
     <div v-else>
-      <router-link to='/login'>Login</router-link>
+      <router-link to='/login'>Login</router-link> |
+      <router-link to='/signup'>Sign Up</router-link>
     </div>
   </div>
 </template>
