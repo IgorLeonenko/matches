@@ -6,7 +6,7 @@ class Team < ApplicationRecord
   belongs_to :tournament
 
   validates :name, presence: true, uniqueness: { scope: :tournament_id }, length: { minimum: 5 }
-  validates :users, presence: true
+  validates :team_users, presence: true
   validates :tournament_id, presence: true
   validate  :tournament_players_quantity
   validate  :tournament_teams_quantity
@@ -14,8 +14,8 @@ class Team < ApplicationRecord
   def assign_users_to_team(users_ids)
     unless users_ids.nil?
       users_ids.each do |user_id|
-        users << User.find(user_id)
-        tournament.users << User.find(user_id) if tournament
+        team_users.build(user_id: user_id)
+        tournament.tournament_users.create!(user_id: user_id) if tournament_id > 0
       end
     end
   end

@@ -2,30 +2,21 @@ module Api
   module V1
     class TeamsController < BaseController
       def create
-        begin
-          Team.transaction do
-            @team = tournament.teams.build(team_params)
-            team.assign_users_to_team(params[:team][:user_ids])
-            team.save!
-          end
-        end
+        @team = tournament.teams.build(team_params)
+        team.assign_users_to_team(params[:team][:user_ids])
+        team.save!
         render json: TeamRepresenter.new(@team).with_users
       end
 
       def update
-        begin
-          Team.transaction do
-            team.assign_users_to_team(params[:team][:user_ids].split(", "))
-          end
-        end
+        team.assign_users_to_team(params[:team][:user_ids])
+        team.update!(team_params)
         render json: TeamRepresenter.new(team).with_users
       end
 
       def destroy
-        begin
-          team.users.each do |user|
-            tournament.users.delete(user)
-          end
+        team.users.each do |user|
+          tournament.users.delete(user)
         end
         team.destroy!
         render json: {}, status: :no_content
