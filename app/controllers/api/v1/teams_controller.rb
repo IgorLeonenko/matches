@@ -2,10 +2,10 @@ module Api
   module V1
     class TeamsController < BaseController
       def create
-        @team = tournament.teams.build(team_params)
-        team.assign_users_to_team(params[:team][:user_ids])
-        team.save!
-        render json: TeamRepresenter.new(@team).with_users
+        new_team = tournament.teams.build(team_params)
+        new_team.assign_users_to_team(params[:team][:user_ids])
+        new_team.save!
+        render json: TeamRepresenter.new(new_team).with_users
       end
 
       def update
