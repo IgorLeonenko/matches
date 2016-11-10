@@ -17,7 +17,7 @@ class Team < ApplicationRecord
     unless users_ids.nil?
       users_ids.each do |user_id|
         team_users.build(user_id: user_id)
-        tournament.tournament_users.build(user_id: user_id)
+        tournament.tournament_users.build(user_id: user_id) if tournament
       end
     end
   end
