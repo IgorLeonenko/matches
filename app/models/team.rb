@@ -11,11 +11,13 @@ class Team < ApplicationRecord
   validate  :tournament_players_quantity
   validate  :tournament_teams_quantity
 
+  accepts_nested_attributes_for :tournament
+
   def assign_users_to_team(users_ids)
     unless users_ids.nil?
       users_ids.each do |user_id|
         team_users.build(user_id: user_id)
-        tournament.tournament_users.create!(user_id: user_id) if tournament_id > 0
+        tournament.tournament_users.build(user_id: user_id)
       end
     end
   end
@@ -27,15 +29,15 @@ class Team < ApplicationRecord
   private
 
   def tournament_players_quantity
-    return unless tournament
+    return if tournament_id == 0
 
-    if tournament.players_in_team > 0 && tournament.players_in_team < users.size
+    if tournament.players_in_team > 0 && tournament.players_in_team < tournament.tournament_users.size
       errors.add(:base, "Can\'t be more players than players in team")
     end
   end
 
   def tournament_teams_quantity
-    return unless tournament
+    return if tournament_id == 0
 
     if tournament.teams_quantity < tournament.teams.size
       errors.add(:base, "Can\'t be more teams than teams quantity")

@@ -19,6 +19,8 @@ class Tournament < ApplicationRecord
   validates :style, inclusion: { in: STYLES }
   validates :state, inclusion: { in: STATES }
 
+  accepts_nested_attributes_for :tournament_users
+
   mount_uploader :picture, TournamentPictureUploader
 
   def players_total_quantity
