@@ -15,9 +15,8 @@ module Api
       end
 
       def destroy
-        team.users.each do |user|
-          tournament.users.delete(user)
-        end
+        user_ids = team.team_users.select(:user_id)
+        tournament.tournament_users.where(user_id: user_ids).delete_all
         team.destroy!
         render json: {}, status: :no_content
       end
