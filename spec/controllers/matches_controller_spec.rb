@@ -29,12 +29,12 @@ RSpec.describe Api::V1::MatchesController, type: :controller do
                                                         home_team_attributes:
                                                           {
                                                             name: team_1.name,
-                                                            user_ids: [team_1.users.map(&:id)],
+                                                            user_ids: team_1.users.map(&:id),
                                                           },
                                                         invited_team_attributes:
                                                           {
                                                             name: team_2.name,
-                                                            user_ids: [team_2.users.map(&:id)],
+                                                            user_ids: team_2.users.map(&:id),
                                                           }) }
         end
 
