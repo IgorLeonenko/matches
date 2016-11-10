@@ -29,15 +29,15 @@ class Team < ApplicationRecord
   private
 
   def tournament_players_quantity
-    return if tournament_id == 0
+    return unless tournament
 
-    if tournament.players_in_team > 0 && tournament.players_in_team < tournament.tournament_users.size
+    if tournament.players_in_team > 0 && tournament.players_in_team < team_users.size
       errors.add(:base, "Can\'t be more players than players in team")
     end
   end
 
   def tournament_teams_quantity
-    return if tournament_id == 0
+    return unless tournament
 
     if tournament.teams_quantity < tournament.teams.size
       errors.add(:base, "Can\'t be more teams than teams quantity")
