@@ -27,6 +27,7 @@ gem "jbuilder", "~> 2.5"
 # Use ActiveModel has_secure_password
 gem "bcrypt", "~> 3.1.7"
 gem "knock", "~> 1.5"
+gem 'pundit', '~> 1.1'
 
 gem "rack-cors", require: "rack/cors"
 
