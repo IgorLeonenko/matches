@@ -65,10 +65,11 @@ RSpec.describe Api::V1::TeamsController, type: :controller do
 
         context "when one of users already in tournament" do
           let(:tournament_with_users) { create(:tournament, :with_users) }
+          let(:users_list) { create_list(:user, 3) }
           before do
             post :create, params: { tournament_id: tournament_with_users.id,
                                     team: { name: "good team",
-                                            user_ids: [tournament_with_users.users.first.id] } }
+                                            user_ids: [users_list.map(&:id)] } }
           end
 
           it { expect(response.code).to eq("422") }
