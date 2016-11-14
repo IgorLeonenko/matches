@@ -2,18 +2,19 @@ require "rails_helper"
 
 RSpec.describe MatchWorker, type: :worker do
   subject(:perform_match)      { job_match.perform(tournament.id) }
-  subject(:perform_tournament) { job_tournament.perform(tournament.id) }
+  subject(:perform_tournament) { job_tournament.perform }
   let(:user)                   { create(:user) }
-  let(:tournament)             { create(:tournament, creator_id: user.id, teams_quantity: 4) }
-  let(:teams)                  { build_list(:team, 4, :with_users) }
+  let(:tournament)             { build(:tournament, creator_id: user.id, teams_quantity: 4,
+                                       players_in_team: 0) }
+  let(:teams)                  { create_list(:team, 4, :with_users) }
   let(:job_tournament)         { TournamentWorker.new }
   let(:job_match)              { MatchWorker.new }
 
   context "#perform" do
     before do
+      tournament.save
       teams.each do |team|
-        tournament.teams << team
-        team.save
+        team.update(tournament_id: tournament.id)
       end
       perform_tournament
       tournament.rounds.first.matches.each do |match|
