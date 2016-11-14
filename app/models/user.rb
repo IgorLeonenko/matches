@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :name, :email, :username, presence: true
   validates :name, :username, length: { minimum: 3 }
   validates :email, uniqueness: true,
-                    format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/}
+                    format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/ }
   validates :username, uniqueness: true
 
   mount_uploader :avatar, AvatarUploader

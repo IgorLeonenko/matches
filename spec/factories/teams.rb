@@ -4,7 +4,7 @@ FactoryGirl.define do
 
     trait :with_users do
       after(:build) do |team|
-        2.times do |u|
+        2.times do
           team.users << create(:user)
         end
       end

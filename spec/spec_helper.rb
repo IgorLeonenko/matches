@@ -16,12 +16,14 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'factory_girl_rails'
-require 'support/factory_girl'
-require 'support/users_helper'
+require "factory_girl_rails"
+require "support/factory_girl"
+require "support/users_helper"
+require "support/request_helper"
+require "sidekiq/testing"
+Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
-
   config.after(:all) do
     if Rails.env.test?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
@@ -32,6 +34,7 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
   config.include(UserHelper)
+  config.include(Requests::JsonHelpers)
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`

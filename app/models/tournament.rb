@@ -1,28 +1,25 @@
 class Tournament < ApplicationRecord
-
-  STYLE = %w(league deathmatch)
-  STATE = %w(open started ended)
+  STYLES = %w(deathmatch league).freeze
+  STATES = %w(open started ended).freeze
 
   belongs_to :game
 
   has_many :tournament_users
   has_many :users, through: :tournament_users, dependent: :destroy
 
-  has_many :match_tournaments
-  has_many :matches, through: :match_tournaments
-
-  has_many :team_tournaments
-  has_many :teams, through: :team_tournaments
+  has_many :teams, dependent: :destroy
+  has_many :rounds
 
   validates :title, :start_date, :style, :state,
-            :teams_quantity, :game, presence: true
+            :teams_quantity, :game_id, :players_in_team, presence: true
   validates :title, length: { minimum: 5 }
-  validates :teams_quantity, numericality: {
-                                               only_integer: true, greater_than: 0 }
+  validates :teams_quantity, numericality: { only_integer: true, greater_than: 0 }
+  validates :players_in_team, numericality: { only_integer: true }
   validates :description, length: { maximum: 500 }
-  validates :style, inclusion: { in: STYLE }
-  validates :state, inclusion: { in: STATE }
-  validate  :cant_be_more_teams_than_teams_quantity
+  validates :style, inclusion: { in: STYLES }
+  validates :state, inclusion: { in: STATES }
+
+  accepts_nested_attributes_for :tournament_users
 
   mount_uploader :picture, TournamentPictureUploader
 
@@ -34,13 +31,19 @@ class Tournament < ApplicationRecord
     User.find(creator_id).username
   end
 
-  private
+  def full_of_teams?
+    teams.size == teams_quantity
+  end
 
-  def cant_be_more_teams_than_teams_quantity
-    return if teams_quantity.blank?
+  def full_of_players?
+    players_in_team <= 0 || players_total_quantity == users.size
+  end
 
-    if teams.size > teams_quantity
-      errors.add(:base, "Can\'t be more teams than teams quantity")
-    end
+  def not_started?
+    Time.zone.today >= start_date && state == "open"
+  end
+
+  def can_be_started?
+    full_of_teams? && full_of_players? && not_started?
   end
 end
