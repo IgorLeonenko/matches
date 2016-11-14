@@ -1,6 +1,7 @@
 module Api
   module V1
     class MatchesController < BaseController
+      before_action :authenticate_user
       def index
         @matches = Match.includes(:game, :home_team, :invited_team).all
         render json: MatchesRepresenter.new(@matches).with_teams
@@ -15,6 +16,7 @@ module Api
       end
 
       def update
+        authorize match
         if match.can_be_played?
           match.update_attributes!(match_params)
           render json: MatchRepresenter.new(match).with_teams

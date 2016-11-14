@@ -1,6 +1,7 @@
 module Api
   module V1
     class TournamentsController < BaseController
+      before_action :authenticate_user
       def index
         @tournaments = Tournament.all
         render json: TournamentsRepresenter.new(@tournaments).with_teams_and_users
@@ -13,6 +14,7 @@ module Api
       end
 
       def update
+        authorize tournament
         tournament.update_attributes!(tournament_params)
         render json: TournamentRepresenter.new(tournament).with_teams_and_users
       end
