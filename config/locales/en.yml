@@ -28,3 +28,8 @@ en:
    tournament_policy:
      update?: "You are not creator!"
      destroy?: "You are not creator or admin"
+   team_policy:
+     create?: "You are not creator"
+     update?: "You are not creator"
+     destroy?: "You are not creator"
+     remove_user?: "You are not creator"
