@@ -7,6 +7,6 @@ class MatchPolicy < ApplicationPolicy
   end
 
   def update?
-    match.home_team.users.include?(user) || match.invited_team.users.include?(user)
+    match.home_team.users.include?(user) || match.invited_team.users.include?(user) || user.admin? || user.creator?(match.round.tournament.id)
   end
 end
