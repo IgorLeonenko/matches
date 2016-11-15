@@ -22,8 +22,9 @@
 en:
   hello: "Hello world"
   pundit:
-   default: 'You cannot perform this action.'
+   default: "You cannot perform this action."
    match_policy:
-     update?: 'You cannot edit this match!'
+     update?: "You cannot edit this match!"
    tournament_policy:
-     update?: 'You are not creator!'
+     update?: "You are not creator!"
+     destroy?: "You are not creator or admin"
