@@ -18,6 +18,8 @@ class Tournament < ApplicationRecord
   validates :description, length: { maximum: 500 }
   validates :style, inclusion: { in: STYLES }
   validates :state, inclusion: { in: STATES }
+  validate  :teams_quantity_not_less_registered_teams
+  validate  :players_quantity_not_less_registered_players
 
   accepts_nested_attributes_for :tournament_users
 
@@ -45,5 +47,21 @@ class Tournament < ApplicationRecord
 
   def can_be_started?
     full_of_teams? && full_of_players? && not_started?
+  end
+
+  private
+
+  def teams_quantity_not_less_registered_teams
+    if teams.size > teams_quantity
+      errors.add(:base, "Can\'t be less than registered teams")
+    end
+  end
+
+  def players_quantity_not_less_registered_players
+    return if players_in_team == 0
+
+    if teams.any? { |team| team.users.size > players_in_team}
+      errors.add(:base, "Can\'t be less than registered players in team")
+    end
   end
 end
