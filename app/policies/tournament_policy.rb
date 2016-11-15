@@ -15,8 +15,10 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if tournament.state == 'started'
+    if tournament.state == "started"
       [:title, :description, :picture]
+    elsif tournament.state == "ended"
+      []
     else
       [:title, :game_id, :description, :picture, :start_date,
        :teams_quantity, :players_in_team, :style, :creator_id]
