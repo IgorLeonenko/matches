@@ -31,6 +31,7 @@ class TournamentRepresenter < BaseRepresenter
   def with_all
     with_teams_and_users.merge(
       rounds: RoundsRepresenter.new(@tournament.rounds).with_matches,
+      creator: @tournament.creator,
     )
   end
 end
