@@ -8,11 +8,11 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def create?
-    user.creator?(team.tournament_id)
+    user.creator?(team.tournament_id) && team.tournament.state == 'open'
   end
 
   def update?
-    user.creator?(team.tournament_id)
+    user.creator?(team.tournament_id) && team.tournament.state == 'open'
   end
 
   def destroy?
