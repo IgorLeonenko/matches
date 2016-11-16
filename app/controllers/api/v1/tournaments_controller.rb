@@ -21,7 +21,7 @@ module Api
 
       def update
         tournament.update_attributes!(tournament_params)
-        render json: TournamentRepresenter.new(tournament)
+        render json: TournamentRepresenter.new(tournament).with_all
       end
 
       def destroy

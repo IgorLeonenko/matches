@@ -10,9 +10,10 @@ class TournamentRepresenter < BaseRepresenter
       description: @tournament.description,
       style: @tournament.style,
       state: @tournament.state,
-      start_date: @tournament.start_date,
+      start_date: @tournament.start_date.strftime("%F"),
       teams_quantity: @tournament.teams_quantity,
       players_in_team: @tournament.players_in_team,
+      game_id: @tournament.game_id,
     }
   end
 

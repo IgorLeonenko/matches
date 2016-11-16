@@ -31,7 +31,7 @@
     name: 'Tournament',
     computed: {
       tournament () {
-        var tournament = this.$store.state.tournaments.findIndex(
+        var tournament = this.$store.getters.tournaments.findIndex(
           ({ id }) => id === this.$route.params.id
         )
         return this.$store.state.tournaments[tournament]
