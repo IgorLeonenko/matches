@@ -44,7 +44,9 @@
   export default {
     name: 'TournamentTeams',
     props: {
-      tournament: {}
+      tournament: {
+        type: Object
+      }
     },
     data () {
       return {

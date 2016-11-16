@@ -12,7 +12,9 @@ import TournamentForm from './TournamentForm'
 export default {
   name: 'UpdateTournament',
   props: {
-    tournament: {}
+    tournament: {
+      type: Object
+    }
   },
   data () {
     return {

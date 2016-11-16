@@ -46,8 +46,12 @@
   export default {
     name: 'TournamentForm',
     props: {
-      buttonText: String,
-      tournament: {}
+      buttonText: {
+        type: String
+      },
+      tournament: {
+        type: Object
+      }
     },
     computed: {
       games () {

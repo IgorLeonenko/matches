@@ -29,7 +29,9 @@
   export default {
     name: 'TournamentInfo',
     props: {
-      tournament: {}
+      tournament: {
+        type: Object
+      }
     },
     methods: {
       editTournament (id) {

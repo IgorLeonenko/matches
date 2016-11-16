@@ -49,7 +49,9 @@
   export default {
     name: 'TournamentMatches',
     props: {
-      rounds: {}
+      rounds: {
+        type: Array
+      }
     },
     methods: {
       playMatch (match) {
