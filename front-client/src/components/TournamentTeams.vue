@@ -1,6 +1,6 @@
 <template>
   <div id='tournament-teams'>
-    <p>Free slots for team: {{teams.length}} / {{tournament.teams_quantity}}</p>
+    <p>Free slots for team: {{teamsFreeSlots}}</p>
     <p v-show="teams.length === 0">No teams assigned</p>
     <div v-show="teams.length < tournament.teams_quantity">
       <new-team :tournament="tournament"></new-team>
@@ -56,6 +56,9 @@
     computed: {
       teams () {
         return this.tournament.teams
+      },
+      teamsFreeSlots () {
+        return this.teams.length + '/' + this.tournament.teams_quantity
       },
       users () {
         return this.$store.getters.users
