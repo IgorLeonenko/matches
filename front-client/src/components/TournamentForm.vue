@@ -51,8 +51,12 @@
     },
     data () {
       return {
-        errors: '',
-        games: this.$store.state.games
+        errors: ''
+      }
+    },
+    computed: {
+      games () {
+        return this.$store.getters.games
       }
     },
     methods: {

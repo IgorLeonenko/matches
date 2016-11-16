@@ -41,7 +41,7 @@
     name: 'Tournaments',
     computed: {
       tournaments () {
-        return this.$store.state.tournaments
+        return this.$store.getters.tournaments
       }
     },
     mounted () {

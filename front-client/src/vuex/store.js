@@ -14,6 +14,23 @@ export default new Vuex.Store({
     errors: [],
     users: []
   },
+  getters: {
+    users (state) {
+      return state.users
+    },
+    games (state) {
+      return state.games
+    },
+    tournaments (state) {
+      return state.tournaments
+    },
+    matches (state) {
+      return state.matches
+    },
+    errors (state) {
+      return state.errors
+    }
+  },
   mutations: {
     SET_USERS_LIST (state, users) {
       state.users = users.data

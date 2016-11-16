@@ -44,8 +44,7 @@
         newTeam: {
           name: '',
           user_ids: []
-        },
-        users: this.$store.state.users
+        }
       }
     },
     computed: {
@@ -57,6 +56,9 @@
       },
       freeSlots () {
         return this.tournament.players_in_team - this.newTeam.user_ids.length
+      },
+      users () {
+        return this.$store.getters.users
       }
     },
     methods: {

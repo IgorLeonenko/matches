@@ -47,7 +47,7 @@
     name: 'Matches',
     computed: {
       matches () {
-        return this.$store.state.matches
+        return this.$store.getters.matches
       }
     },
     mounted () {

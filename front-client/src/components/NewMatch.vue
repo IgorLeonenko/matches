@@ -66,8 +66,6 @@
     name: 'FriendlyMatchForm',
     data () {
       return {
-        games: this.$store.state.games,
-        users: this.$store.state.users,
         userToHomeTeam: {},
         usersInHomeTeam: [],
         userToInvitedTeam: {},
@@ -94,7 +92,13 @@
         return this.usersInInvitedTeam
       },
       errors () {
-        return this.$store.state.errors
+        return this.$store.getters.errors
+      },
+      users () {
+        return this.$store.getters.users
+      },
+      games () {
+        return this.$store.getters.games
       }
     },
     methods: {

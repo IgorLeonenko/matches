@@ -48,13 +48,15 @@
     },
     data () {
       return {
-        userToTeam: {},
-        users: this.$store.state.users
+        userToTeam: {}
       }
     },
     computed: {
       teams () {
         return this.tournament.teams
+      },
+      users () {
+        return this.$store.getters.users
       }
     },
     components: {
