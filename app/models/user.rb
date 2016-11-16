@@ -15,7 +15,11 @@ class User < ApplicationRecord
 
   mount_uploader :avatar, AvatarUploader
 
-  def creator?(tournament_id)
+  def tournaments_creator?(tournament_id)
     id == Tournament.find(tournament_id).creator_id
+  end
+
+  def match_creator?(match_id)
+    id == Match.find(match_id).creator_id
   end
 end

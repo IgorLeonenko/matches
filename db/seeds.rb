@@ -59,5 +59,5 @@ teams[0].users << users[1]
 teams[1].users << users[2]
 teams[1].users << users[3]
 
-Match.create(home_team: teams[0], invited_team: teams[1], game: games[0])
-Match.create(home_team: teams[1], invited_team: teams[0], game: games[1])
+Match.create(home_team: teams[0], invited_team: teams[1], game: games[0], creator_id: users[0].id)
+Match.create(home_team: teams[1], invited_team: teams[0], game: games[1], creator_id: users[0].id)

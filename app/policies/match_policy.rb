@@ -17,6 +17,10 @@ class MatchPolicy < ApplicationPolicy
   end
 
   def admin_or_creator?
-    user.admin? || user.creator?(match.round.tournament.id)
+    if match.style == "friendly"
+      user.match_creator?(match.id)
+    else
+      user.admin? || user.tournament_creator?(match.round.tournament.id)
+    end
   end
 end

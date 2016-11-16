@@ -9,6 +9,7 @@ class CreateMatches < ActiveRecord::Migration[5.0]
       t.integer :invited_team_score, null: false, default: 0
       t.belongs_to :game, index: true, null: false
       t.belongs_to :round, index: true, null: false, default: 0
+      t.integer :creator_id, null: false, default: 0
 
       t.timestamps
     end

@@ -10,6 +10,7 @@ module Api
 
       def create
         @match = Match.new(match_params)
+        @match.creator_id = current_user.id
         @match.home_team.assign_users_to_team(params[:match][:home_team_attributes][:user_ids])
         @match.invited_team.assign_users_to_team(params[:match][:invited_team_attributes][:user_ids])
         @match.save!

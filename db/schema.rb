@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20161005163430) do
     t.integer  "invited_team_score", default: 0,          null: false
     t.integer  "game_id",                                 null: false
     t.integer  "round_id",           default: 0,          null: false
+    t.integer  "creator_id",         default: 0,          null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.index ["game_id"], name: "index_matches_on_game_id", using: :btree
@@ -77,7 +78,7 @@ ActiveRecord::Schema.define(version: 20161005163430) do
   create_table "tournaments", force: :cascade do |t|
     t.string   "title",                                           null: false
     t.text     "description"
-    t.datetime "start_date",      default: '2016-11-02 00:00:00', null: false
+    t.datetime "start_date",      default: '2016-11-16 00:00:00', null: false
     t.string   "picture"
     t.string   "style",           default: "deathmatch",          null: false
     t.string   "state",           default: "open",                null: false
