@@ -10,6 +10,7 @@ class UserRepresenter < BaseRepresenter
       name: @user.name,
       username: @user.username,
       avatar: @user.avatar,
+      admin: @user.admin
     }
   end
 end
