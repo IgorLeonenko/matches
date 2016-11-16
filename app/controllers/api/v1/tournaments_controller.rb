@@ -5,18 +5,18 @@ module Api
 
       def index
         @tournaments = Tournament.all
-        render json: TournamentsRepresenter.new(@tournaments).with_teams_and_users
+        render json: TournamentsRepresenter.new(@tournaments).with_all
       end
 
       def create
         @tournament = Tournament.new(tournament_params)
         @tournament.save!
-        render json: TournamentRepresenter.new(@tournament).with_teams_and_users
+        render json: TournamentRepresenter.new(@tournament).with_all
       end
 
       def update
         tournament.update_attributes!(tournament_params)
-        render json: TournamentRepresenter.new(tournament).with_teams_and_users
+        render json: TournamentRepresenter.new(tournament).with_all
       end
 
       def update
