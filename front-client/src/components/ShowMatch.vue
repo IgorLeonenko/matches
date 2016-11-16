@@ -14,7 +14,7 @@
         <tr>
           <td>
             <p>Name: {{match.home_team.name}}</p>
-            <p v-if="match.status == 'in game'">
+            <p v-if="match.status === 'in game'">
               <label for="home_team_score">Score: </label>
               <input type="number" v-model="match.home_team_score" name="home_team_score">
               </input>
@@ -30,7 +30,7 @@
           </td>
           <td>
             <p>Name: {{match.invited_team.name}}</p>
-            <p v-if="match.status == 'in game'">
+            <p v-if="match.status === 'in game'">
               <label for="invited_team_score">Score: </label>
               <input type="number" v-model="match.invited_team_score" name="invited_team_score">
               </input>
@@ -45,10 +45,10 @@
         </tr>
       </tbody>
     </table>
-    <button type='button' v-if="match.status == 'prepare'" @click="playMatch()">
+    <button type='button' v-if="match.status === 'prepare'" @click="playMatch()">
       Play match
     </button>
-    <button type='button' v-if="match.status == 'in game'" @click="finishMatch()">
+    <button type='button' v-if="match.status === 'in game'" @click="finishMatch()">
       Finish match
     </button>
     <button type='button' @click="goBack()">Back</button>

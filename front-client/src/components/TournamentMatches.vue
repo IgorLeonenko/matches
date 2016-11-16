@@ -37,7 +37,7 @@
               </tbody>
             </table>
           </div>
-          <p v-if="round.matches.length == 0"><i>No matches assigned</i></p>
+          <p v-if="round.matches.length === 0"><i>No matches assigned</i></p>
       </li>
     </ul>
 

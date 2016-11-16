@@ -1,7 +1,7 @@
 <template>
   <div id='tournament-teams'>
     <p>Free slots for team: {{teams.length}} / {{tournament.teams_quantity}}</p>
-    <p v-show="teams.length == 0">No teams assigned</p>
+    <p v-show="teams.length === 0">No teams assigned</p>
     <div v-show="teams.length < tournament.teams_quantity">
       <new-team :tournament="tournament"></new-team>
     </div>

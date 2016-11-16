@@ -17,7 +17,7 @@
       Teams slots:
       ({{tournament.teams.length}} / {{tournament.teams_quantity}})
     </p>
-    <button v-if="$route.name != 'tournamentUpdate'" type='button'
+    <button v-if="$route.name !== 'tournamentUpdate'" type='button'
             @click='editTournament($route.params.id)'>
       Edit tournament
     </button>
