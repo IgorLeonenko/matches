@@ -1,6 +1,8 @@
 module Api
   module V1
     class UsersController < BaseController
+      before_action :authenticate_user, except: :create
+
       def index
         users = User.all
         render json: UsersRepresenter.new(users).basic
