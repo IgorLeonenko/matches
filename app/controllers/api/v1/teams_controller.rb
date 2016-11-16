@@ -29,7 +29,7 @@ module Api
         if team.users.size.zero?
           team.destroy!
         end
-        render json: {}, status: :no_content
+        render json: TeamRepresenter.new(team).with_users
       end
 
       private
