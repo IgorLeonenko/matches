@@ -1,7 +1,7 @@
 <template>
   <div id='tournaments'>
     <h1>Tournaments</h1>
-    <table v-if='this.$store.state.tournaments'>
+    <table v-if='tournaments'>
       <thead>
         <tr>
           <th>id</th>
