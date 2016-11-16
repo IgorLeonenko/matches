@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p v-if='errors.length > 0'>{{errors}}</p>
     <form id='match'>
       <p>
         <label for='game'>Choose game</label>
@@ -90,9 +89,6 @@
       },
       selectedToInvitedTeam () {
         return this.usersInInvitedTeam
-      },
-      errors () {
-        return this.$store.getters.errors
       },
       users () {
         return this.$store.getters.users

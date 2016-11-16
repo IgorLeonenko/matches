@@ -2,6 +2,9 @@
   <div id="app">
     <img src="./assets/monterail-logo.png">
     <navigation></navigation>
+    <p v-if='errors.length > 0'>
+      {{errors}}
+    </p>
     <router-view></router-view>
   </div>
 </template>
@@ -19,6 +22,11 @@ export default {
   name: 'app',
   components: {
     Navigation
+  },
+  computed: {
+    errors () {
+      return this.$store.getters.errors
+    }
   }
 }
 </script>

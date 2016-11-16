@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p v-if='errors.length > 0'>{{errors}}</p>
     <form id='tournament'>
       <p>
         <label for='title'>Title</label>
@@ -56,9 +55,6 @@
     computed: {
       games () {
         return this.$store.getters.games
-      },
-      errors () {
-        return this.$store.getters.errors
       }
     },
     methods: {

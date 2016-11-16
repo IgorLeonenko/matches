@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p v-if='errors.length > 0'>{{errors}}</p>
     <h3>Add team</h3>
     <form id='team'>
       <p>
@@ -61,9 +60,6 @@
       },
       selected () {
         return this.newTeam.user_ids
-      },
-      errors () {
-        return this.$store.getters.errors
       },
       freeSlots () {
         return this.tournament.players_in_team - this.newTeam.user_ids.length

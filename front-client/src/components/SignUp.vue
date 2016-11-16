@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p v-if='errors.length > 0'>{{errors}}</p>
     <form id='user'>
       <p>
         <label for='name'>Name</label>
@@ -46,11 +45,6 @@
           password: '',
           password_confirmation: ''
         }
-      }
-    },
-    computed: {
-      errors () {
-        return this.$store.getters.errors
       }
     },
     methods: {
