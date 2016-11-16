@@ -7,7 +7,8 @@
     </div>
     <ul v-for="team in teams">
       <li>
-        <b>Team: {{team.name}}</b> <button @click='removeTeam(team.id)'>Remove team</button>
+        <b>Team: {{team.name}}</b>
+        <button type='button' @click='removeTeam(team.id)'>Remove team</button>
       </li>
       <li>
         <p>
@@ -29,7 +30,8 @@
         <ol>
           <p>Players:</p>
             <li  v-for="user in team.users">
-              {{user.username}} <button @click='removeUser(team.id, user.id)'>Remove user</button>
+              {{user.username}}
+              <button type='button' @click='removeUser(team.id, user.id)'>Remove user</button>
             </li>
         </ol>
       </li>

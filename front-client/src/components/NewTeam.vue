@@ -22,11 +22,11 @@
         </p>
         <ul>
           <li v-for="user in selected">
-            {{ user.username }} <button @click='removeSelectedUser(user.id)'>X</button>
+            {{ user.username }} <button type='button' @click='removeSelectedUser(user.id)'>X</button>
           </li>
         </ul>
       </p>
-      <button @click='addTeam()'>Add team</button>
+      <button type='button' @click='addTeam()'>Add team</button>
     </form>
   </div>
 </template>

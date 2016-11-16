@@ -26,10 +26,10 @@
                     {{match.invited_team_score}}
                   </td>
                   <td>
-                    <button type='type' @click='playMatch(match)' v-show="match.status === 'prepare'">
+                    <button type='button' @click='playMatch(match)' v-show="match.status === 'prepare'">
                       Play match
                     </button>
-                    <button type='type' @click='showMatch(match.id)' v-show="match.status === 'in game'">
+                    <button type='button' @click='showMatch(match.id)' v-show="match.status === 'in game'">
                       Go to match
                     </button>
                   </td>
