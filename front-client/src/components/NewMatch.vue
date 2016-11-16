@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-if='errors.length > 0'>{{errors}}</p>
-    <form id='match' v-on:submit.prevent>
+    <form id='match'>
       <p>
         <label for='game'>Choose game</label>
         <select v-model='match.game_id'>
@@ -56,7 +56,7 @@
           </ul>
         </p>
       <p>
-      <button @click='createMatch()'>Create friendly match</button>
+      <button type='button' @click='createMatch()'>Create friendly match</button>
     </form>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-if='errors.length > 0'>{{errors}}</p>
-    <form id='tournament' v-on:submit.prevent>
+    <form id='tournament'>
       <p>
         <label for='title'>Title</label>
         <input type='text' v-model='tournament.title' name='title'></input>
@@ -37,7 +37,7 @@
                name="players_in_team">
         </input>
       </p>
-      <button @click='sendTournament()'>{{buttonText}}</button>
+      <button type='button' @click='sendTournament()'>{{buttonText}}</button>
     </form>
   </div>
 </template>

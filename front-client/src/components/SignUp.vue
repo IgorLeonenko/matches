@@ -1,7 +1,7 @@
 <template>
   <div>
     <p v-if='errors.length > 0'>{{errors}}</p>
-    <form id='user' v-on:submit.prevent>
+    <form id='user'>
       <p>
         <label for='name'>Name</label>
         <input type='text' v-model='user.name' name='name'></input>

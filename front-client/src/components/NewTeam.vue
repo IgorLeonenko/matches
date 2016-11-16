@@ -2,7 +2,7 @@
   <div>
     <p v-if='errors.length > 0'>{{errors}}</p>
     <h3>Add team</h3>
-    <form id='team' v-on:submit.prevent>
+    <form id='team'>
       <p>
         <label for='name'>Name</label>
         <input type='text' v-model='newTeam.name' name='name'></input>
