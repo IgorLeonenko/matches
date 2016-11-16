@@ -11,7 +11,7 @@ export default new Vuex.Store({
     tournaments: [],
     matches: [],
     games: [],
-    errors: [],
+    errors: {},
     users: []
   },
   getters: {
@@ -89,11 +89,10 @@ export default new Vuex.Store({
       state.matches.splice(index, 1, match)
     },
     ADD_ERRORS (state, errors) {
-      state.errors.splice(0)
-      state.errors.push(errors)
+      state.errors = errors
     },
     REMOVE_ERRORS (state) {
-      state.errors = []
+      state.errors = {}
     }
   },
   actions: {
