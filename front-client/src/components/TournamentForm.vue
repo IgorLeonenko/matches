@@ -49,14 +49,12 @@
       buttonText: String,
       tournament: {}
     },
-    data () {
-      return {
-        errors: ''
-      }
-    },
     computed: {
       games () {
         return this.$store.getters.games
+      },
+      errors () {
+        return this.$store.getters.errors
       }
     },
     methods: {
@@ -66,7 +64,6 @@
         } else if (this.$route.name === 'tournamentUpdate') {
           this.$store.dispatch('updateTournament', this.tournament)
         }
-        this.errors = this.$store.state.errors
       }
     }
   }

@@ -104,7 +104,6 @@
     methods: {
       createMatch () {
         this.$store.dispatch('createMatch', this.match)
-        this.errors = this.$store.state.errors
       },
       addUserToHomeTeam (user) {
         if (!this.match.home_team_attributes.user_ids.includes(user.id)) {

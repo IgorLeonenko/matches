@@ -17,7 +17,6 @@ export default {
   name: 'NewTournament',
   data () {
     return {
-      errors: '',
       buttonText: 'Create',
       tournament: {
         title: '',

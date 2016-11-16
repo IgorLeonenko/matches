@@ -38,7 +38,6 @@
     name: 'NewUser',
     data () {
       return {
-        errors: '',
         user: {
           name: '',
           email: '',
@@ -49,10 +48,14 @@
         }
       }
     },
+    computed: {
+      errors () {
+        return this.$store.getters.errors
+      }
+    },
     methods: {
       createUser () {
         this.$store.dispatch('createUser', this.user)
-        this.errors = this.$store.state.errors
       }
     }
   }

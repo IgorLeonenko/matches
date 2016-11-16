@@ -52,7 +52,7 @@
         return this.newTeam.user_ids
       },
       errors () {
-        return this.$store.state.errors
+        return this.$store.getters.errors
       },
       freeSlots () {
         return this.tournament.players_in_team - this.newTeam.user_ids.length
@@ -76,7 +76,7 @@
       },
       addUserToNewTeam () {
         if (!this.newTeam.user_ids.includes(this.userToTeam)) {
-          this.$store.dispatch('errors')
+          this.$store.dispatch('errors', '')
           this.newTeam.user_ids.push(this.userToTeam)
         } else {
           this.$store.dispatch('errors', 'User already in list')
