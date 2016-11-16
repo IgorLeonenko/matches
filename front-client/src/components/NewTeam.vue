@@ -8,7 +8,7 @@
         <input type='text' v-model='newTeam.name' name='name'></input>
       </p>
       <p>
-        <span v-show="newTeam.user_ids.length < tournament.players_in_team || tournament.players_in_team === 0">
+        <span v-show="freeUsersSlots">
           <label for='users'>Choose user</label>
           <select v-model='userToTeam'>
             <option v-for="user in users" :value="user">
@@ -35,8 +35,12 @@
   export default {
     name: 'NewTeam',
     props: {
-      tournament: {},
-      team: {}
+      tournament: {
+        type: Object
+      },
+      team: {
+        type: Object
+      }
     },
     data () {
       return {
@@ -48,6 +52,13 @@
       }
     },
     computed: {
+      freeUsersSlots () {
+        if (this.newTeam.user_ids.length < this.tournament.players_in_team || this.tournament.players_in_team === 0) {
+          return true
+        } else {
+          return false
+        }
+      },
       selected () {
         return this.newTeam.user_ids
       },
