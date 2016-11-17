@@ -19,7 +19,7 @@
         </label>
         <input type="text"
                v-model="match.home_team_attributes.name"
-               v-bind:class="{error: errors['home_team.name']}"
+               v-bind:class="{'error-field': errors['home_team.name']}"
                name="name">
         </input>
         <p v-if="errors['home_team.name']" class="error-label">
@@ -57,7 +57,7 @@
         </label>
         <input type="text"
                v-model="match.invited_team_attributes.name"
-               v-bind:class="{error: errors['invited_team.name']}"
+               v-bind:class="{'error-field': errors['invited_team.name']}"
                name="name">
         </input>
         <p v-if="errors['invited_team.name']" class="error-label">
@@ -171,11 +171,5 @@
 <style scoped>
   #match {
     text-align: left;
-  }
-  .error {
-    border-color: red;
-  }
-  .error-label {
-    color: red;
   }
 </style>
