@@ -11,7 +11,6 @@ export default {
   },
   login (email, password) {
     axios.post(LOGIN_PATH, {auth: {email: email, password: password}}).then(response => {
-      store.dispatch('createSession', [response.data.knock.jwt, response.data.user])
       localStorage.setItem('id_token', response.data.knock.jwt)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       this.user.authenticated = true
