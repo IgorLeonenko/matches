@@ -18,7 +18,7 @@ module Api
         user_ids = team.team_users.select(:user_id)
         tournament.tournament_users.where(user_id: user_ids).delete_all
         team.destroy!
-        render json: {}, status: :no_content
+        render json: TeamRepresenter.new(team).with_users
       end
 
       def remove_user
