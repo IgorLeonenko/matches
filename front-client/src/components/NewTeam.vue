@@ -3,18 +3,25 @@
     <h3>Add team</h3>
     <form id='team'>
       <p>
-        <label for='name'>Name</label>
-        <input type='text' v-model='newTeam.name' name='name'></input>
+        <label for='name' v-bind:class="{'error-label': errors['name']}">Name</label>
+        <input type='text'
+               v-model='newTeam.name' name='name'
+               v-bind:class="{'error-field': errors['name']}">
+        </input>
+        <p v-if="errors['name']" class="error-label">{{errors['name'].toString()}}</p>
       </p>
       <p>
         <span v-show="freeUsersSlots">
-          <label for='users'>Choose user</label>
+          <label for='users' v-bind:class="{'error-label': errors['team_users']}">Choose user</label>
           <select v-model='userToTeam'>
             <option v-for="user in users" :value="user">
               {{ user.username }}
             </option>
           </select>
           <button type='button' @click='addUserToNewTeam()'>+</button>
+          <p v-if="errors['team_users']" class="error-label">
+            {{errors['team_users'].toString()}}
+          </p>
         </span>
         <p v-show="tournament.players_in_team > 0">
           Free slots: {{freeSlots}}
@@ -51,6 +58,9 @@
       }
     },
     computed: {
+      errors () {
+        return this.$store.getters.errors
+      },
       freeUsersSlots () {
         if (this.newTeam.user_ids.length < this.tournament.players_in_team || this.tournament.players_in_team === 0) {
           return true
@@ -83,10 +93,10 @@
       },
       addUserToNewTeam () {
         if (!this.newTeam.user_ids.includes(this.userToTeam)) {
-          this.$store.dispatch('errors', '')
+          this.$store.dispatch('errors', {'team_users': ''})
           this.newTeam.user_ids.push(this.userToTeam)
         } else {
-          this.$store.dispatch('errors', 'User already in list')
+          this.$store.dispatch('errors', {'team_users': 'User already in list'})
         }
       },
       removeSelectedUser (userId) {

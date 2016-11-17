@@ -29,7 +29,7 @@ module Api
           render json: { errors: "Tournament started or ended"}, status: 422
         else
           tournament.destroy!
-          render json: {}, status: :no_content
+          render json: TournamentRepresenter.new(tournament).with_all
         end
       end
 

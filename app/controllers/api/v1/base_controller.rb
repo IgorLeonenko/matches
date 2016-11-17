@@ -6,7 +6,8 @@ module Api
       private
 
       def handle_record_invalid(exception)
-        render json: { errors: exception.record.errors.messages }, status: 422
+        p exception.record.errors
+        render json: { errors: exception.record.errors }, status: 422
       end
     end
   end

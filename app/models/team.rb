@@ -6,7 +6,7 @@ class Team < ApplicationRecord
   belongs_to :tournament
 
   validates :name, presence: true, uniqueness: { scope: :tournament_id }, length: { minimum: 5 }
-  validates :team_users, presence: true
+  validates :team_users, presence: { message: "cant be blank" }
   validates :tournament_id, presence: true
   validate  :tournament_players_quantity
   validate  :tournament_teams_quantity
