@@ -140,6 +140,7 @@
         if (!this.match.home_team_attributes.user_ids.includes(user.id)) {
           this.match.home_team_attributes.user_ids.push(user.id)
           this.usersInHomeTeam.push(user)
+          this.$store.dispatch('errors', {'home_team.team_users': ''})
         } else {
           this.$store.dispatch('errors', {'home_team.team_users': 'User already in list'})
         }
@@ -153,6 +154,7 @@
         if (!this.match.invited_team_attributes.user_ids.includes(user.id)) {
           this.match.invited_team_attributes.user_ids.push(user.id)
           this.usersInInvitedTeam.push(user)
+          this.$store.dispatch('errors', {'invited_team.team_users': ''})
         } else {
           this.$store.dispatch('errors', {'invited_team.team_users': 'User already in list'})
         }
