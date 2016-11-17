@@ -2,9 +2,6 @@
   <div id="app">
     <img src="./assets/monterail-logo.png">
     <navigation></navigation>
-    <p v-if='errors.length > 0'>
-      {{errors}}
-    </p>
     <router-view></router-view>
   </div>
 </template>
@@ -22,26 +19,27 @@ export default {
   name: 'app',
   components: {
     Navigation
-  },
-  computed: {
-    errors () {
-      return this.$store.getters.errors
-    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-#app table {
-  margin: 0 auto;
-  width: 60%;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+  .error-field {
+    border-color: red;
+  }
+  .error-label {
+    color: red;
+  }
+  #app table {
+    margin: 0 auto;
+    width: 60%;
+  }
 </style>
