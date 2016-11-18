@@ -111,6 +111,7 @@ new Vue({
       api.logIn()
       store.dispatch('getUsers')
       store.dispatch('getGames')
+      store.dispatch('getMatches')
       this.$router.push('/tournaments')
     } else {
       localStorage.removeItem('user')

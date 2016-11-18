@@ -18,7 +18,14 @@ module Api
         if match.can_be_played?
           match.update_attributes!(match_params)
           render json: MatchRepresenter.new(match).with_teams
-          MatchWorker.perform_in(1.minute, match.round.tournament_id) if match.round_id > 0
+          tournament = Tournament.find(match.round.tournament_id)
+          if match.round_id > 0
+            if tournament.rounds.last.matches.last == match
+              tournament.update_attribute(:state, "ended")
+            else
+              MatchWorker.perform_in(1.minute, match.round.tournament_id)
+            end
+          end
         else
           render json: { errors: 'Previous round not finished yet' }, status: 422
         end
