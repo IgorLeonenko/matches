@@ -61,14 +61,14 @@
         return this.$store.getters.errors
       },
       labelErrors () {
-        if (this.errors['tournament.tournament_users.user_id']) {
+        if (this.errors['user_id']) {
           return true
         } else {
           false
         }
       },
       errorMessage () {
-        return this.errors['tournament.tournament_users.user_id'].toString()
+        return this.errors['user_id'].toString()
       },
       teams () {
         return this.tournament.teams

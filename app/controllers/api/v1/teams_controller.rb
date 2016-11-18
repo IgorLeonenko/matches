@@ -9,8 +9,8 @@ module Api
       end
 
       def update
-        team.assign_users_to_team(params[:team][:user_ids])
-        team.update!(team_params)
+        team.users <<  User.find(params[:team][:user_ids])
+        team.tournament.users. << User.find(params[:team][:user_ids]) if team.tournament
         render json: TeamRepresenter.new(team).with_users
       end
 

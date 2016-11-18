@@ -12,15 +12,15 @@
       </p>
       <p>
         <span v-show="freeUsersSlots">
-          <label for='users' v-bind:class="{'error-label': errors['team_users']}">Choose user</label>
+          <label for='users' v-bind:class="{'error-label': errors['team_users'] || errors['tournament.tournament_users.user_id']}">Choose user</label>
           <select v-model='userToTeam'>
             <option v-for="user in users" :value="user">
               {{ user.username }}
             </option>
           </select>
           <button type='button' @click='addUserToNewTeam()'>+</button>
-          <p v-if="errors['team_users']" class="error-label">
-            {{errors['team_users'].toString()}}
+          <p v-if="errorUsersLabel" class="error-label">
+            {{usersErrors}}
           </p>
         </span>
         <p v-show="tournament.players_in_team > 0">
@@ -60,6 +60,20 @@
     computed: {
       errors () {
         return this.$store.getters.errors
+      },
+      usersErrors () {
+        if (this.errors['team_users']) {
+          return this.errors['team_users'].toString()
+        } else if (this.errors['tournament.tournament_users.user_id']) {
+          return this.errors['tournament.tournament_users.user_id'].toString()
+        }
+      },
+      errorUsersLabel () {
+        if (this.errors['team_users'] || this.errors['tournament.tournament_users.user_id']) {
+          return true
+        } else {
+          return false
+        }
       },
       freeUsersSlots () {
         if (this.newTeam.user_ids.length < this.tournament.players_in_team || this.tournament.players_in_team === 0) {
